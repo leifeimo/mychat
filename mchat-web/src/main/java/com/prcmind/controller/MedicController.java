@@ -49,7 +49,7 @@ public class MedicController {
 //		HttpSession session = request.getSession();
 //		session.setAttribute("access_token", view.getAccess_token());
 //		session.setMaxInactiveInterval(view.getExpires_in());
-		CookieUtil.addCookie(response, "token", view.getAccess_token(), view.getExpires_in());
+		CookieUtil.addCookie(request,response, "token", view.getAccess_token(), view.getExpires_in());
 		return new CodeMsgBean<Object>(1, "操作成功", view);
 	}
 
