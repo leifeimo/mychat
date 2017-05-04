@@ -55,8 +55,8 @@ public class CookieUtil {
         Cookie cookie = new Cookie(name.trim(), value.trim());
         cookie.setMaxAge(60*60*24);// 设置为30min
         cookie.setPath("/");
-//        cookie.setDomain("." +request.getServerName());
-        cookie.setDomain(".mchat.local.tmued.com");
+        cookie.setDomain("." +request.getServerName());
+//        cookie.setDomain(".mchat.local.tmued.com");
         response.addCookie(cookie);
     }
 
