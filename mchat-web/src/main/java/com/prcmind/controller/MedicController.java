@@ -38,7 +38,7 @@ public class MedicController {
 		param.put("scope", "read write");
 		param.put("username", username);  
 		param.put("password", password);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/oauth/token", param);
+		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/oauth/token", param);  
 		JSONObject jsonObj = JSON.parseObject(result);
 		if(jsonObj.containsKey("error")){
 			return new CodeMsgBean<Object>(10004,jsonObj.getString("error_description"));
