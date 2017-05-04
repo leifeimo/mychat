@@ -36,7 +36,7 @@ public class MedicController {
 		param.put("client_secret", "medic");   
 		param.put("grant_type", "password");
 		param.put("scope", "read write");
-		param.put("username", username);
+		param.put("username", username);  
 		param.put("password", password);
 		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/oauth/token", param);
 		JSONObject jsonObj = JSON.parseObject(result);
