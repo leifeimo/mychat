@@ -33,7 +33,7 @@ public class MedicController {
 		}
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("client_id", "medic-client");
-		param.put("client_secret", "medic");
+		param.put("client_secret", "medic"); 
 		param.put("grant_type", "password");
 		param.put("scope", "read write");
 		param.put("username", username);
