@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.prcmind</groupId>
+	<artifactId>mchat</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>mchat</name>
+	<packaging>pom</packaging>
+	<modules>
+		<module>mchat-api</module>
+		<module>mchat-web</module>
+	</modules>
+	<description>深圳市心智心理测量技术研究出品的儿童的独症谱系障碍评估系统</description>
+	<developers>
+		<developer>
+			<name>zhouhaojie</name>
+			<roles>
+				<role>
+					dev
+  				</role>
+			</roles>
+		</developer>
+		<developer>
+			<name>lixinhua</name>
+			<roles>
+				<role>
+					dev
+  				</role>
+				<role>
+					pm
+  				</role>
+			</roles>
+		</developer>
+	</developers>
+
+</project>
