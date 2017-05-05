@@ -2,6 +2,7 @@ package com.prcmind.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -62,15 +63,22 @@ public class MchatMedicController {
 		if (StringUtils.isEmpty(req.getPageNum()) || StringUtils.isEmpty(req.getNumPerPage())) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
+		HashMap<String,String> map=null;
+		if(! StringUtils.isEmpty(req.getBirth())){
+			map=initBirthMap(req.getBirth());
+		}
+		if(map != null && map.size()!=3){
+			return new CodeMsgBean<Object>(10003, "参数异常,出生日期格式不正确");
+		}
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("pageNum", req.getPageNum()+"");
 		param.put("numPerPage", req.getNumPerPage()+"");
 		param.put("testeeName", req.getTesteeName());
 		param.put("reportNo", req.getReportNo());
 		param.put("cardNo", req.getCardNo());
-		param.put("birthYear", req.getBirthYear()+"");
-		param.put("birthMonth", req.getBirthMonth()+"");
-		param.put("birthToday", req.getBirthToday()+"");
+		param.put("birthYear", map.get("birthYear"));
+		param.put("birthMonth", map.get("birthMonth"));
+		param.put("birthToday", map.get("birthToday"));
 		param.put("access_token", access_token);
 		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/medicMchat/listMchatScoreUnique", param);
 		JSONObject jsonObj = JSON.parseObject(result);
@@ -81,6 +89,17 @@ public class MchatMedicController {
 	}
 	
 	
+	private HashMap<String, String> initBirthMap(String birth) {
+		HashMap<String, String> birthMap = new HashMap<String, String>();
+		String[] array=birth.split("-");
+		if(array.length ==3){
+			birthMap.put("birthYear", array[0]);
+			birthMap.put("birthMonth", array[1]);
+			birthMap.put("birthToday", array[2]);
+		}
+		return birthMap;
+	}
+
 	@RequestMapping(value = "/web/v1/medicMchat/listMchatScore", method = RequestMethod.POST)
 	@ResponseBody
 	public CodeMsgBean<Object> listMchatScore(RecordReq req,HttpServletRequest request, String access_token) throws IOException {

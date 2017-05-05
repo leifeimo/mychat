@@ -11,12 +11,18 @@ public class RecordReq {
 	int birthMonth;
 	int birthToday;
 	int deleted;
-	
+	String birth;
 	public int getDeleted() {
 		return deleted;
 	}
 	public void setDeleted(int deleted) {
 		this.deleted = deleted;
+	}
+	public String getBirth() {
+		return birth;
+	}
+	public void setBirth(String birth) {
+		this.birth = birth;
 	}
 	public int getPageNum() {
 		return pageNum;
