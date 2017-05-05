@@ -85,7 +85,7 @@ public class MedicController {
 		param.put("pageNum", pageNum+"");
 		param.put("numPerPage", numPerPage+"");
 		// param.put("access_token", cookie.getValue());
-		param.put("access_token", access_token);
+		param.put("access_token", access_token);  
 		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/medic/listArticle", param);
 		JSONObject jsonObj = JSON.parseObject(result);
 		if (jsonObj.containsKey("error")) {
