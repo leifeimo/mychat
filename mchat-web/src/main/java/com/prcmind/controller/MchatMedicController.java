@@ -17,6 +17,11 @@ import com.prcmind.utils.CodeMsgBean;
 import com.prcmind.utils.HttpClientUtil;
 import com.prcmind.view.req.RecordReq;
 
+/**
+ * mchat-医生控制层
+ * @author leichang
+ *
+ */
 @Controller
 public class MchatMedicController {
 	
