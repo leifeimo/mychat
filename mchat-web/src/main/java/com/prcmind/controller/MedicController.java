@@ -27,20 +27,18 @@ public class MedicController {
 
 	@RequestMapping(value = "/web/v1/medic/oauth-server/oauth/token", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> login(String client_id, String client_secret, String grant_type, String scope,
-			String username, String password,HttpServletRequest request,HttpServletResponse response) throws IOException {
-		if (StringUtils.isEmpty(client_id) || StringUtils.isEmpty(client_secret) || StringUtils.isEmpty(grant_type)
-				|| StringUtils.isEmpty(scope) || StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+	public CodeMsgBean<Object> login(String username, String password,HttpServletRequest request,HttpServletResponse response) throws IOException {
+		if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
 		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("client_id", client_id);
-		param.put("client_secret", client_secret);
-		param.put("grant_type", grant_type);
-		param.put("scope", scope);
-		param.put("username", username);
+		param.put("client_id", "medic-client");
+		param.put("client_secret", "medic");   
+		param.put("grant_type", "password");
+		param.put("scope", "read write");
+		param.put("username", username);  
 		param.put("password", password);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/oauth/token", param);
+		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/oauth/token", param);  
 		JSONObject jsonObj = JSON.parseObject(result);
 		if(jsonObj.containsKey("error")){
 			return new CodeMsgBean<Object>(10004,jsonObj.getString("error_description"));
