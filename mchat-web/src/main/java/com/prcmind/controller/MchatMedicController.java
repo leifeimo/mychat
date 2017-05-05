@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -25,11 +24,11 @@ public class MchatMedicController {
 	
 	@RequestMapping(value = "/web/v1/medicMchat/nationwideSearch", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> nationwideSearch(String pageNum, String numPerPage,String testeeName,String cardNo,HttpServletRequest request) throws IOException {
-		String access_token = getSession(request);
-		if (StringUtils.isEmpty(access_token)) {
-			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
-		}
+	public CodeMsgBean<Object> nationwideSearch(String pageNum, String numPerPage,String testeeName,String cardNo,HttpServletRequest request, String access_token) throws IOException {
+//		Cookie cookie=CookieUtil.getCookieByName(request, "token");
+//		if (StringUtils.isEmpty(cookie)) {
+//			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
+//		}
 		if (StringUtils.isEmpty(pageNum) || StringUtils.isEmpty(numPerPage) || StringUtils.isEmpty(cardNo)|| StringUtils.isEmpty(testeeName)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -50,11 +49,11 @@ public class MchatMedicController {
 	
 	@RequestMapping(value = "/web/v1/medicMchat/listMchatScoreUnique", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> listMchatScoreUnique(RecordReq req,HttpServletRequest request) throws IOException {
-		String access_token = getSession(request);
-		if (StringUtils.isEmpty(access_token)) {
-			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
-		}
+	public CodeMsgBean<Object> listMchatScoreUnique(RecordReq req,HttpServletRequest request, String access_token) throws IOException {
+//		Cookie cookie=CookieUtil.getCookieByName(request, "token");
+//		if (StringUtils.isEmpty(cookie)) {
+//			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
+//		}
 		if (StringUtils.isEmpty(req.getPageNum()) || StringUtils.isEmpty(req.getNumPerPage())) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -79,11 +78,11 @@ public class MchatMedicController {
 	
 	@RequestMapping(value = "/web/v1/medicMchat/listMchatScore", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> listMchatScore(RecordReq req,HttpServletRequest request) throws IOException {
-		String access_token = getSession(request);
-		if (StringUtils.isEmpty(access_token)) {
-			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
-		}
+	public CodeMsgBean<Object> listMchatScore(RecordReq req,HttpServletRequest request, String access_token) throws IOException {
+//		Cookie cookie=CookieUtil.getCookieByName(request, "token");
+//		if (StringUtils.isEmpty(cookie)) {
+//			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
+//		}
 		if (StringUtils.isEmpty(req.getPageNum()) || StringUtils.isEmpty(req.getNumPerPage())) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -108,11 +107,11 @@ public class MchatMedicController {
 	
 	@RequestMapping(value = "/web/v1/medicMchat/deleteReportByScoreNo", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> deleteReportByScoreNo(String scoreNo,HttpServletRequest request) throws IOException {
-		String access_token = getSession(request);
-		if (StringUtils.isEmpty(access_token)) {
-			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
-		}
+	public CodeMsgBean<Object> deleteReportByScoreNo(String scoreNo,HttpServletRequest request, String access_token) throws IOException {
+//		Cookie cookie=CookieUtil.getCookieByName(request, "token");
+//		if (StringUtils.isEmpty(cookie)) {
+//			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
+//		}
 		if (StringUtils.isEmpty(scoreNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -129,11 +128,11 @@ public class MchatMedicController {
 	
 	@RequestMapping(value = "/web/v1/medicMchat/getMchatScoreByScoreNo", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> getMchatScoreByScoreNo(String scoreNo,HttpServletRequest request) throws IOException {
-		String access_token = getSession(request);
-		if (StringUtils.isEmpty(access_token)) {
-			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
-		}
+	public CodeMsgBean<Object> getMchatScoreByScoreNo(String scoreNo,HttpServletRequest request, String access_token) throws IOException {
+//		Cookie cookie=CookieUtil.getCookieByName(request, "token");
+//		if (StringUtils.isEmpty(cookie)) {
+//			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
+//		}
 		if (StringUtils.isEmpty(scoreNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -150,11 +149,11 @@ public class MchatMedicController {
 	
 	@RequestMapping(value = "/web/v1/medicMchat/getMchatQuestionnaireResponse", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> getMchatQuestionnaireResponse(String scoreNo,HttpServletRequest request) throws IOException {
-		String access_token = getSession(request);
-		if (StringUtils.isEmpty(access_token)) {
-			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
-		}
+	public CodeMsgBean<Object> getMchatQuestionnaireResponse(String scoreNo,HttpServletRequest request, String access_token) throws IOException {
+//		Cookie cookie=CookieUtil.getCookieByName(request, "token");
+//		if (StringUtils.isEmpty(cookie)) {
+//			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
+//		}
 		if (StringUtils.isEmpty(scoreNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -171,11 +170,11 @@ public class MchatMedicController {
 	
 	@RequestMapping(value = "/web/v1/medicMchat/downloadReport", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> downloadReport(String scoreNo,HttpServletRequest request) throws IOException {
-		String access_token = getSession(request);
-		if (StringUtils.isEmpty(access_token)) {
-			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
-		}
+	public CodeMsgBean<Object> downloadReport(String scoreNo,HttpServletRequest request, String access_token) throws IOException {
+//		Cookie cookie=CookieUtil.getCookieByName(request, "token");
+//		if (StringUtils.isEmpty(cookie)) {
+//			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
+//		}
 		if (StringUtils.isEmpty(scoreNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -190,9 +189,4 @@ public class MchatMedicController {
 		return new CodeMsgBean<Object>(1, "操作成功", null);
 	}
 	
-	private String getSession(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		String access_token =(String) session.getAttribute("token");
-		return access_token;
-	}
 }
