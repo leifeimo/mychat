@@ -55,13 +55,13 @@ public class EnterpriseController {
 	
 	@RequestMapping(value = "/web/v1/enterprise/getInformation", method = RequestMethod.GET)
 	@ResponseBody
-	public CodeMsgBean<Object> getInformation(HttpServletRequest request) throws IOException {
-		Cookie cookie = CookieUtil.getCookieByName(request, "token");
-		if (StringUtils.isEmpty(cookie)) {
-			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
-		}
+	public CodeMsgBean<Object> getInformation(HttpServletRequest request, String access_token) throws IOException {
+//		Cookie cookie = CookieUtil.getCookieByName(request, "token");
+//		if (StringUtils.isEmpty(cookie)) {
+//			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
+//		}
 		String result = HttpClientUtil
-				.get("https://api.prcmind.cn:1600/enterprise/getInformation?access_token=" + cookie.getValue());
+				.get("https://api.prcmind.cn:1600/enterprise/getInformation?access_token=" + access_token);
 		JSONObject jsonObj = JSON.parseObject(result);
 		if (jsonObj.containsKey("error")) {
 			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
