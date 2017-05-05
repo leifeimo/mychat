@@ -3,7 +3,6 @@ package com.prcmind.controller;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,7 +21,7 @@ import com.prcmind.view.LoginSucceedView;
 import com.prcmind.view.MedicView;
 
 /**
- * 医生控制层
+ * 鍖荤敓鎺у埗灞�
  * @author leichang
  *
  */
@@ -34,7 +33,7 @@ public class MedicController {
 	public CodeMsgBean<Object> login(String username, String password, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-			return new CodeMsgBean<Object>(10003, "参数异常");
+			return new CodeMsgBean<Object>(10003, "鍙傛暟寮傚父");
 		}
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("client_id", "medic-client");
@@ -50,7 +49,7 @@ public class MedicController {
 		}
 		LoginSucceedView view = JSON.toJavaObject(jsonObj, LoginSucceedView.class);
 		CookieUtil.addCookie(request, response, "token", view.getAccess_token(), view.getExpires_in());
-		return new CodeMsgBean<Object>(1, "操作成功", view);
+		return new CodeMsgBean<Object>(1, "鎿嶄綔鎴愬姛", view);
 	}
 
 	@RequestMapping(value = "/web/v1/medic/getInformation", method = RequestMethod.GET)
@@ -58,7 +57,7 @@ public class MedicController {
 	public CodeMsgBean<Object> getInformation(HttpServletRequest request, String access_token) throws IOException {
 //		Cookie cookie = CookieUtil.getCookieByName(request, "token");
 //		if (StringUtils.isEmpty(cookie)) {
-//			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
+//			return new CodeMsgBean<Object>(10002, "鐧诲綍澶辨晥锛岃閲嶆柊鐧诲綍");
 //		}
 		String result = HttpClientUtil
 				.get("https://api.prcmind.cn:1600/medic/getInformation?access_token=" + access_token);
@@ -67,32 +66,10 @@ public class MedicController {
 			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
 		}
 		MedicView view = JSON.toJavaObject(jsonObj, MedicView.class);
-		return new CodeMsgBean<Object>(1, "操作成功", view);
+		return new CodeMsgBean<Object>(1, "鎿嶄綔鎴愬姛", view);
 	}
 
-	@RequestMapping(value = "/web/v1/medic/listArticle", method = RequestMethod.POST)
-	@ResponseBody
-	public CodeMsgBean<Object> queryListArticle(int pageNum, int numPerPage, HttpServletRequest request,
-			String access_token) throws IOException {
-		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
-		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
-		// }
-		if (StringUtils.isEmpty(pageNum) || StringUtils.isEmpty(numPerPage)) {
-			return new CodeMsgBean<Object>(10003, "参数异常");
-		}
-		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("pageNum", pageNum+"");
-		param.put("numPerPage", numPerPage+"");
-		// param.put("access_token", cookie.getValue());
-		param.put("access_token", access_token);  
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/medic/listArticle", param);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if (jsonObj.containsKey("error")) {
-			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
-		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
-	}
+	
 
 	@RequestMapping(value = "/web/v1/medic/updateLoginPwd", method = RequestMethod.POST)
 	@ResponseBody
@@ -100,10 +77,10 @@ public class MedicController {
 			String access_token) throws IOException {
 		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
 		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
+		// return new CodeMsgBean<Object>(10002, "鐧诲綍澶辨晥锛岃閲嶆柊鐧诲綍");
 		// }
 		if (StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword)) {
-			return new CodeMsgBean<Object>(10003, "参数异常");
+			return new CodeMsgBean<Object>(10003, "鍙傛暟寮傚父");
 		}
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("oldPassword", oldPassword);
@@ -115,7 +92,7 @@ public class MedicController {
 		if (jsonObj.containsKey("error")) {
 			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
 		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
+		return new CodeMsgBean<Object>(1, "鎿嶄綔鎴愬姛", jsonObj);
 	}
 
 	@RequestMapping(value = "/web/v1/medic/findMedicLoginPwd", method = RequestMethod.POST)
@@ -124,11 +101,11 @@ public class MedicController {
 			HttpServletRequest request, String access_token) throws IOException {
 		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
 		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
+		// return new CodeMsgBean<Object>(10002, "鐧诲綍澶辨晥锛岃閲嶆柊鐧诲綍");
 		// }
 		if (StringUtils.isEmpty(loginName) || StringUtils.isEmpty(realName) || StringUtils.isEmpty(cardNo)
 				|| StringUtils.isEmpty(access_token)) {
-			return new CodeMsgBean<Object>(10003, "参数异常");
+			return new CodeMsgBean<Object>(10003, "鍙傛暟寮傚父");
 		}
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("loginName", loginName);
@@ -141,7 +118,7 @@ public class MedicController {
 		if (jsonObj.containsKey("error")) {
 			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
 		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
+		return new CodeMsgBean<Object>(1, "鎿嶄綔鎴愬姛", jsonObj);
 	}
 
 	@RequestMapping(value = "/web/v1/medic/listCertificate", method = RequestMethod.POST)
@@ -149,7 +126,7 @@ public class MedicController {
 	public CodeMsgBean<Object> listCertificate(HttpServletRequest request, String access_token) throws IOException {
 		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
 		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
+		// return new CodeMsgBean<Object>(10002, "鐧诲綍澶辨晥锛岃閲嶆柊鐧诲綍");
 		// }
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("access_token", access_token);
@@ -159,7 +136,7 @@ public class MedicController {
 		if (jsonObj.containsKey("error")) {
 			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
 		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
+		return new CodeMsgBean<Object>(1, "鎿嶄綔鎴愬姛", jsonObj);
 	}
 
 	@RequestMapping(value = "/web/v1/medic/listMedicScaleDosage", method = RequestMethod.POST)
@@ -168,7 +145,7 @@ public class MedicController {
 			throws IOException {
 		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
 		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
+		// return new CodeMsgBean<Object>(10002, "鐧诲綍澶辨晥锛岃閲嶆柊鐧诲綍");
 		// }
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("access_token", access_token);
@@ -178,7 +155,7 @@ public class MedicController {
 		if (jsonObj.containsKey("error")) {
 			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
 		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
+		return new CodeMsgBean<Object>(1, "鎿嶄綔鎴愬姛", jsonObj);
 	}
 
 	@RequestMapping(value = "/web/v1/medic/getMedicScaleDosageByScaleNo", method = RequestMethod.POST)
@@ -187,10 +164,10 @@ public class MedicController {
 			String scaleNo) throws IOException {
 		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
 		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
+		// return new CodeMsgBean<Object>(10002, "鐧诲綍澶辨晥锛岃閲嶆柊鐧诲綍");
 		// }
 		if (StringUtils.isEmpty(scaleNo)) {
-			return new CodeMsgBean<Object>(10002, "参数异常");
+			return new CodeMsgBean<Object>(10002, "鍙傛暟寮傚父");
 		}
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("scaleNo", scaleNo);
@@ -201,7 +178,7 @@ public class MedicController {
 		if (jsonObj.containsKey("error")) {
 			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
 		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
+		return new CodeMsgBean<Object>(1, "鎿嶄綔鎴愬姛", jsonObj);
 	}
 	
 	
@@ -211,10 +188,10 @@ public class MedicController {
 			int pageNum,int numPerPage) throws IOException {
 		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
 		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
+		// return new CodeMsgBean<Object>(10002, "鐧诲綍澶辨晥锛岃閲嶆柊鐧诲綍");
 		// }
 		if (StringUtils.isEmpty(pageNum)) {
-			return new CodeMsgBean<Object>(10003, "参数异常");
+			return new CodeMsgBean<Object>(10003, "鍙傛暟寮傚父");
 		}
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("pageNum", pageNum+"");
@@ -226,7 +203,7 @@ public class MedicController {
 		if (jsonObj.containsKey("error")) {
 			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
 		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
+		return new CodeMsgBean<Object>(1, "鎿嶄綔鎴愬姛", jsonObj);
 	}
 	
 	@RequestMapping(value = "/web/v1/medic/getArticle", method = RequestMethod.POST)
@@ -235,10 +212,10 @@ public class MedicController {
 			String id) throws IOException {
 		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
 		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
+		// return new CodeMsgBean<Object>(10002, "鐧诲綍澶辨晥锛岃閲嶆柊鐧诲綍");
 		// }
 		if (StringUtils.isEmpty(id)) {
-			return new CodeMsgBean<Object>(10003, "参数异常");
+			return new CodeMsgBean<Object>(10003, "鍙傛暟寮傚父");
 		}
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("id", id);
@@ -249,6 +226,6 @@ public class MedicController {
 		if (jsonObj.containsKey("error")) {
 			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
 		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
+		return new CodeMsgBean<Object>(1, "鎿嶄綔鎴愬姛", jsonObj);
 	}
 }
