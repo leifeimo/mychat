@@ -1,12 +1,11 @@
 package com.prcmind.utils;
 
+import java.util.ResourceBundle;
+
 public class s {
 	public static void main(String[] args) {
-		String s ="2015-1-3";
-		String[] arr =s.split("-");
-		System.out.println(arr[0]);
-		System.out.println(arr[1]);
-		System.out.println(arr[2]);
-		
+		ResourceBundle resource = ResourceBundle.getBundle("mchat-config");
+		String key = resource.getString("api-url");  
+		System.out.println(key);
 	}
 }

@@ -37,5 +37,7 @@
 		<servlet-name>springmvc</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-
+<!-- <listener>
+    <listener-class>com.prcmind.listener.SessionAttributeListener</listener-class>
+  </listener>  -->
 </web-app>

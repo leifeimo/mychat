@@ -2,10 +2,11 @@ package com.prcmind.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -14,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.prcmind.utils.CodeMsgBean;
 import com.prcmind.utils.CookieUtil;
 import com.prcmind.utils.HttpClientUtil;
+import com.prcmind.utils.WebConstants;
+import com.prcmind.view.BaseUserView;
 import com.prcmind.view.LoginSucceedView;
-import com.prcmind.view.MedicView;
 
 /**
  * 管理员控制层
@@ -28,7 +31,9 @@ import com.prcmind.view.MedicView;
  */
 @Controller
 public class EnterpriseController {
-
+	private  ResourceBundle resource = ResourceBundle.getBundle("mchat-config");
+	private  String API_URL = resource.getString("api-url");  
+	
 	@RequestMapping(value = "/web/v1/enterprise/oauth-server/oauth/token", method = RequestMethod.POST)
 	@ResponseBody
 	public CodeMsgBean<Object> login(String username, String password, HttpServletRequest request,
@@ -37,18 +42,30 @@ public class EnterpriseController {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
 		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("client_id", "medic-client");
-		param.put("client_secret", "medic");
+		param.put("client_id", "enterprise-client");
+		param.put("client_secret", "enterprise");
 		param.put("grant_type", "password");
 		param.put("scope", "read write");
 		param.put("username", username);
 		param.put("password", password);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/oauth/token", param);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if (jsonObj.containsKey("error")) {
-			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+		
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil.post(API_URL+"/oauth/token", param);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
 		LoginSucceedView view = JSON.toJavaObject(jsonObj, LoginSucceedView.class);
+		HttpSession session = request.getSession();
+		BaseUserView user = new BaseUserView();
+		user.setAccountId(username);
+		user.setToken(view.getAccess_token());
+		session.setAttribute(WebConstants.CURRENT_USER,user);
+		session.setMaxInactiveInterval(view.getExpires_in());
 		CookieUtil.addCookie(request, response, "token", view.getAccess_token(), view.getExpires_in());
 		return new CodeMsgBean<Object>(1, "操作成功", view);
 	}
@@ -60,14 +77,19 @@ public class EnterpriseController {
 //		if (StringUtils.isEmpty(cookie)) {
 //			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
 //		}
-		String result = HttpClientUtil
-				.get("https://api.prcmind.cn:1600/enterprise/getInformation?access_token=" + access_token);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if (jsonObj.containsKey("error")) {
-			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+		
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil
+					.get(API_URL+"/enterprise/getInformation?access_token=" + access_token);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
-		MedicView view = JSON.toJavaObject(jsonObj, MedicView.class);
-		return new CodeMsgBean<Object>(1, "操作成功", view);
+		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
 	
 	@RequestMapping(value = "/web/v1/enterprise/getMedicScaleDosageByMedicNo", method = RequestMethod.POST)
@@ -84,11 +106,16 @@ public class EnterpriseController {
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("medicNo", medicNo);
 		param.put("access_token", access_token);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/enterprise/getMedicScaleDosageByMedicNo", param);
-		System.out.println(result);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if (jsonObj.containsKey("error")) {
-			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+		
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil.post(API_URL+"/enterprise/getMedicScaleDosageByMedicNo", param);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
 		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
@@ -103,16 +130,23 @@ public class EnterpriseController {
 		// }
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("access_token", access_token);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/enterprise/listEnterpriseScaleDosage", param);
-		System.out.println(result);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if (jsonObj.containsKey("error")) {
-			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+		
+		JSONObject jsonObj =null;
+		String result=null;
+		try {
+			result= HttpClientUtil.get(API_URL+"/enterprise/listEnterpriseScaleDosage?access_token="+access_token);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+			return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
+		} catch (Exception e) {
+			JSONArray arr=JSON.parseArray(result);
+			return new CodeMsgBean<Object>(1,"操作成功",arr);
 		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
 	
-	@RequestMapping(value = "/web/v1/enterprise/getArticle", method = RequestMethod.POST)
+	@RequestMapping(value = "/web/v1/enterprise/getArticle", method = RequestMethod.GET)
 	@ResponseBody
 	public CodeMsgBean<Object> getArticle(HttpServletRequest request, String access_token,
 			String id) throws IOException {
@@ -126,11 +160,16 @@ public class EnterpriseController {
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("id", id);
 		param.put("access_token", access_token);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/enterprise/getArticle", param);
-		System.out.println(result);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if (jsonObj.containsKey("error")) {
-			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+		
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil.get(API_URL+"/enterprise/getArticle?access_token="+access_token+"&id="+id);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
 		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
@@ -151,10 +190,16 @@ public class EnterpriseController {
 		param.put("numPerPage", numPerPage+"");
 		// param.put("access_token", cookie.getValue());
 		param.put("access_token", access_token);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/enterprise/listArticle", param);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if (jsonObj.containsKey("error")) {
-			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+	
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil.post(API_URL+"/enterprise/listArticle", param);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
 		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
@@ -173,11 +218,16 @@ public class EnterpriseController {
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("medicNo", medicNo);
 		param.put("access_token", access_token);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/enterprise/getMedicInfoByMedicNo", param);
-		System.out.println(result);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if (jsonObj.containsKey("error")) {
-			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+	
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil.post(API_URL+"/enterprise/getMedicInfoByMedicNo", param);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
 		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
@@ -197,11 +247,16 @@ public class EnterpriseController {
 		param.put("oldPassword", oldPassword);
 		param.put("newPassword", oldPassword);
 		param.put("access_token", access_token);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/enterprise/updateLoginPwd", param);
-		System.out.println(result);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if (jsonObj.containsKey("error")) {
-			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+		
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil.post(API_URL+"/enterprise/updateLoginPwd", param);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
 		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
@@ -221,11 +276,16 @@ public class EnterpriseController {
 		param.put("medicNo", medicNo);
 		param.put("managerPwd", managerPwd);
 		param.put("access_token", access_token);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/enterprise/dismissUser", param);
-		System.out.println(result);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if (jsonObj.containsKey("error")) {
-			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+		
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil.post(API_URL+"/enterprise/dismissUser", param);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
 		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
@@ -246,11 +306,16 @@ public class EnterpriseController {
 		param.put("cardNo", cardNo);
 		param.put("managerPwd", managerPwd);
 		param.put("access_token", access_token);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/enterprise/boundMedic", param);
-		System.out.println(result);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if (jsonObj.containsKey("error")) {
-			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+		
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil.post(API_URL+"/enterprise/boundMedic", param);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
 		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
@@ -271,11 +336,16 @@ public class EnterpriseController {
 		param.put("loginName", loginName);
 		param.put("newLoginPwd", newLoginPwd);
 		param.put("puk", puk);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/enterprise/user/findEnterpriseLoginPwd", param);
-		System.out.println(result);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if (jsonObj.containsKey("error")) {
-			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+		
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil.post(API_URL+"/enterprise/user/findEnterpriseLoginPwd", param);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
 		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
@@ -297,10 +367,16 @@ public class EnterpriseController {
 		param.put("numPerPage", numPerPage+"");
 		// param.put("access_token", cookie.getValue());
 		param.put("access_token", access_token);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/enterprise/listMedic", param);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if (jsonObj.containsKey("error")) {
-			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+		
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil.post(API_URL+"/enterprise/listMedic", param);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
 		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
@@ -312,14 +388,19 @@ public class EnterpriseController {
 //		if (StringUtils.isEmpty(cookie)) {
 //			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
 //		}
-		String result = HttpClientUtil
-				.get("https://api.prcmind.cn:1600/enterprise/listAllScaleProducts?access_token=" + access_token);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if (jsonObj.containsKey("error")) {
-			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+		
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil
+					.get(API_URL+"/enterprise/listAllScaleProducts?access_token=" + access_token);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
-		MedicView view = JSON.toJavaObject(jsonObj, MedicView.class);
-		return new CodeMsgBean<Object>(1, "操作成功", view);
+		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
 	
 	
@@ -339,11 +420,16 @@ public class EnterpriseController {
 		param.put("newLoginPwd", newLoginPwd);
 		param.put("puk", puk);
 		param.put("access_token", access_token);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/enterprise/user/findLoginPwd", param);
-		System.out.println(result);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if (jsonObj.containsKey("error")) {
-			return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+	
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil.post(API_URL+"/enterprise/user/findLoginPwd", param);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
 		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}

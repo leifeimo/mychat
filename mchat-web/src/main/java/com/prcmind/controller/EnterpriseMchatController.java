@@ -2,6 +2,7 @@ package com.prcmind.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,7 +25,8 @@ import com.prcmind.view.req.RecordReq;
  */
 @Controller
 public class EnterpriseMchatController {
-
+	private  ResourceBundle resource = ResourceBundle.getBundle("mchat-config");
+	private  String API_URL = resource.getString("api-url");  
 	
 
 	@RequestMapping(value = "/web/v1/enterpriseMchat/downloadReport", method = RequestMethod.POST)
@@ -40,12 +42,18 @@ public class EnterpriseMchatController {
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("scoreNo", scoreNo);
 		param.put("access_token", access_token);
-		String result = HttpClientUtil.get("https://api.prcmind.cn:1600/enterpriseMchat/downloadReport?scoreNo="+scoreNo+"&access_token="+access_token);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if(jsonObj.containsKey("error")){
-			return new CodeMsgBean<Object>(10004,jsonObj.getString("error_description"));
+		
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil.get(API_URL+"/enterpriseMchat/downloadReport?scoreNo="+scoreNo+"&access_token="+access_token);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
-		return new CodeMsgBean<Object>(1, "操作成功", null);
+		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
 	
 
@@ -62,10 +70,16 @@ public class EnterpriseMchatController {
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("scoreNo", scoreNo);
 		param.put("access_token", access_token);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/enterpriseMchat/getMchatQuestionnaireResponse", param);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if(jsonObj.containsKey("error")){
-			return new CodeMsgBean<Object>(10004,jsonObj.getString("error_description"));
+		
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil.post(API_URL+"/enterpriseMchat/getMchatQuestionnaireResponse", param);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
 		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
@@ -90,10 +104,16 @@ public class EnterpriseMchatController {
 		param.put("birthMonth", req.getBirthMonth()+"");
 		param.put("birthToday", req.getBirthToday()+"");
 		param.put("access_token", access_token);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/enterpriseMchat/listMchatScore", param);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if(jsonObj.containsKey("error")){
-			return new CodeMsgBean<Object>(10004,jsonObj.getString("error_description"));
+	
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil.post(API_URL+"/enterpriseMchat/listMchatScoreListPage", param);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
 		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
@@ -112,10 +132,16 @@ public class EnterpriseMchatController {
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("scoreNo", scoreNo);
 		param.put("access_token", access_token);
-		String result = HttpClientUtil.post("https://api.prcmind.cn:1600/enterpriseMchat/getMchatScoreByScoreNo", param);
-		JSONObject jsonObj = JSON.parseObject(result);
-		if(jsonObj.containsKey("error")){
-			return new CodeMsgBean<Object>(10004,jsonObj.getString("error_description"));
+		
+		JSONObject jsonObj =null;
+		try {
+			String result = HttpClientUtil.post(API_URL+"/enterpriseMchat/getMchatScoreByScoreNo", param);
+			 jsonObj = JSON.parseObject(result);
+			if (jsonObj.containsKey("error")) {
+				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			}
+		} catch (Exception e) {
+			return new CodeMsgBean<Object>(10005,e.getMessage());
 		}
 		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
