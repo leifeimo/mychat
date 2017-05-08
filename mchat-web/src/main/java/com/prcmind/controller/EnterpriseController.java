@@ -245,7 +245,7 @@ public class EnterpriseController {
 		}
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("oldPassword", oldPassword);
-		param.put("newPassword", oldPassword);
+		param.put("newPassword", newPassword);
 		param.put("access_token", access_token);
 		
 		JSONObject jsonObj =null;
