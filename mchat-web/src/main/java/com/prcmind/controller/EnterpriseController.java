@@ -433,4 +433,12 @@ public class EnterpriseController {
 		}
 		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
+
+	@RequestMapping(value = "/web/v1/enterprise/token/logout", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> logout( HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		
+		return new CodeMsgBean<Object>(1, "操作成功");
+	}
 }
