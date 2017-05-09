@@ -2,20 +2,26 @@ package com.prcmind.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.prcmind.common.page.PageBean;
+import com.prcmind.common.page.PageParam;
+import com.prcmind.facade.portal.exception.PortalBizException;
+import com.prcmind.facade.portal.mchat.service.PortalMchatMedicFacade;
+import com.prcmind.facade.scale.mchat.entity.MchatQuestionnaireResponse;
+import com.prcmind.facade.scale.mchat.entity.MchatScore;
+import com.prcmind.facade.user.entity.MedicOperator;
 import com.prcmind.utils.CodeMsgBean;
-import com.prcmind.utils.HttpClientUtil;
+import com.prcmind.utils.WebConstants;
 import com.prcmind.view.req.RecordReq;
 
 /**
@@ -26,50 +32,54 @@ import com.prcmind.view.req.RecordReq;
  */
 @Controller
 public class MchatMedicController {
-	private  ResourceBundle resource = ResourceBundle.getBundle("mchat-config");
-	private  String API_URL = resource.getString("api-url");  
-	
+	@Autowired
+	PortalMchatMedicFacade portalMchatMedicFacade;
 
+	/**
+	 * 施测者-全国查询
+	 * 
+	 * @author leichang
+	 * @param pageNum
+	 * @param numPerPage
+	 * @param testeeName
+	 * @param cardNo
+	 * @param request
+	 * @param access_token
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/web/v1/medicMchat/nationwideSearch", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> nationwideSearch(String pageNum, String numPerPage, String testeeName, String cardNo,
+	public CodeMsgBean<Object> nationwideSearch(int pageNum, int numPerPage, String testeeName, String cardNo,
 			HttpServletRequest request, String access_token) throws IOException {
-		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
-		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
-		// }
-		if (StringUtils.isEmpty(pageNum) || StringUtils.isEmpty(numPerPage) || StringUtils.isEmpty(cardNo)
-				|| StringUtils.isEmpty(testeeName)) {
+		if (pageNum == 0 || numPerPage == 0 || StringUtils.isEmpty(cardNo) || StringUtils.isEmpty(testeeName)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
-		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("pageNum", pageNum);
-		param.put("numPerPage", numPerPage);
-		param.put("testeeName", pageNum);
-		param.put("cardNo", numPerPage);
-		param.put("access_token", access_token);
-		JSONObject jsonObj =null;
+		PageParam pageParam = new PageParam(pageNum, numPerPage);
 		try {
-			String result = HttpClientUtil.post(API_URL+"/medicMchat/listArticle", param);
-			 jsonObj = JSON.parseObject(result);
-			if (jsonObj.containsKey("error")) {
-				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
-			}
-		} catch (Exception e) {
-			return new CodeMsgBean<Object>(10005,e.getMessage());
+			HashMap<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("testeeName", testeeName);
+			paramMap.put("cardNo", cardNo);
+			PageBean PageBean = portalMchatMedicFacade.listNationwideSearch(pageParam, paramMap);
+			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
 
+	/**
+	 * 施测者-儿童档案查询
+	 * 
+	 * @author leichang
+	 * @param req
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/web/v1/medicMchat/listMchatScoreUnique", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> listMchatScoreUnique(RecordReq req, HttpServletRequest request, String access_token)
-			throws IOException {
-		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
-		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
-		// }
-		if (StringUtils.isEmpty(req.getPageNum()) || StringUtils.isEmpty(req.getNumPerPage())) {
+	public CodeMsgBean<Object> listMchatScoreUnique(RecordReq req, HttpServletRequest request) throws IOException {
+		if (req.getPageNum() == 0 || req.getNumPerPage() == 0) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
 		HashMap<String, String> map = null;
@@ -79,31 +89,195 @@ public class MchatMedicController {
 				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
 			}
 		}
-
-		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("pageNum", req.getPageNum() + "");
-		param.put("numPerPage", req.getNumPerPage() + "");
-		param.put("testeeName", req.getTesteeName());
-		param.put("reportNo", req.getReportNo());
-		param.put("cardNo", req.getCardNo());
-		param.put("birthYear", map != null ? map.get("birthYear") : "");
-		param.put("birthMonth", map != null ? map.get("birthMonth") : "");
-		param.put("birthToday", map != null ? map.get("birthToday") : "");
-		param.put("access_token", access_token);
-		
-		JSONObject jsonObj =null;
+		PageParam pageParam = new PageParam(req.getPageNum(), req.getNumPerPage());
 		try {
-			String result = HttpClientUtil.post(API_URL+"/medicMchat/listMchatScoreUnique", param);
-			 jsonObj = JSON.parseObject(result);
-			if (jsonObj.containsKey("error")) {
-				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
-			}
-		} catch (Exception e) {
-			return new CodeMsgBean<Object>(10005,e.getMessage());
+			HashMap<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("pageNum", req.getPageNum() + "");
+			paramMap.put("numPerPage", req.getNumPerPage() + "");
+			paramMap.put("testeeName", req.getTesteeName());
+			paramMap.put("reportNo", req.getReportNo());
+			paramMap.put("cardNo", req.getCardNo());
+			paramMap.put("birthYear", map != null ? map.get("birthYear") : "");
+			paramMap.put("birthMonth", map != null ? map.get("birthMonth") : "");
+			paramMap.put("birthToday", map != null ? map.get("birthToday") : "");
+			PageBean PageBean = portalMchatMedicFacade.listMchatScoreUniqueListPage(pageParam, paramMap);
+			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
 
+	
+	/**
+	 * 施测者-查询所有报告列表
+	 * 
+	 * @author leichang
+	 * @param req
+	 * @param request
+	 * @param access_token
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/medicMchat/listMchatScore", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> listMchatScore(RecordReq req, HttpServletRequest request, String access_token)
+			throws IOException {
+		if (req.getPageNum() == 0 || req.getNumPerPage() == 0) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		HashMap<String, String> map = null;
+		if (!StringUtils.isEmpty(req.getBirth())) {
+			map = initBirthMap(req.getBirth());
+			if (map != null && map.size() != 3) {
+				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
+			}
+		}
+		PageParam pageParam = new PageParam(req.getPageNum(), req.getNumPerPage());
+		try {
+			HashMap<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("pageNum", req.getPageNum() + "");
+			paramMap.put("numPerPage", req.getNumPerPage() + "");
+			paramMap.put("testeeName", req.getTesteeName());
+			paramMap.put("reportNo", req.getReportNo());
+			paramMap.put("cardNo", req.getCardNo());
+			paramMap.put("birthYear", map != null ? map.get("birthYear") : "");
+			paramMap.put("birthMonth", map != null ? map.get("birthMonth") : "");
+			paramMap.put("birthToday", map != null ? map.get("birthToday") : "");
+			paramMap.put("deleted", req.getDeleted());
+
+			PageBean PageBean = portalMchatMedicFacade.listMchatScoreListPage(pageParam, paramMap);
+			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+
+	}
+
+	/**
+	 * 作废报告
+	 * @param scoreNo
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/medicMchat/deleteReportByScoreNo", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> deleteReportByScoreNo(String scoreNo, HttpServletRequest request) throws IOException {
+		if (StringUtils.isEmpty(scoreNo)) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		String medicNo = getMedicNo(request);
+		if (StringUtils.isEmpty(medicNo)) {
+			medicNo = "937c2b21d3db406693c59a816614e26d";
+			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		try {
+			long status = portalMchatMedicFacade.deleteReportByMedicNoAndScoreNo(medicNo, scoreNo);
+			return new CodeMsgBean<Object>(1, "操作成功",status);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+
+	/**
+	 * 获取某一条报告记录
+	 * @param scoreNo
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/medicMchat/getMchatScoreByScoreNo", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> getMchatScoreByScoreNo(String scoreNo, HttpServletRequest request)
+			throws IOException {
+		if (StringUtils.isEmpty(scoreNo)) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		try {
+			MchatScore mchatScore=portalMchatMedicFacade.getMchatScoreByScoreNo(scoreNo);
+			return new CodeMsgBean<Object>(1, "操作成功",mchatScore);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+
+	/**
+	 * 获取某一问卷填写详细
+	 * @author leichang
+	 * @param scoreNo
+	 * @param request
+	 * @param access_token
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/medicMchat/getMchatQuestionnaireResponse", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> getMchatQuestionnaireResponse(String scoreNo, HttpServletRequest request) throws IOException {
+		if (StringUtils.isEmpty(scoreNo)) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		String medicNo = getMedicNo(request);
+		if (StringUtils.isEmpty(medicNo)) {
+			medicNo = "937c2b21d3db406693c59a816614e26d";
+			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		try {
+			MchatQuestionnaireResponse result=portalMchatMedicFacade.getMchatQuestionnaireResponse(scoreNo, medicNo);
+			return new CodeMsgBean<Object>(1, "操作成功",result);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+
+	/**
+	 *  下载报告结果
+	 *  @author leichang
+	 * @param scoreNo
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/medicMchat/downloadReport", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> downloadReport(String scoreNo, HttpServletRequest request)
+			throws IOException {
+		if (StringUtils.isEmpty(scoreNo)) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		String medicNo = getMedicNo(request);
+		if (StringUtils.isEmpty(medicNo)) {
+			medicNo = "937c2b21d3db406693c59a816614e26d";
+			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		try {
+			MchatScore result=portalMchatMedicFacade.downloadReport(scoreNo, medicNo);
+			return new CodeMsgBean<Object>(1, "操作成功",result);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+
+	/**
+	 * 获取用户编号
+	 * 
+	 * @param request
+	 * @return
+	 */
+	private String getMedicNo(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		MedicOperator mo = (MedicOperator) session.getAttribute(WebConstants.CURRENT_USER);
+		if (mo != null) {
+			return mo.getMedicNo();
+		}
+		return null;
+	}
+	
+	/**
+	 * 格式化日期
+	 * 
+	 * @param birth
+	 * @return
+	 */
 	private HashMap<String, String> initBirthMap(String birth) {
 		HashMap<String, String> birthMap = new HashMap<String, String>();
 		String[] array = birth.split("-");
@@ -113,161 +287,6 @@ public class MchatMedicController {
 			birthMap.put("birthToday", array[2]);
 		}
 		return birthMap;
-	}
-
-	@RequestMapping(value = "/web/v1/medicMchat/listMchatScore", method = RequestMethod.POST)
-	@ResponseBody
-	public CodeMsgBean<Object> listMchatScore(RecordReq req, HttpServletRequest request, String access_token)
-			throws IOException {
-		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
-		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
-		// }
-		if (StringUtils.isEmpty(req.getPageNum()) || StringUtils.isEmpty(req.getNumPerPage())) {
-			return new CodeMsgBean<Object>(10003, "参数异常");
-		}
-		HashMap<String, String> map = null;
-		if (!StringUtils.isEmpty(req.getBirth())) {
-			map = initBirthMap(req.getBirth());
-			if (map != null && map.size() != 3) {
-				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
-			}
-		}
-		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("pageNum", req.getPageNum() + "");
-		param.put("numPerPage", req.getNumPerPage() + "");
-		param.put("testeeName", req.getTesteeName());
-		param.put("reportNo", req.getReportNo());
-		param.put("deleted", req.getDeleted() + "");
-		param.put("birthYear", map != null ? map.get("birthYear") : "");
-		param.put("birthMonth", map != null ? map.get("birthMonth") : "");
-		param.put("birthToday", map != null ? map.get("birthToday") : "");
-		param.put("access_token", access_token);
-		
-		JSONObject jsonObj =null;
-		try {
-			String result = HttpClientUtil.post(API_URL+"/medicMchat/listMchatScore", param);
-			 jsonObj = JSON.parseObject(result);
-			if (jsonObj.containsKey("error")) {
-				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
-			}
-		} catch (Exception e) {
-			return new CodeMsgBean<Object>(10005,e.getMessage());
-		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
-	}
-
-	@RequestMapping(value = "/web/v1/medicMchat/deleteReportByScoreNo", method = RequestMethod.POST)
-	@ResponseBody
-	public CodeMsgBean<Object> deleteReportByScoreNo(String scoreNo, HttpServletRequest request, String access_token)
-			throws IOException {
-		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
-		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
-		// }
-		if (StringUtils.isEmpty(scoreNo)) {
-			return new CodeMsgBean<Object>(10003, "参数异常");
-		}
-		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("scoreNo", scoreNo);
-		param.put("access_token", access_token);
-		JSONObject jsonObj =null;
-		try {
-			String result = HttpClientUtil.post(API_URL+"/medicMchat/deleteReportByScoreNo", param);
-			 jsonObj = JSON.parseObject(result);
-			if (jsonObj.containsKey("error")) {
-				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
-			}
-		} catch (Exception e) {
-			return new CodeMsgBean<Object>(10005,e.getMessage());
-		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
-	}
-
-	@RequestMapping(value = "/web/v1/medicMchat/getMchatScoreByScoreNo", method = RequestMethod.POST)
-	@ResponseBody
-	public CodeMsgBean<Object> getMchatScoreByScoreNo(String scoreNo, HttpServletRequest request, String access_token)
-			throws IOException {
-		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
-		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
-		// }
-		if (StringUtils.isEmpty(scoreNo)) {
-			return new CodeMsgBean<Object>(10003, "参数异常");
-		}
-		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("scoreNo", scoreNo);
-		param.put("access_token", access_token);
-		
-		JSONObject jsonObj =null;
-		try {
-			String result = HttpClientUtil.post(API_URL+"/medicMchat/getMchatScoreByScoreNo", param);
-			 jsonObj = JSON.parseObject(result);
-			if (jsonObj.containsKey("error")) {
-				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
-			}
-		} catch (Exception e) {
-			return new CodeMsgBean<Object>(10005,e.getMessage());
-		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
-	}
-
-	@RequestMapping(value = "/web/v1/medicMchat/getMchatQuestionnaireResponse", method = RequestMethod.POST)
-	@ResponseBody
-	public CodeMsgBean<Object> getMchatQuestionnaireResponse(String scoreNo, HttpServletRequest request,
-			String access_token) throws IOException {
-		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
-		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
-		// }
-		if (StringUtils.isEmpty(scoreNo)) {
-			return new CodeMsgBean<Object>(10003, "参数异常");
-		}
-		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("scoreNo", scoreNo);
-		param.put("access_token", access_token);
-		
-		JSONObject jsonObj =null;
-		try {
-			String result = HttpClientUtil.post(API_URL+"/medicMchat/getMchatQuestionnaireResponse",
-					param);
-			 jsonObj = JSON.parseObject(result);
-			if (jsonObj.containsKey("error")) {
-				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
-			}
-		} catch (Exception e) {
-			return new CodeMsgBean<Object>(10005,e.getMessage());
-		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
-	}
-
-	@RequestMapping(value = "/web/v1/medicMchat/downloadReport", method = RequestMethod.POST)
-	@ResponseBody
-	public CodeMsgBean<Object> downloadReport(String scoreNo, HttpServletRequest request, String access_token)
-			throws IOException {
-		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
-		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
-		// }
-		if (StringUtils.isEmpty(scoreNo)) {
-			return new CodeMsgBean<Object>(10003, "参数异常");
-		}
-		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("scoreNo", scoreNo);
-		param.put("access_token", access_token);
-		
-		JSONObject jsonObj =null;
-		try {
-			String result = HttpClientUtil.get(API_URL+"/medicMchat/downloadReport?scoreNo=" + scoreNo
-					+ "&access_token=" + access_token);
-			 jsonObj = JSON.parseObject(result);
-			if (jsonObj.containsKey("error")) {
-				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
-			}
-		} catch (Exception e) {
-			return new CodeMsgBean<Object>(10005,e.getMessage());
-		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
 	}
 
 }

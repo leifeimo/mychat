@@ -6,7 +6,11 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:component-scan base-package="com.prcmind" />
+	<import resource="classpath:dubbo/dubbo-customer.xml" />
+
+<!-- 	<context:component-scan base-package="com.prcmind" /> -->
+	<context:component-scan base-package="com" />
+	
 	<mvc:annotation-driven />
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<mvc:resources mapping="/css/**" location="/css/" />

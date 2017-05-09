@@ -2,299 +2,332 @@ package com.prcmind.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.ResourceBundle;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.prcmind.listener.SessionAttributeListener;
+import com.prcmind.common.page.PageBean;
+import com.prcmind.common.page.PageParam;
+import com.prcmind.facade.portal.exception.PortalBizException;
+import com.prcmind.facade.portal.service.PortalMedicFacade;
+import com.prcmind.facade.user.entity.Article;
+import com.prcmind.facade.user.entity.Certificate;
+import com.prcmind.facade.user.entity.MedicInfo;
+import com.prcmind.facade.user.entity.MedicOperator;
+import com.prcmind.facade.user.entity.MedicScaleDosage;
 import com.prcmind.utils.CodeMsgBean;
-import com.prcmind.utils.CookieUtil;
-import com.prcmind.utils.HttpClientUtil;
 import com.prcmind.utils.WebConstants;
-import com.prcmind.view.BaseUserView;
-import com.prcmind.view.LoginSucceedView;
-import com.prcmind.view.MedicView;
 
 /**
  * 施测者(医生)控制层
+ * 
  * @author leichang
  *
  */
 @Controller
 public class MedicController {
-	private  ResourceBundle resource = ResourceBundle.getBundle("mchat-config");
-	private  String API_URL = resource.getString("api-url");  
-	
+	@Autowired
+	PortalMedicFacade portalMedicFacade;
+	public static Map<String,MedicInfo> medicInfoMaps=new HashMap<String,MedicInfo>();
+	public static Map<String,MedicOperator> medicOperatorMaps=new HashMap<String,MedicOperator>();
+	/**
+	 * 登录获取施测者信息
+	 * 
+	 * @author leichang
+	 * @param username
+	 * @param password
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/web/v1/medic/oauth-server/oauth/token", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> login(String username, String password, HttpServletRequest request,
+	public CodeMsgBean<MedicOperator> login(String username, String password, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-			return new CodeMsgBean<Object>(10003, "参数异常");
+			return new CodeMsgBean<MedicOperator>(10003, "参数异常");
 		}
-		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("client_id", "medic-client");
-		param.put("client_secret", "medic");
-		param.put("grant_type", "password");
-		param.put("scope", "read write");
-		param.put("username", username);
-		param.put("password", password);
-		JSONObject jsonObj =null;
 		try {
-			String result = HttpClientUtil.post(API_URL+"/oauth/token", param);
-			 jsonObj = JSON.parseObject(result);
-			if (jsonObj.containsKey("error")) {
-				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			MedicOperator mo = portalMedicFacade.getMedicOperator(username, password);
+			if(mo !=null){
+				HttpSession session = request.getSession();
+				session.setAttribute(WebConstants.CURRENT_USER, mo);
+				medicOperatorMaps.put(mo.getLoginName(), mo);
 			}
-		} catch (Exception e) {
-			return new CodeMsgBean<Object>(10005,e.getMessage());
+			return new CodeMsgBean<MedicOperator>(1, "操作成功", mo);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<MedicOperator>(e.getCode(), e.getMsg());
 		}
-		LoginSucceedView view = JSON.toJavaObject(jsonObj, LoginSucceedView.class);
-		HttpSession session = request.getSession();
-		BaseUserView user = new BaseUserView();
-		user.setAccountId(username);
-		user.setToken(view.getAccess_token());
-		session.setAttribute(WebConstants.CURRENT_USER,user);
-		session.setMaxInactiveInterval(view.getExpires_in());
-		
-		CookieUtil.addCookie(request, response, "token", view.getAccess_token(), view.getExpires_in());
-		return new CodeMsgBean<Object>(1, "操作成功", view);
 	}
 
+	/**
+	 * 根据用户编号获取施测者详细信息
+	 * 
+	 * @author leichang
+	 * @param request
+	 * @param medicNo
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/web/v1/medic/getInformation", method = RequestMethod.GET)
 	@ResponseBody
-	public CodeMsgBean<Object> getInformation(HttpServletRequest request, String access_token) throws IOException {
-//		Cookie cookie = CookieUtil.getCookieByName(request, "token");
-//		if (StringUtils.isEmpty(cookie)) {
-//			return new CodeMsgBean<Object>(10002, "鐧诲綍澶辨晥锛岃閲嶆柊鐧诲綍");
-//		}
-		HttpSession session=SessionAttributeListener.sessionMap.get("test002@qq.com ");
-		if(session !=null){
-			BaseUserView user =(BaseUserView) session.getAttribute(WebConstants.CURRENT_USER);
-			System.out.println(user);
+	public CodeMsgBean<MedicInfo> getInformation(HttpServletRequest request) throws IOException {
+		String medicNo = getMedicNo(request);
+		if (StringUtils.isEmpty(medicNo)) {
+			medicNo ="937c2b21d3db406693c59a816614e26d";
+//			return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
 		}
-		
-		MedicView view=null;
 		try {
-			String result = HttpClientUtil
-					.get(API_URL+"/medic/getInformation?access_token=" + access_token);
-			JSONObject jsonObj = JSON.parseObject(result);
-			if (jsonObj.containsKey("error")) { 
-				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
+			MedicInfo info = portalMedicFacade.getMedicInfoByMedicNo(medicNo);
+			if(info !=null){
+				request.getSession().setAttribute(WebConstants.MEDIC_INFO, info);
+				medicInfoMaps.put(info.getLoginName(), info);
 			}
-			view= JSON.toJavaObject(jsonObj, MedicView.class);
-		} catch (Exception e) {
-			return new CodeMsgBean<Object>(10005, e.getMessage());
+			return new CodeMsgBean<MedicInfo>(1, "操作成功", info);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<MedicInfo>(e.getCode(), e.getMsg());
 		}
-		return new CodeMsgBean<Object>(1, "操作成功", view);
 	}
 
 	
 
+	/**
+	 * 修改密码
+	 * 
+	 * @author leichang
+	 * @param oldPassword
+	 * @param newPassword
+	 * @param request
+	 * @param medicNo
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/web/v1/medic/updateLoginPwd", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> updateLoginPwd(String oldPassword, String newPassword, HttpServletRequest request,
-			String access_token) throws IOException {
-		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
-		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "鐧诲綍澶辨晥锛岃閲嶆柊鐧诲綍");
-		// }
-		if (StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword)) {
-			return new CodeMsgBean<Object>(10003, "参数异常");
+	public CodeMsgBean<Object> updateLoginPwd(String oldPassword, String newPassword, HttpServletRequest request
+			) throws IOException {
+		String medicNo = getMedicNo(request);
+		if (StringUtils.isEmpty(medicNo)) {
+			medicNo ="937c2b21d3db406693c59a816614e26d";
+//			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
-		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("oldPassword", oldPassword);
-		param.put("newPassword", newPassword);
-		param.put("access_token", access_token);
-		JSONObject jsonObj =null;
 		try {
-			String result = HttpClientUtil.post(API_URL+"/medic/updateLoginPwd", param);
-			 jsonObj = JSON.parseObject(result);
-			if (jsonObj.containsKey("error")) {
-				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
-			}
-		} catch (Exception e) {
-			return new CodeMsgBean<Object>(10005,e.getMessage());
+			long status = portalMedicFacade.updateLoginPwd(medicNo, oldPassword, newPassword);
+			return new CodeMsgBean<Object>(1, "操作成功", status);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
+
 	}
 
+	/**
+	 * 找回密码
+	 * 
+	 * @author leichang
+	 * @param loginName
+	 * @param realName
+	 * @param cardNo
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/web/v1/medic/findMedicLoginPwd", method = RequestMethod.POST)
 	@ResponseBody
 	public CodeMsgBean<Object> findMedicLoginPwd(String loginName, String realName, String cardNo,
-			HttpServletRequest request, String access_token) throws IOException {
-		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
-		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "鐧诲綍澶辨晥锛岃閲嶆柊鐧诲綍");
-		// }
-		if (StringUtils.isEmpty(loginName) || StringUtils.isEmpty(realName) || StringUtils.isEmpty(cardNo)
-				|| StringUtils.isEmpty(access_token)) {
+			HttpServletRequest request) throws IOException {
+		if (StringUtils.isEmpty(loginName) || StringUtils.isEmpty(realName) || StringUtils.isEmpty(cardNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
-		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("loginName", loginName);
-		param.put("realName", realName);
-		param.put("cardNo", cardNo);
-		param.put("access_token", access_token);
-		JSONObject jsonObj =null;
 		try {
-			String result = HttpClientUtil.post(API_URL+"/medic/findMedicLoginPwd", param);
-			 jsonObj = JSON.parseObject(result);
-			if (jsonObj.containsKey("error")) {
-				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
-			}
-		} catch (Exception e) {
-			return new CodeMsgBean<Object>(10005,e.getMessage());
+			portalMedicFacade.findLoginPwd(loginName, realName, cardNo);
+			return new CodeMsgBean<Object>(1, "操作成功");
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
+
 	}
 
-	@RequestMapping(value = "/web/v1/medic/listCertificate", method = RequestMethod.POST)
-	@ResponseBody
-	public CodeMsgBean<Object> listCertificate(HttpServletRequest request, String access_token) throws IOException {
-		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
-		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "鐧诲綍澶辨晥锛岃閲嶆柊鐧诲綍");
-		// }
-		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("access_token", access_token);
-		JSONObject jsonObj =null;
-		try {
-			String result = HttpClientUtil.post(API_URL+"/medic/listCertificate", param);
-			 jsonObj = JSON.parseObject(result);
-			if (jsonObj.containsKey("error")) {
-				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
-			}
-		} catch (Exception e) {
-			return new CodeMsgBean<Object>(10005,e.getMessage());
-		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
-	}
 
+	/**
+	 * 查询施测者在本单位所有量表使用量情况
+	 * 
+	 * @author leichang
+	 * @param request
+	 * @param enterpriseNo
+	 * @param medicNo
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/web/v1/medic/listMedicScaleDosage", method = RequestMethod.GET)
 	@ResponseBody
-	public CodeMsgBean<Object> listMedicScaleDosage(HttpServletRequest request, String access_token)
+	public CodeMsgBean<Object> listMedicScaleDosage(HttpServletRequest request)
 			throws IOException {
-		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
-		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "鐧诲綍澶辨晥锛岃閲嶆柊鐧诲綍");
-		// }
-		JSONObject jsonObj =null;
-		String result=null;
-		try {
-			result= HttpClientUtil.get(API_URL+"/medic/listMedicScaleDosage?access_token="+ access_token);
-			jsonObj = JSON.parseObject(result);
-			if (jsonObj.containsKey("error")) {
-				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
-			}
-			return new CodeMsgBean<Object>(1, "操作成功", result);
-		} catch (Exception e) {
-			JSONArray arr=JSON.parseArray(result);
-			return new CodeMsgBean<Object>(1,"操作成功",arr);
+		HttpSession session = request.getSession();
+		MedicInfo info=(MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
+		String enterpriseNo=null;
+		String medicNo=null;
+		if(info !=null){
+			enterpriseNo=info.getEnterpriseNo();
+			medicNo=info.getMedicNo();
+		}else{
+			enterpriseNo="20252a32e38c44f9ac02ca623f4ee503";
+			medicNo="937c2b21d3db406693c59a816614e26d";
+//			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
+		try {
+			List<MedicScaleDosage> result = portalMedicFacade.listMedicScaleDosageByEnterpriseNoAndMedicNo(enterpriseNo,
+					medicNo);
+			return new CodeMsgBean<Object>(1, "操作成功", result);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+
 	}
 
+	/**
+	 * 查询施测者在本单位其中一个量表使用量情况
+	 * 
+	 * @author leichang
+	 * @param request
+	 * @param medicNo
+	 * @param enterpriseNo
+	 * @param scaleNo
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/web/v1/medic/getMedicScaleDosageByScaleNo", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> getMedicScaleDosageByScaleNo(HttpServletRequest request, String access_token,
-			String scaleNo) throws IOException {
-		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
-		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "鐧诲綍澶辨晥锛岃閲嶆柊鐧诲綍");
-		// }
+	public CodeMsgBean<Object> getMedicScaleDosageByScaleNo(HttpServletRequest request, String scaleNo) throws IOException {
 		if (StringUtils.isEmpty(scaleNo)) {
-			return new CodeMsgBean<Object>(10002, "参数异常");
-		}
-		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("scaleNo", scaleNo);
-		param.put("access_token", access_token);
-		JSONObject jsonObj =null;
-		try {
-			String result = HttpClientUtil.post(API_URL+"/medic/getMedicScaleDosageByScaleNo", param);
-			 jsonObj = JSON.parseObject(result);
-			if (jsonObj.containsKey("error")) {
-				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
-			}
-		} catch (Exception e) {
-			return new CodeMsgBean<Object>(10005,e.getMessage());
-		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
-	}
-	
-	
-	@RequestMapping(value = "/web/v1/medic/listArticle", method = RequestMethod.POST)
-	@ResponseBody
-	public CodeMsgBean<Object> listArticle(HttpServletRequest request, String access_token,
-			int pageNum,int numPerPage) throws IOException {
-		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
-		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "鐧诲綍澶辨晥锛岃閲嶆柊鐧诲綍");
-		// }
-		if (StringUtils.isEmpty(pageNum)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
-		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("pageNum", pageNum+"");
-		param.put("numPerPage", numPerPage+"");
-		param.put("access_token", access_token);
-		JSONObject jsonObj =null;
-		try {
-			String result = HttpClientUtil.post(API_URL+"/medic/listArticle", param);
-			 jsonObj = JSON.parseObject(result);
-			if (jsonObj.containsKey("error")) {
-				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
-			}
-		} catch (Exception e) {
-			
-			return new CodeMsgBean<Object>(10005,e.getMessage());
+		HttpSession session = request.getSession();
+		MedicInfo info=(MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
+		String enterpriseNo=null;
+		String medicNo=null;
+		if(info !=null){
+			enterpriseNo=info.getEnterpriseNo();
+			medicNo=info.getMedicNo();
+		}else{
+			enterpriseNo="20252a32e38c44f9ac02ca623f4ee503";
+			medicNo="937c2b21d3db406693c59a816614e26d";
+//			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
+		try {
+			MedicScaleDosage medicScaleDosage = portalMedicFacade.getMedicScaleDosageByMedicNoAndScaleNo(enterpriseNo, medicNo,
+					scaleNo);
+			return new CodeMsgBean<Object>(1, "操作成功", medicScaleDosage);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+
 	}
-	
+
+	/**
+	 * 查看公告通知列表
+	 * 
+	 * @author leichang
+	 * @param request
+	 * @param pageParam
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/medic/listArticle", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> listArticle(HttpServletRequest request, int pageNum,int numPerPage) throws IOException {
+		if (pageNum == 0 || numPerPage ==0) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		PageParam pageParam = new PageParam (pageNum,numPerPage);
+		try {
+			HashMap<String, Object> paramMap = new HashMap<String, Object>();
+			PageBean PageBean = portalMedicFacade.listArticleListPage(pageParam, paramMap);
+			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+
+	}
+
+	/**
+	 * 获取公告文章详细信息
+	 * @author leichang
+	 * @param request
+	 * @param access_token
+	 * @param id
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/web/v1/medic/getArticle", method = RequestMethod.GET)
 	@ResponseBody
-	public CodeMsgBean<Object> getArticle(HttpServletRequest request, String access_token,
-			String id) throws IOException {
-		// Cookie cookie=CookieUtil.getCookieByName(request, "token");
-		// if (StringUtils.isEmpty(cookie)) {
-		// return new CodeMsgBean<Object>(10002, "鐧诲綍澶辨晥锛岃閲嶆柊鐧诲綍");
-		// }
+	public CodeMsgBean<Object> getArticle(HttpServletRequest request, Integer id) throws IOException {
 		if (StringUtils.isEmpty(id)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
-		HashMap<String, String> param = new HashMap<String, String>();
-		param.put("id", id);
-		param.put("access_token", access_token);
-		JSONObject jsonObj =null;
 		try {
-			String result = HttpClientUtil.get(API_URL+"/medic/getArticle?id="+id+"&access_token="+access_token);
-			 jsonObj = JSON.parseObject(result);
-			if (jsonObj.containsKey("error")) {
-				return new CodeMsgBean<Object>(10004, jsonObj.getString("error_description"));
-			}
-		} catch (Exception e) {
-			return new CodeMsgBean<Object>(10005,e.getMessage());
+			Article article = portalMedicFacade.getArticleById(id);
+			return new CodeMsgBean<Object>(1, "操作成功", article);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
-		return new CodeMsgBean<Object>(1, "操作成功", jsonObj);
+
 	}
 	
+	/**
+	 * 查询拥有使用资格的量表产品列表
+	 * @author leichang
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/medic/listCertificate", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> listCertificateByMedicNo(HttpServletRequest request) throws IOException {
+		String medicNo = getMedicNo(request);
+		if (StringUtils.isEmpty(medicNo)) {
+			medicNo ="937c2b21d3db406693c59a816614e26d";
+//			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		try {
+			List<Certificate> result = portalMedicFacade.listCertificateByMedicNo(medicNo);
+			return new CodeMsgBean<Object>(1, "操作成功", result);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+
+	}
+	 
 	
 	@RequestMapping(value = "/web/v1/medic/token/logout", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> logout( HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
-		
+	public CodeMsgBean<Object> logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+		session.invalidate();
 		return new CodeMsgBean<Object>(1, "操作成功");
+	}
+	
+	/**
+	 * 获取用户编号
+	 * @param request
+	 * @return
+	 */
+	private String getMedicNo(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		MedicOperator mo = (MedicOperator) session.getAttribute(WebConstants.CURRENT_USER);
+		if(mo !=null){
+			return  mo.getMedicNo();
+		}
+		return null;
 	}
 }
