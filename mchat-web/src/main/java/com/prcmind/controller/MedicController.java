@@ -38,8 +38,9 @@ import com.prcmind.utils.WebConstants;
 public class MedicController {
 	@Autowired
 	PortalMedicFacade portalMedicFacade;
-	public static Map<String,MedicInfo> medicInfoMaps=new HashMap<String,MedicInfo>();
-	public static Map<String,MedicOperator> medicOperatorMaps=new HashMap<String,MedicOperator>();
+	public static Map<String, MedicInfo> medicInfoMaps = new HashMap<String, MedicInfo>();
+	public static Map<String, MedicOperator> medicOperatorMaps = new HashMap<String, MedicOperator>();
+
 	/**
 	 * 登录获取施测者信息
 	 * 
@@ -60,7 +61,7 @@ public class MedicController {
 		}
 		try {
 			MedicOperator mo = portalMedicFacade.getMedicOperator(username, password);
-			if(mo !=null){
+			if (mo != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute(WebConstants.CURRENT_USER, mo);
 				medicOperatorMaps.put(mo.getLoginName(), mo);
@@ -85,12 +86,12 @@ public class MedicController {
 	public CodeMsgBean<MedicInfo> getInformation(HttpServletRequest request) throws IOException {
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
-			medicNo ="937c2b21d3db406693c59a816614e26d";
-//			return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
+			medicNo = "937c2b21d3db406693c59a816614e26d";
+			// return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
 		}
 		try {
 			MedicInfo info = portalMedicFacade.getMedicInfoByMedicNo(medicNo);
-			if(info !=null){
+			if (info != null) {
 				request.getSession().setAttribute(WebConstants.MEDIC_INFO, info);
 				medicInfoMaps.put(info.getLoginName(), info);
 			}
@@ -99,8 +100,6 @@ public class MedicController {
 			return new CodeMsgBean<MedicInfo>(e.getCode(), e.getMsg());
 		}
 	}
-
-	
 
 	/**
 	 * 修改密码
@@ -115,12 +114,12 @@ public class MedicController {
 	 */
 	@RequestMapping(value = "/web/v1/medic/updateLoginPwd", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> updateLoginPwd(String oldPassword, String newPassword, HttpServletRequest request
-			) throws IOException {
+	public CodeMsgBean<Object> updateLoginPwd(String oldPassword, String newPassword, HttpServletRequest request)
+			throws IOException {
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
-			medicNo ="937c2b21d3db406693c59a816614e26d";
-//			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+			medicNo = "937c2b21d3db406693c59a816614e26d";
+			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
 			long status = portalMedicFacade.updateLoginPwd(medicNo, oldPassword, newPassword);
@@ -158,7 +157,6 @@ public class MedicController {
 
 	}
 
-
 	/**
 	 * 查询施测者在本单位所有量表使用量情况
 	 * 
@@ -171,19 +169,18 @@ public class MedicController {
 	 */
 	@RequestMapping(value = "/web/v1/medic/listMedicScaleDosage", method = RequestMethod.GET)
 	@ResponseBody
-	public CodeMsgBean<Object> listMedicScaleDosage(HttpServletRequest request)
-			throws IOException {
+	public CodeMsgBean<Object> listMedicScaleDosage(HttpServletRequest request) throws IOException {
 		HttpSession session = request.getSession();
-		MedicInfo info=(MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
-		String enterpriseNo=null;
-		String medicNo=null;
-		if(info !=null){
-			enterpriseNo=info.getEnterpriseNo();
-			medicNo=info.getMedicNo();
-		}else{
-			enterpriseNo="20252a32e38c44f9ac02ca623f4ee503";
-			medicNo="937c2b21d3db406693c59a816614e26d";
-//			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		MedicInfo info = (MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
+		String enterpriseNo = null;
+		String medicNo = null;
+		if (info != null) {
+			enterpriseNo = info.getEnterpriseNo();
+			medicNo = info.getMedicNo();
+		} else {
+			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			medicNo = "937c2b21d3db406693c59a816614e26d";
+			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
 			List<MedicScaleDosage> result = portalMedicFacade.listMedicScaleDosageByEnterpriseNoAndMedicNo(enterpriseNo,
@@ -208,25 +205,26 @@ public class MedicController {
 	 */
 	@RequestMapping(value = "/web/v1/medic/getMedicScaleDosageByScaleNo", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> getMedicScaleDosageByScaleNo(HttpServletRequest request, String scaleNo) throws IOException {
+	public CodeMsgBean<Object> getMedicScaleDosageByScaleNo(HttpServletRequest request, String scaleNo)
+			throws IOException {
 		if (StringUtils.isEmpty(scaleNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
 		HttpSession session = request.getSession();
-		MedicInfo info=(MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
-		String enterpriseNo=null;
-		String medicNo=null;
-		if(info !=null){
-			enterpriseNo=info.getEnterpriseNo();
-			medicNo=info.getMedicNo();
-		}else{
-			enterpriseNo="20252a32e38c44f9ac02ca623f4ee503";
-			medicNo="937c2b21d3db406693c59a816614e26d";
-//			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		MedicInfo info = (MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
+		String enterpriseNo = null;
+		String medicNo = null;
+		if (info != null) {
+			enterpriseNo = info.getEnterpriseNo();
+			medicNo = info.getMedicNo();
+		} else {
+			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			medicNo = "937c2b21d3db406693c59a816614e26d";
+			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
-			MedicScaleDosage medicScaleDosage = portalMedicFacade.getMedicScaleDosageByMedicNoAndScaleNo(enterpriseNo, medicNo,
-					scaleNo);
+			MedicScaleDosage medicScaleDosage = portalMedicFacade.getMedicScaleDosageByMedicNoAndScaleNo(enterpriseNo,
+					medicNo, scaleNo);
 			return new CodeMsgBean<Object>(1, "操作成功", medicScaleDosage);
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
@@ -245,11 +243,11 @@ public class MedicController {
 	 */
 	@RequestMapping(value = "/web/v1/medic/listArticle", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> listArticle(HttpServletRequest request, int pageNum,int numPerPage) throws IOException {
-		if (pageNum == 0 || numPerPage ==0) {
+	public CodeMsgBean<Object> listArticle(HttpServletRequest request, int pageNum, int numPerPage) throws IOException {
+		if (pageNum == 0 || numPerPage == 0) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
-		PageParam pageParam = new PageParam (pageNum,numPerPage);
+		PageParam pageParam = new PageParam(pageNum, numPerPage);
 		try {
 			HashMap<String, Object> paramMap = new HashMap<String, Object>();
 			PageBean PageBean = portalMedicFacade.listArticleListPage(pageParam, paramMap);
@@ -262,9 +260,9 @@ public class MedicController {
 
 	/**
 	 * 获取公告文章详细信息
+	 * 
 	 * @author leichang
 	 * @param request
-	 * @param access_token
 	 * @param id
 	 * @return
 	 * @throws IOException
@@ -283,9 +281,10 @@ public class MedicController {
 		}
 
 	}
-	
+
 	/**
 	 * 查询拥有使用资格的量表产品列表
+	 * 
 	 * @author leichang
 	 * @param request
 	 * @return
@@ -296,8 +295,8 @@ public class MedicController {
 	public CodeMsgBean<Object> listCertificateByMedicNo(HttpServletRequest request) throws IOException {
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
-			medicNo ="937c2b21d3db406693c59a816614e26d";
-//			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+			medicNo = "937c2b21d3db406693c59a816614e26d";
+			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
 			List<Certificate> result = portalMedicFacade.listCertificateByMedicNo(medicNo);
@@ -307,8 +306,7 @@ public class MedicController {
 		}
 
 	}
-	 
-	
+
 	@RequestMapping(value = "/web/v1/medic/token/logout", method = RequestMethod.POST)
 	@ResponseBody
 	public CodeMsgBean<Object> logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -316,17 +314,18 @@ public class MedicController {
 		session.invalidate();
 		return new CodeMsgBean<Object>(1, "操作成功");
 	}
-	
+
 	/**
 	 * 获取用户编号
+	 * 
 	 * @param request
 	 * @return
 	 */
 	private String getMedicNo(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		MedicOperator mo = (MedicOperator) session.getAttribute(WebConstants.CURRENT_USER);
-		if(mo !=null){
-			return  mo.getMedicNo();
+		if (mo != null) {
+			return mo.getMedicNo();
 		}
 		return null;
 	}

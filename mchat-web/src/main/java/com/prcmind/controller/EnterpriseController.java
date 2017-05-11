@@ -156,6 +156,7 @@ public class EnterpriseController {
 
 	/**
 	 * 获取公告文章详细信息
+	 * 
 	 * @author leichang
 	 * @param request
 	 * @param id
@@ -178,6 +179,7 @@ public class EnterpriseController {
 
 	/**
 	 * 查看公告通知列表
+	 * 
 	 * @author leichang
 	 * @param pageNum
 	 * @param numPerPage
@@ -187,12 +189,12 @@ public class EnterpriseController {
 	 */
 	@RequestMapping(value = "/web/v1/enterprise/listArticle", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> queryListArticle(int pageNum, int numPerPage, HttpServletRequest request
-	) throws IOException {
-		if (pageNum == 0 || numPerPage ==0) {
+	public CodeMsgBean<Object> queryListArticle(int pageNum, int numPerPage, HttpServletRequest request)
+			throws IOException {
+		if (pageNum == 0 || numPerPage == 0) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
-		PageParam pageParam = new PageParam (pageNum,numPerPage);
+		PageParam pageParam = new PageParam(pageNum, numPerPage);
 		try {
 			HashMap<String, Object> paramMap = new HashMap<String, Object>();
 			PageBean PageBean = portalEnterpriseFacade.listArticleListPage(pageParam, paramMap);
@@ -204,16 +206,15 @@ public class EnterpriseController {
 
 	/**
 	 * 获取已绑定本单位的施测者详细
+	 * 
 	 * @param request
-	 * @param access_token
 	 * @param medicNo
 	 * @return
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/web/v1/enterprise/getMedicInfoByMedicNo", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<MedicInfo> getMedicInfoByMedicNo(HttpServletRequest request, String medicNo)
-			throws IOException {
+	public CodeMsgBean<MedicInfo> getMedicInfoByMedicNo(HttpServletRequest request, String medicNo) throws IOException {
 		if (StringUtils.isEmpty(medicNo)) {
 			return new CodeMsgBean<MedicInfo>(10003, "参数异常");
 		}
@@ -223,17 +224,28 @@ public class EnterpriseController {
 			// return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
 		}
 		try {
-			MedicInfo info=portalEnterpriseFacade.getMedicInfoByMedicNo(medicNo, enterpriseNo);
+			MedicInfo info = portalEnterpriseFacade.getMedicInfoByMedicNo(medicNo, enterpriseNo);
 			return new CodeMsgBean<MedicInfo>(1, "操作成功", info);
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<MedicInfo>(e.getCode(), e.getMsg());
 		}
-		
+
 	}
 
+	/**
+	 * 修改密码
+	 * 
+	 * @author leichang
+	 * @param oldPassword
+	 * @param newPassword
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/web/v1/enterprise/updateLoginPwd", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> updateLoginPwd(String oldPassword, String newPassword, HttpServletRequest request) throws IOException {
+	public CodeMsgBean<Object> updateLoginPwd(String oldPassword, String newPassword, HttpServletRequest request)
+			throws IOException {
 		if (StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -252,6 +264,7 @@ public class EnterpriseController {
 
 	/**
 	 * 解绑定施测者
+	 * 
 	 * @author leichang
 	 * @param medicNo
 	 * @param managerPwd
@@ -261,9 +274,9 @@ public class EnterpriseController {
 	 */
 	@RequestMapping(value = "/web/v1/enterprise/dismissUser", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> dismissUser(String medicNo, String managerPwd, HttpServletRequest request
-			) throws IOException {
-		if(StringUtils.isEmpty(managerPwd)|| StringUtils.isEmpty(medicNo)){
+	public CodeMsgBean<Object> dismissUser(String medicNo, String managerPwd, HttpServletRequest request)
+			throws IOException {
+		if (StringUtils.isEmpty(managerPwd) || StringUtils.isEmpty(medicNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
 		String enterpriseNo = getEnterpriseNo(request);
@@ -281,19 +294,19 @@ public class EnterpriseController {
 
 	/**
 	 * 绑定施测者
+	 * 
 	 * @author leichang
 	 * @param realName
 	 * @param cardNo
 	 * @param managerPwd
 	 * @param request
-	 * @param access_token
 	 * @return
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/web/v1/enterprise/boundMedic", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> boundMedic(String realName, String cardNo, String managerPwd, HttpServletRequest request,
-			String access_token) throws IOException {
+	public CodeMsgBean<Object> boundMedic(String realName, String cardNo, String managerPwd, HttpServletRequest request)
+			throws IOException {
 		if (StringUtils.isEmpty(realName) || StringUtils.isEmpty(managerPwd) || StringUtils.isEmpty(cardNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -312,6 +325,7 @@ public class EnterpriseController {
 
 	/**
 	 * 找回密码
+	 * 
 	 * @author leichang
 	 * @param loginName
 	 * @param newLoginPwd
@@ -337,34 +351,37 @@ public class EnterpriseController {
 
 	/**
 	 * 获取本单位的所有施测者列表
+	 * 
 	 * @author leichang
 	 * @param pageNum
 	 * @param numPerPage
 	 * @param request
-	 * @param access_token
 	 * @return
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/web/v1/enterprise/listMedic", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> listMedic(int pageNum, int numPerPage, HttpServletRequest request, String access_token)
-			throws IOException {
-		if (pageNum == 0 || numPerPage ==0) {
+	public CodeMsgBean<Object> listMedic(int pageNum, int numPerPage,String loginName, HttpServletRequest request) throws IOException {
+		if (pageNum == 0 || numPerPage == 0) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
-		PageParam pageParam = new PageParam (pageNum,numPerPage);
+		PageParam pageParam = new PageParam(pageNum, numPerPage);
 		try {
 			HashMap<String, Object> paramMap = new HashMap<String, Object>();
-			PageBean pageBean= portalEnterpriseFacade.listMedicListPage(pageParam, paramMap);
-			return new CodeMsgBean<Object>(1, "操作成功",pageBean);
+			paramMap.put("loginName", loginName);
+			PageBean pageBean = portalEnterpriseFacade.listMedicListPage(pageParam, paramMap);
+			return new CodeMsgBean<Object>(1, "操作成功", pageBean);
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
-		
+
 	}
+
+	
 
 	/**
 	 * 获取所有量表产品
+	 * 
 	 * @author leichang
 	 * @param request
 	 * @return
@@ -372,11 +389,10 @@ public class EnterpriseController {
 	 */
 	@RequestMapping(value = "/web/v1/enterprise/listAllScaleProducts", method = RequestMethod.GET)
 	@ResponseBody
-	public CodeMsgBean<Object> listAllScaleProducts(HttpServletRequest request)
-			throws IOException {
+	public CodeMsgBean<Object> listAllScaleProducts(HttpServletRequest request) throws IOException {
 		try {
-			List<ScaleProducts> result= portalEnterpriseFacade.listAllScaleProducts();
-			return new CodeMsgBean<Object>(1, "操作成功",result);
+			List<ScaleProducts> result = portalEnterpriseFacade.listAllScaleProducts();
+			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
@@ -397,8 +413,41 @@ public class EnterpriseController {
 		}
 	}
 
+
+	/**
+	 * 修改施测者密码
+	 * @author leichang
+	 * @param oldPassword
+	 * @param newPassword
+	 * @param managerPwd
+	 * @param medicNo
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/enterprise/updateMedicLoginPwd", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> updateMedicLoginPwd( String newPassword, String managerPwd,String medicNo,
+			HttpServletRequest request) throws IOException {
+		if (StringUtils.isEmpty(newPassword) || StringUtils.isEmpty(medicNo) || StringUtils.isEmpty(managerPwd)) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		String enterpriseNo = getEnterpriseNo(request);
+		if (StringUtils.isEmpty(enterpriseNo)) {
+			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			// return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
+		}
+		try {
+			long status = portalEnterpriseFacade.updateMedicLoginPwd(enterpriseNo, medicNo, newPassword, managerPwd);
+			return new CodeMsgBean<Object>(1, "操作成功", status);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+	
 	/**
 	 * 退出登录
+	 * 
 	 * @author leichang
 	 * @param request
 	 * @param response

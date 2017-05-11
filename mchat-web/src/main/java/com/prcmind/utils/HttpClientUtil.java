@@ -215,10 +215,4 @@ public class HttpClientUtil {
         return pairs;    
     }   
     
-  public static void main(String[] args) {
-	  HashMap<String, String> param = new HashMap<String, String>();
-		param.put("scoreNo", "002");
-		param.put("access_token", "01c47875-d39e-421e-b2b2-b0e65cb53f13");
-	System.out.println(HttpClientUtil.post("https://api.prcmind.cn:1600/enterpriseMchat/getMchatQuestionnaireResponse",param));
-}
 } 

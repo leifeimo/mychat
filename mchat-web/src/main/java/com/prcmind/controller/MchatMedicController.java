@@ -2,6 +2,7 @@ package com.prcmind.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,16 +14,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.prcmind.common.exceptions.BizException;
 import com.prcmind.common.page.PageBean;
 import com.prcmind.common.page.PageParam;
 import com.prcmind.facade.portal.exception.PortalBizException;
 import com.prcmind.facade.portal.mchat.service.PortalMchatMedicFacade;
 import com.prcmind.facade.scale.mchat.entity.MchatQuestionnaireResponse;
+import com.prcmind.facade.scale.mchat.entity.MchatQuestionnaireResponseRevisedFollow;
 import com.prcmind.facade.scale.mchat.entity.MchatScore;
+import com.prcmind.facade.scale.mchat.entity.MchatScoreRevisedFollow;
 import com.prcmind.facade.user.entity.MedicInfo;
 import com.prcmind.facade.user.entity.MedicOperator;
 import com.prcmind.utils.CodeMsgBean;
 import com.prcmind.utils.WebConstants;
+import com.prcmind.view.req.FollowReq;
 import com.prcmind.view.req.RecordReq;
 
 /**
@@ -45,15 +50,14 @@ public class MchatMedicController {
 	 * @param testeeName
 	 * @param cardNo
 	 * @param request
-	 * @param access_token
 	 * @return
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/web/v1/medicMchat/nationwideSearch", method = RequestMethod.POST)
 	@ResponseBody
 	public CodeMsgBean<Object> nationwideSearch(int pageNum, int numPerPage, String testeeName, String cardNo,
-			HttpServletRequest request, String access_token) throws IOException {
-		if (pageNum == 0  ||  numPerPage == 0) {
+			HttpServletRequest request) throws IOException {
+		if (pageNum == 0 || numPerPage == 0) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
 		PageParam pageParam = new PageParam(pageNum, numPerPage);
@@ -63,10 +67,7 @@ public class MchatMedicController {
 			paramMap.put("cardNo", cardNo);
 			PageBean PageBean = portalMchatMedicFacade.listNationwideSearch(pageParam, paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
-		} catch (PortalBizException e) {
-			
-			
-			
+		} catch (BizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -87,16 +88,16 @@ public class MchatMedicController {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
 		HttpSession session = request.getSession();
-		MedicInfo info=(MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
-		String enterpriseNo=null;
-		String medicNo=null;
-		if(info !=null){
-			enterpriseNo=info.getEnterpriseNo();
-			medicNo=info.getMedicNo();
-		}else{
-			enterpriseNo="20252a32e38c44f9ac02ca623f4ee503";
-			medicNo="937c2b21d3db406693c59a816614e26d";
-//			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		MedicInfo info = (MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
+		String enterpriseNo = null;
+		String medicNo = null;
+		if (info != null) {
+			enterpriseNo = info.getEnterpriseNo();
+			medicNo = info.getMedicNo();
+		} else {
+			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			medicNo = "937c2b21d3db406693c59a816614e26d";
+			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		HashMap<String, String> map = null;
 		if (!StringUtils.isEmpty(req.getBirth())) {
@@ -114,10 +115,11 @@ public class MchatMedicController {
 			paramMap.put("testeeName", req.getTesteeName());
 			paramMap.put("reportNo", req.getReportNo());
 			paramMap.put("cardNo", req.getCardNo());
+			paramMap.put("enterpriseNo", enterpriseNo);
+			paramMap.put("medicNo", medicNo);
 			paramMap.put("birthYear", map != null ? map.get("birthYear") : "");
 			paramMap.put("birthMonth", map != null ? map.get("birthMonth") : "");
 			paramMap.put("birthToday", map != null ? map.get("birthToday") : "");
-			paramMap.put("reportNo", enterpriseNo);
 			PageBean PageBean = portalMchatMedicFacade.listMchatScoreUniqueListPage(pageParam, paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
 		} catch (PortalBizException e) {
@@ -131,16 +133,26 @@ public class MchatMedicController {
 	 * @author leichang
 	 * @param req
 	 * @param request
-	 * @param access_token
 	 * @return
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/web/v1/medicMchat/listMchatScore", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> listMchatScore(RecordReq req, HttpServletRequest request, String access_token)
-			throws IOException {
+	public CodeMsgBean<Object> listMchatScore(RecordReq req, HttpServletRequest request) throws IOException {
 		if (req.getPageNum() == 0 || req.getNumPerPage() == 0) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		HttpSession session = request.getSession();
+		MedicInfo info = (MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
+		String enterpriseNo = null;
+		String medicNo = null;
+		if (info != null) {
+			enterpriseNo = info.getEnterpriseNo();
+			medicNo = info.getMedicNo();
+		} else {
+			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			medicNo = "937c2b21d3db406693c59a816614e26d";
+			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		HashMap<String, String> map = null;
 		if (!StringUtils.isEmpty(req.getBirth())) {
@@ -157,6 +169,8 @@ public class MchatMedicController {
 			paramMap.put("testeeName", req.getTesteeName());
 			paramMap.put("reportNo", req.getReportNo());
 			paramMap.put("cardNo", req.getCardNo());
+			paramMap.put("enterpriseNo", enterpriseNo);
+			paramMap.put("medicNo", medicNo);
 			paramMap.put("birthYear", map != null ? map.get("birthYear") : "");
 			paramMap.put("birthMonth", map != null ? map.get("birthMonth") : "");
 			paramMap.put("birthToday", map != null ? map.get("birthToday") : "");
@@ -220,12 +234,11 @@ public class MchatMedicController {
 	}
 
 	/**
-	 * 获取某一问卷填写详细
+	 * 获取某一问R报告卷填写详细
 	 * 
 	 * @author leichang
 	 * @param scoreNo
 	 * @param request
-	 * @param access_token
 	 * @return
 	 * @throws IOException
 	 */
@@ -250,7 +263,7 @@ public class MchatMedicController {
 	}
 
 	/**
-	 * 下载报告结果
+	 * 下载R报告结果
 	 * 
 	 * @author leichang
 	 * @param scoreNo
@@ -258,7 +271,7 @@ public class MchatMedicController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/web/v1/medicMchat/downloadReport", method = RequestMethod.POST)
+	@RequestMapping(value = "/web/v1/medicMchat/downloadReport", method = RequestMethod.GET)
 	@ResponseBody
 	public CodeMsgBean<Object> downloadReport(String scoreNo, HttpServletRequest request) throws IOException {
 		if (StringUtils.isEmpty(scoreNo)) {
@@ -277,6 +290,267 @@ public class MchatMedicController {
 		}
 	}
 
+	/**
+	 * 验证基本信息
+	 * 
+	 * @author leichang
+	 * @param mchatScore
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/medicMchat/verifyBasicInformation", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> verifyBasicInformation(MchatScore mchatScore, HttpServletRequest request)
+			throws IOException {
+		if (mchatScore == null) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		HttpSession session = request.getSession();
+		MedicInfo info = (MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
+		String enterpriseNo = null;
+		String medicNo = null;
+		if (info != null) {
+			enterpriseNo = info.getEnterpriseNo();
+			medicNo = info.getMedicNo();
+		} else {
+			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			medicNo = "937c2b21d3db406693c59a816614e26d";
+			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		mchatScore.setEnterpriseNo(enterpriseNo);
+		mchatScore.setMedicNo(medicNo);
+		try {
+			boolean bl = portalMchatMedicFacade.verifyBasicInformation(mchatScore);
+			return new CodeMsgBean<Object>(1, "操作成功", bl);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+
+	/**
+	 * 获取某一问R/F报告卷填写详细
+	 * 
+	 * @author leichang
+	 * @param scoreNo
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/medicMchat/getMchatQuestionnaireResponseRevisedFollow", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> getMchatQuestionnaireResponseRevisedFollow(String scoreNo, HttpServletRequest request)
+			throws IOException {
+		if (StringUtils.isEmpty(scoreNo)) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		String medicNo = getMedicNo(request);
+		if (StringUtils.isEmpty(medicNo)) {
+			medicNo = "937c2b21d3db406693c59a816614e26d";
+			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		try {
+			MchatQuestionnaireResponseRevisedFollow result = portalMchatMedicFacade
+					.getMchatQuestionnaireResponseRevisedFollow(scoreNo, medicNo);
+			return new CodeMsgBean<Object>(1, "操作成功", result);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+
+	/**
+	 * 下载R/F报告结果
+	 * 
+	 * @author leichang
+	 * @param scoreNo
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/medicMchat/downloadRevisedFollowReport", method = RequestMethod.GET)
+	@ResponseBody
+	public CodeMsgBean<Object> downloadRevisedFollowReport(String scoreNo, HttpServletRequest request)
+			throws IOException {
+		if (StringUtils.isEmpty(scoreNo)) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		String medicNo = getMedicNo(request);
+		if (StringUtils.isEmpty(medicNo)) {
+			medicNo = "937c2b21d3db406693c59a816614e26d";
+			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		try {
+			MchatScoreRevisedFollow result = portalMchatMedicFacade.downloadRevisedFollowReport(scoreNo, medicNo);
+			return new CodeMsgBean<Object>(1, "操作成功", result);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+
+	/**
+	 * 创建R报告
+	 * 
+	 * @author leichang
+	 * @param mchatScore
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/medicMchat/createMchatReport", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> createMchatReport(MchatScore mchatScore,
+			MchatQuestionnaireResponse mchatQuestionnaireResponse, HttpServletRequest request) throws IOException {
+		if (mchatScore == null) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		HttpSession session = request.getSession();
+		MedicInfo info = (MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
+		String enterpriseNo = null;
+		String medicNo = null;
+		if (info != null) {
+			enterpriseNo = info.getEnterpriseNo();
+			medicNo = info.getMedicNo();
+		} else {
+			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			medicNo = "937c2b21d3db406693c59a816614e26d";
+			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		mchatScore.setEnterpriseNo(enterpriseNo);
+		mchatScore.setMedicNo(medicNo);
+		try {
+			Map<String, String> result = portalMchatMedicFacade.createMchatScore(mchatScore,
+					mchatQuestionnaireResponse);
+			return new CodeMsgBean<Object>(1, "操作成功", result);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+
+	/**
+	 * 施测者-查询R/F所有报告列表
+	 * 
+	 * @author leichang
+	 * @param mchatScore
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/medicMchat/listMchatScoreRevisedFollow", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> listMchatScoreRevisedFollow(FollowReq req, HttpServletRequest request)
+			throws IOException {
+		if (req.getPageNum() == 0 || req.getNumPerPage() == 0) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		HttpSession session = request.getSession();
+		MedicInfo info = (MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
+		String enterpriseNo = null;
+		if (info != null) {
+			enterpriseNo = info.getEnterpriseNo();
+		} else {
+			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		PageParam pageParam = new PageParam(req.getPageNum(), req.getNumPerPage());
+		try {
+			HashMap<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("pageNum", req.getPageNum() + "");
+			paramMap.put("numPerPage", req.getNumPerPage() + "");
+			paramMap.put("testeeName", req.getTesteeName());
+			paramMap.put("reportNo", req.getReportNo());
+			paramMap.put("testeeNo", req.getTesteeNo());
+			 paramMap.put("enterpriseNo", enterpriseNo);
+//			 paramMap.put("medicNo", medicNo);
+			paramMap.put("deleted", req.getDeleted());
+			PageBean result = portalMchatMedicFacade.listMchatScoreRevisedFollowListPage(pageParam, paramMap);
+			return new CodeMsgBean<Object>(1, "操作成功", result);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+
+	/**
+	 *  创建MChat R/F报告
+	 * @param scoreNo
+	 * @param mchatQuestionnaireResponseRevisedFollow
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/medicMchat/createMchatRevisedFollowReport", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> createMchatRevisedFollowReport(String scoreNo,
+			MchatQuestionnaireResponseRevisedFollow mchatQuestionnaireResponseRevisedFollow, HttpServletRequest request) throws IOException {
+		if (mchatQuestionnaireResponseRevisedFollow == null || StringUtils.isEmpty(scoreNo)) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		String ip = getIp(request);
+		try {
+			Map<String, String> result = portalMchatMedicFacade.createMchatScoreRevisedFollow(scoreNo, ip, mchatQuestionnaireResponseRevisedFollow);
+			return new CodeMsgBean<Object>(1, "操作成功", result);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+	
+	/**
+	 * 删除R/F报告
+	 * @param scoreNo
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/medicMchat/deleteRevisedFollowReportByScoreNo", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> deleteRevisedFollowReportByScoreNo(String scoreNo,
+			 HttpServletRequest request) throws IOException {
+		if ( StringUtils.isEmpty(scoreNo)) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		HttpSession session = request.getSession();
+		MedicInfo info = (MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
+		String enterpriseNo = null;
+		String medicNo = null;
+		if (info != null) {
+			enterpriseNo = info.getEnterpriseNo();
+			medicNo = info.getMedicNo();
+		} else {
+			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			medicNo = "937c2b21d3db406693c59a816614e26d";
+			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		try {
+			long result=portalMchatMedicFacade.deleteRevisedFollowReportByMedicNoAndScoreNo(medicNo, scoreNo);
+			return new CodeMsgBean<Object>(1, "操作成功", result);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+	
+	
+	/**
+	 *  获取某一条RF报告记录
+	 *  @author leichang
+	 * @param scoreNo
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/medicMchat/getMchatScoreRevisedFollowByScoreNo", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> getMchatScoreRevisedFollowByScoreNo(String scoreNo,
+			 HttpServletRequest request) throws IOException {
+		if ( StringUtils.isEmpty(scoreNo)) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		try {
+			MchatScoreRevisedFollow result=portalMchatMedicFacade.getMchatScoreRevisedFollowByScoreNo(scoreNo);
+			return new CodeMsgBean<Object>(1, "操作成功", result);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+	
 	/**
 	 * 获取用户编号
 	 * 
@@ -308,5 +582,29 @@ public class MchatMedicController {
 		}
 		return birthMap;
 	}
-
+	private String getIp(HttpServletRequest request) {
+		String ip = request.getHeader("X-Real-IP");  
+	    if (!StringUtils.isEmpty(ip) && !"unknown".equalsIgnoreCase(ip))  
+	    {  
+	        return ip;  
+	    }  
+	    ip = request.getHeader("X-Forwarded-For");  
+	    if (!StringUtils.isEmpty(ip) && !"unknown".equalsIgnoreCase(ip))  
+	    {  
+	        // 多次反向代理后会有多个IP值，第一个为真实IP。  
+	        int index = ip.indexOf(',');  
+	        if (index != -1)  
+	        {  
+	            return ip.substring(0, index);  
+	        }  
+	        else  
+	        {  
+	            return ip;  
+	        }  
+	    }  
+	    else  
+	    {  
+	        return request.getRemoteAddr();  
+	    }  
+	}
 }
