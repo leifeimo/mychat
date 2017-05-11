@@ -45,6 +45,7 @@ public class SessionFilter implements Filter {
         	   if (httpServletRequest.getHeader("x-requested-with") != null  
                        && httpServletRequest.getHeader("x-requested-with").equalsIgnoreCase("XMLHttpRequest")) {  
             	   httpServletResponse.setHeader("sessionstatus", "timeout");//在响应头设置session状态  
+            	   httpServletResponse.setHeader("code", "100002");
             	   return;
                } 
         	   httpServletResponse.setContentType("text/html; charset=utf-8");
