@@ -22,6 +22,7 @@
 	float:left; 
 	width:950px;
 	margin-left:3px;
+	position: relative;
 }
 .r_title{
 	height:38px;
@@ -183,7 +184,8 @@ ul{
 .article_ul li{
    height:30px;
    line-height:30px;
-   
+   overflow: hidden;
+   font-size:14px;
    
 }
 .article_ul li:nth-child(odd){
@@ -195,7 +197,7 @@ ul{
 }
 .article_list_th_ul span{
    float:left;
-
+	height:30px;
 }
 .article_list_th_ul span:nth-child(1){
 	width:15%;
@@ -243,6 +245,9 @@ ul{
  text-align:left;
  color:#8f8f8f;
  text-indent:10px;
+}
+.announcement p a:hover{
+	color:#ccc;
 }
 .announcement_tip{
  border-top:2px #feab48 solid;
@@ -295,7 +300,7 @@ ul{
 	width:65%;
 }
 .chat_input{
-	border:1px #eeeeee solid;
+	border:1px #eeeeee solid !important;
 	height:35px;
 	background-color:#fff !important;
 }
@@ -378,5 +383,54 @@ select::-ms-expand {
 	color:#fff;		
 }
 /**2-1**/
+.pwd-change{
+	padding:10px 20px 0px 20px;
+}
+.pwd-change li{
+	margin-top:10px;
+}
+.pwd-change span{
+	font-size:14px;
+	display: inline-block;
+	width:70px;
+	text-align: right;
+}
+.check-msg span{
+	width:120px;
+}
+.check-msg p{
+	display: inline-block;
+}
+
+.ac-bind{
+	position: absolute;
+	right:20px;
+	top:360px;
+	width:196px;
+	line-height: 40px;
+	text-align: center;
+	background: #f48626;
+	color:#fff;
+	text-align: center;
+	border-radius: 4px;
+}
+
+.ac-bind:hover{
+	opacity:.8;
+}
+.ac-check img{
+	margin-top:10px;
+}
+.ac-delete img{
+	margin-top:5px;
+}
+
+
+
+
+
+
+
+
 
 

@@ -318,6 +318,17 @@ font-size:14px;
 	color:#fba75d;
 }
 
+.s_page_num a{
+	position:relative; /**/
+	right:50%; /**/
+	float:left;
+	margin:0px;
+	padding:0 10px;
+	border:solid 1px #dedede;
+	line-height:30px;
+	color:#fba75d;
+}
+
 .s_page_num span:hover{
 	background-color:#ededed;
 }		 
@@ -330,7 +341,7 @@ font-size:14px;
    color:#666!important;
    
 }
-.s_page_current{
+.s_page_num .active{
 	background-color:#feab48;
 	color:#FFF !important;
 }
@@ -348,5 +359,5 @@ font-size:14px;
     border-radius: 0 0 6px 6px;
 }
 .cho_sys a:hover{
-	color:#f48626;
+	color:#f0f0f0;
 }

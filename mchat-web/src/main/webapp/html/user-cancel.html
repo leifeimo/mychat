@@ -1,13 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>5</title>
-<script src="../js/jquery.min.js"></script>
-<script src="../js/all.js"></script>
-<!--[if lte IE 9]><script src="../js/selectivizr-min.js"></script><![endif]-->
-<link rel="Stylesheet" type="text/css" href="../css/style.css" />
-<link rel="Stylesheet" type="text/css" href="../css/pc_2.css" />
 <link rel="Stylesheet" type="text/css" href="../css/pc_archives.css" />
 <style>
 
@@ -77,7 +67,7 @@ ul{
 .search_ul li{
    height:30px;
    line-height:30px;
-   
+   overflow:hidden;
    
 }
 .search_ul li:nth-child(odd){
@@ -135,40 +125,29 @@ ul{
 </style>
 
 
-</head>
-
-<body>
-
-
-
-<div id="content">
-
-
         <div class="r_content">
             <div class="r_search">
                
                <div class="r_search_l">
                    <div>
-                       儿童姓名：<input class="chat_input" style="height:30px; width:200px;" type="text" />
+                       儿童姓名：<input class="chat_input" style="height:30px; width:200px;" type="text" id="name" />
                    </div>
                    <div>
-                       出生日期：<select name="" class="chat_input" style="height:30px;width:200px"></select>
+                       出生日期：<input name="" class="chat_input Wdate " style="height:30px;width:200px" id="birth" onClick="WdatePicker()" />
                    </div>
-                   <div>
-                       报告编号：<input name="" class="chat_input" style="height:30px;width:200px" />
-                   </div>
+                   
                    
                </div>
                <div class="r_search_m">
                    <div>
-                       身份信息：<input class="chat_input" style="height:30px; width:200px;" type="text" />
+                       报告编号：<input name="" class="chat_input" style="height:30px;width:200px" id="reportNo" />
                    </div>
-                   <div>
-                       施测日期：<select name="" class="chat_input" style="height:30px;width:200px"></select>
-                   </div>
+                   <!-- <div>
+                       施测日期：<select name="" class="chat_input" style="height:30px;width:200px"  ></select>
+                   </div> -->
                </div>
                <div class="r_search_r">
-               <input type="button" class="r_search_r_btn" value="搜索" />
+               <input id="search" type="button" class="r_search_r_btn" value="搜索" />
                </div>
                
                
@@ -196,7 +175,7 @@ ul{
                      </div>
                      
                      <div class="search_list_th_ul">
-                         <ul class="search_ul">
+                         <ul class="search_ul" id="list">
                            <li>
                              <span>a1234567890</span>
                              <span>刘开明</span>
@@ -264,19 +243,7 @@ ul{
                      
                      
                      <div class="s_page m_top_90">
-                         <div class="s_page_num">
-                           <span><a href="#"><上一页></上一页></a></span>
-                           <span><a href="#">1</a></span>
-                           <span class="s_page_current">2</span>
-                           <span><a href="#">3</a></span>
-                           <span><a href="#">4</a></span>
-                           <span><a href="#">5</a></span>
-                           <span><a href="#">6</a></span>
-                           <span><a href="#">7</a></span>
-                           <span><a href="#">8</a></span>
-                           <span><a href="#">...</a></span>
-                           <span><a href="#">20</a></span>
-                           <span><a href="#">下一页></a></span>
+                         <div class="s_page_num" id="page">
                          </div>
                      </div>
                    
@@ -285,28 +252,74 @@ ul{
 
  
             </div>
-            
-            
-
-            
-
-            
-            
+     
         </div>
-        
-
-
-
     </div>
 
 
 
+<script id="table" type="text/html" >
+  {{each recordList}}
+  <li>
+     <span>{{$value.reportNo}}</span>
+     <span>{{$value.testeeName}}</span>
+     <span>{{$value.birthYear+'-'+$value.birthMonth+'-'+$value.birthToday}}</span>
+     <span>--</span>
+     <span>{{['男','女'][$value.sex]}}</span>
+     <span>{{$value.cardType}}</span>
+     <span>--</span>
+     <span>{{$value.createTime}}</span>
+     <span><a href="#"><img src="../images/s_2.png" /></a></span>
+     <span><a href="#"><img src="../images/s_2.png" /></a></span>
+     <span><a href="#"><img src="../images/s_2.png" /></a></span>
+     <span><a href="#"><img src="../images/s_2.png" /></a></span>
+     <span><a href="#"><img src="../images/s_1.png" /></a></span>
+   </li>
+  {{/each}}
+</script>
+
+<script>
+  $(document).ready(function(){
+      $("#search").on('click',function(){
+        var obj = {
+          url: util.requestURL+'/web/v1/medicMchat/listMchatScore',
+          type: 'POST',
+          data:{
+            pageNum: 1,
+            numPerPage: 10,
+            testeeName: $("#name").val(),
+            reportNo: $("#reportNo").val(),
+            deleted: 1,
+            birth: util.getDateStr($("#birth").val())
+          },
+          success: function(data){
+            if(data.code == 1){
+              var html = template.render($("#table").text(), data.data);
+              $("#list").html(html);
+              
+              $("#page").pagination({
+                  totalData: data.data.totalCount,
+                  showData: 10,
+                  pageCount: 10,
+                  current: data.data.currentPage,
+                  coping: true,
+                  callback: function(api){
+                    util.pageClient(obj,api.getCurrent())
+                  }
+
+              })
+            }else{
+              layer.msg(data.msg)
+            }
+            
+
+          }
+        }
+        util.client(obj);
+    })
+
+    $("#search").trigger('click');
+  });
+</script>
 
 
-
-
-
-</div>
-
-</body>
-</html>
