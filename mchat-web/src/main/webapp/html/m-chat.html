@@ -9,6 +9,8 @@
 <link rel="Stylesheet" type="text/css" href="../css/pc_2.css" />
 <script src="../js/layer/layer.js"></script>
 <script src="../js/template-web.min.js" ></script>
+<script src="../js/jquery.pagination.min.js"></script>
+<script src="../js/My97DatePicker/WdatePicker.js" ></script>
 <script src="../js/util.js"></script>
 
 </head>
@@ -25,7 +27,7 @@
             
             <div id="login_out">
                 <div id="login_out_btn" class="b_white">
-                <a href="#"><img src="../images/out.png" align="absmiddle" />&nbsp;&nbsp;退出系统</a>
+                <a href="javascript:;" id="logout" ><img src="../images/out.png" align="absmiddle" />&nbsp;&nbsp;退出系统</a>
                 </div>
             </div>
         </div>
@@ -34,7 +36,7 @@
     <!--jx_head E-->  
     <div id="head_mid">
         <div>
-            <div class="cho_sys f_l"><a href="#">选择系统</a></div>
+            <div class="cho_sys f_l"><a href="choose-system.html">选择系统</a></div>
             <div class="f_r head_date" id="date" >2017年3月10日，星期五，农历正月十五</div>
         </div>
     </div>
@@ -49,13 +51,13 @@
               <p class="l_menu_2 l_menu_current"><a href="javascript:;">用户档案</a></p>
               <div class="l_m_2" style="display:none">
                   <p class="l_menu_2_1 l_m_current"><a href="#user-child">儿童查询</a></p>
-                  <p class="l_menu_2_2"><a href="#user-report">报告查询</a></p>
+                  <p class="l_menu_2_2"><a href="#user-report">全国查询</a></p>
                   <p class="l_menu_2_3"><a href="#user-cancel">作废查询</a></p>
                   <p class="l_menu_2_4"><a href="#user-replenish">补充表格</a></p>
               </div>
-              <p class="l_menu_3"><a href="#report-query">报告查询</a></p>
+              <!-- <p class="l_menu_3"><a href="#report-query">报告查询</a></p> -->
               <p class="l_menu_4"><a href="#my-account">我的账号</a></p>
-              <p class="l_menu_5"><a href="#create-report">创建报告</a></p>
+              <p class="l_menu_5"><a href="javascript:;">创建报告</a></p>
             </div>
             <div>
                 <img src="../images/bg2.jpg" />
@@ -94,6 +96,19 @@
       window.location.href = url;
     });
 
+    $("#logout").on('click',function(e){
+      util.client({
+        url: util.requestURL+'/web/v1/medic/token/logout',
+        type: 'POST',
+        success: function(data){
+          if(data.code == 1){
+            layer.msg('退出登录成功！');
+            setTimeout(function(){window.location.href = 'login.html';},1000)
+            
+          }
+        }
+      })
+    });
 
     $(window).bind('hashchange', function(e, triggered) { // 绑定hash值
             getHash();
@@ -105,6 +120,7 @@
                 $.ajax({
                   url: hash+'.html',
                   success: function(html){
+                    $('body').undelegate();
                     $("#con").html(html);
                   },
                   error: function(e){

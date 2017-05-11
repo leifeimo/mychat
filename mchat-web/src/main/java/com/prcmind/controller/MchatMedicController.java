@@ -95,9 +95,9 @@ public class MchatMedicController {
 			enterpriseNo = info.getEnterpriseNo();
 			medicNo = info.getMedicNo();
 		} else {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			medicNo = "937c2b21d3db406693c59a816614e26d";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		
+
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		HashMap<String, String> map = null;
 		if (!StringUtils.isEmpty(req.getBirth())) {
@@ -150,9 +150,9 @@ public class MchatMedicController {
 			enterpriseNo = info.getEnterpriseNo();
 			medicNo = info.getMedicNo();
 		} else {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			medicNo = "937c2b21d3db406693c59a816614e26d";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		
+
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		HashMap<String, String> map = null;
 		if (!StringUtils.isEmpty(req.getBirth())) {
@@ -200,8 +200,8 @@ public class MchatMedicController {
 		}
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
-			medicNo = "937c2b21d3db406693c59a816614e26d";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
 			long status = portalMchatMedicFacade.deleteReportByMedicNoAndScoreNo(medicNo, scoreNo);
@@ -251,8 +251,8 @@ public class MchatMedicController {
 		}
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
-			medicNo = "937c2b21d3db406693c59a816614e26d";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
 			MchatQuestionnaireResponse result = portalMchatMedicFacade.getMchatQuestionnaireResponse(scoreNo, medicNo);
@@ -279,8 +279,8 @@ public class MchatMedicController {
 		}
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
-			medicNo = "937c2b21d3db406693c59a816614e26d";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
 			MchatScore result = portalMchatMedicFacade.downloadReport(scoreNo, medicNo);
@@ -314,9 +314,9 @@ public class MchatMedicController {
 			enterpriseNo = info.getEnterpriseNo();
 			medicNo = info.getMedicNo();
 		} else {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			medicNo = "937c2b21d3db406693c59a816614e26d";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		
+
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		mchatScore.setEnterpriseNo(enterpriseNo);
 		mchatScore.setMedicNo(medicNo);
@@ -346,8 +346,8 @@ public class MchatMedicController {
 		}
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
-			medicNo = "937c2b21d3db406693c59a816614e26d";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
 			MchatQuestionnaireResponseRevisedFollow result = portalMchatMedicFacade
@@ -376,8 +376,8 @@ public class MchatMedicController {
 		}
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
-			medicNo = "937c2b21d3db406693c59a816614e26d";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
 			MchatScoreRevisedFollow result = portalMchatMedicFacade.downloadRevisedFollowReport(scoreNo, medicNo);
@@ -411,9 +411,9 @@ public class MchatMedicController {
 			enterpriseNo = info.getEnterpriseNo();
 			medicNo = info.getMedicNo();
 		} else {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			medicNo = "937c2b21d3db406693c59a816614e26d";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		
+
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		mchatScore.setEnterpriseNo(enterpriseNo);
 		mchatScore.setMedicNo(medicNo);
@@ -448,8 +448,8 @@ public class MchatMedicController {
 		if (info != null) {
 			enterpriseNo = info.getEnterpriseNo();
 		} else {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		PageParam pageParam = new PageParam(req.getPageNum(), req.getNumPerPage());
 		try {
@@ -515,9 +515,9 @@ public class MchatMedicController {
 			enterpriseNo = info.getEnterpriseNo();
 			medicNo = info.getMedicNo();
 		} else {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			medicNo = "937c2b21d3db406693c59a816614e26d";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		
+
+			 return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
 			long result=portalMchatMedicFacade.deleteRevisedFollowReportByMedicNoAndScoreNo(medicNo, scoreNo);

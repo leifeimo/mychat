@@ -85,8 +85,7 @@ public class EnterpriseController {
 	public CodeMsgBean<Object> getInformation(HttpServletRequest request) throws IOException {
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			// return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
+			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
 		}
 		try {
 			EnterpriseInfo info = portalEnterpriseFacade.getEnterpriseInfoByEnterpriseNo(enterpriseNo);
@@ -115,8 +114,7 @@ public class EnterpriseController {
 			throws IOException {
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			// return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
+			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
 		}
 		if (StringUtils.isEmpty(medicNo)) {
 			return new CodeMsgBean<Object>(10002, "参数异常");
@@ -143,8 +141,8 @@ public class EnterpriseController {
 	public CodeMsgBean<Object> listEnterpriseScaleDosage(HttpServletRequest request) throws IOException {
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			// return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
+
+			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
 		}
 		try {
 			List<EnterpriseScaleDosage> result = portalEnterpriseFacade.listEnterpriseScaleDosage(enterpriseNo);
@@ -220,8 +218,8 @@ public class EnterpriseController {
 		}
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			// return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
+
+			return new CodeMsgBean<MedicInfo>(10002, "登录失效，请重新登录");
 		}
 		try {
 			MedicInfo info = portalEnterpriseFacade.getMedicInfoByMedicNo(medicNo, enterpriseNo);
@@ -251,8 +249,8 @@ public class EnterpriseController {
 		}
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			// return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
+
+			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
 		}
 		try {
 			long status = portalEnterpriseFacade.updateLoginPwd(enterpriseNo, oldPassword, newPassword);
@@ -281,8 +279,8 @@ public class EnterpriseController {
 		}
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			// return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
+
+			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
 		}
 		try {
 			long status = portalEnterpriseFacade.dismissMedic(medicNo, managerPwd, enterpriseNo);
@@ -312,8 +310,7 @@ public class EnterpriseController {
 		}
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			// return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
+			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
 		}
 		try {
 			long status = portalEnterpriseFacade.boundMedic(realName, cardNo, managerPwd, enterpriseNo);
@@ -361,7 +358,8 @@ public class EnterpriseController {
 	 */
 	@RequestMapping(value = "/web/v1/enterprise/listMedic", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> listMedic(int pageNum, int numPerPage,String loginName, HttpServletRequest request) throws IOException {
+	public CodeMsgBean<Object> listMedic(int pageNum, int numPerPage, String loginName, HttpServletRequest request)
+			throws IOException {
 		if (pageNum == 0 || numPerPage == 0) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -376,8 +374,6 @@ public class EnterpriseController {
 		}
 
 	}
-
-	
 
 	/**
 	 * 获取所有量表产品
@@ -413,9 +409,9 @@ public class EnterpriseController {
 		}
 	}
 
-
 	/**
 	 * 修改施测者密码
+	 * 
 	 * @author leichang
 	 * @param oldPassword
 	 * @param newPassword
@@ -427,15 +423,15 @@ public class EnterpriseController {
 	 */
 	@RequestMapping(value = "/web/v1/enterprise/updateMedicLoginPwd", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> updateMedicLoginPwd( String newPassword, String managerPwd,String medicNo,
+	public CodeMsgBean<Object> updateMedicLoginPwd(String newPassword, String managerPwd, String medicNo,
 			HttpServletRequest request) throws IOException {
 		if (StringUtils.isEmpty(newPassword) || StringUtils.isEmpty(medicNo) || StringUtils.isEmpty(managerPwd)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			// return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
+
+			return new CodeMsgBean<Object>(10002, "登录失效，请重新登录");
 		}
 		try {
 			long status = portalEnterpriseFacade.updateMedicLoginPwd(enterpriseNo, medicNo, newPassword, managerPwd);
@@ -444,7 +440,7 @@ public class EnterpriseController {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
-	
+
 	/**
 	 * 退出登录
 	 * 

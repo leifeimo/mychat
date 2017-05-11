@@ -1,13 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>8</title>
-<script src="../js/jquery.min.js"></script>
-<script src="../js/all.js"></script>
-<!--[if lte IE 9]><script src="../js/selectivizr-min.js"></script><![endif]-->
-<link rel="Stylesheet" type="text/css" href="../css/style.css" />
-<link rel="Stylesheet" type="text/css" href="../css/pc_2.css" />
+
 <style>
 
 
@@ -128,13 +119,6 @@ ul{
 </style>
 
 
-</head>
-
-<body>
-
-
-<div id="content">
-
    
         <script>
 $(function(){ 
@@ -179,7 +163,7 @@ $(function(){
         <div class="r_content">
             <div class="r_title">
                 <p id="tap1" class="tap1">账户设置</p>
-                <p id="tap2" class="tap2">操作记录</p>
+                <!-- <p id="tap2" class="tap2">操作记录</p> -->
                 <p id="tap3" class="tap3"></p>
             </div>
             <div class="r_article">
@@ -236,7 +220,7 @@ $(function(){
 
                    <div class="s_page m_top_30" style="height:60px;">
                          <div class="s_page_num">
-                           <span><a href="#"><上一页></上一页></a></span>
+                           <span><a href="#"><上一页</a></span>
                            <span><a href="#">1</a></span>
                            <span class="s_page_current">2</span>
                            <span><a href="#">3</a></span>
@@ -336,81 +320,81 @@ $(function(){
                 <div class="article_info" style="width:946px;">
 
                    <div>
-                       <div class="account_f">
+                       <!-- <div class="account_f">
                            <p>证书编号：</p>
-                           <p>T2016A</p>
+                           <p id="num">--</p>
                            <p></p>
                        </div>
                        <div class="account_f">
                            <p>身份证号码：</p>
-                           <p>123456665488754855</p>
+                           <p id="sfz-num" >--</p>
                            <p></p>
-                       </div>
+                       </div> -->
                        <div class="account_f">
                            <p>登录账号：</p>
-                           <p><input  class="account_f_input" style="height:30px; width:200px;" /></p>
-                           <p><input class="account_f_btn" type="button" value="修改"  /></p>
+                           <p><input id="account" disabled="disabled"  class="account_f_input" style="height:30px; width:200px;" /></p>
+                           <!-- <p><input class="account_f_btn" type="button" value="修改"  /></p> -->
                        </div>
                        <div class="account_f">
                            <p>密码：</p>
-                           <p><input  class="account_f_input" style="height:30px; width:200px;" /></p>
-                           <p><input class="account_f_btn" type="button" value="修改"  /></p>
+                           <p><input id="password" disabled="disabled" value="******"  class="account_f_input" style="height:30px; width:200px;" /></p>
+                           <p><input class="account_f_btn" type="button" value="修改" id="changePwd"  /></p>
                        </div>
                        <div class="account_f">
                            <p>Emai：</p>
-                           <p><input  class="account_f_input" style="height:30px; width:200px;" /></p>
-                           <p><input class="account_f_btn" type="button" value="修改"  /></p>
+                           <p><input id="email"  disabled="disabled" class="account_f_input" style="height:30px; width:200px;" /></p>
+                           <!-- <p><input class="account_f_btn" type="button" value="修改"  /></p> -->
                        </div>
                        
                        <hr class="r_hr m_top_50" />
 
                        <div class="account_f ">
                            <p>真实姓名：</p>
-                           <p><input  class="account_f_input" style="height:30px; width:200px;" /></p>
-                           <p><input class="account_f_btn" type="button" value="修改"  /></p>
+                           <p><input id="realname"  disabled="disabled" class="account_f_input" style="height:30px; width:200px;" /></p>
+                           <!-- <p><input class="account_f_btn" type="button" value="修改"  /></p> -->
                        </div>
                        
                        <div class="account_f">
                            <p>电话：</p>
-                           <p><input  class="account_f_input" style="height:30px; width:200px;" /></p>
-                           <p><input class="account_f_btn" type="button" value="修改"  /></p>
+                           <p><input id="mobile"  disabled="disabled" class="account_f_input" style="height:30px; width:200px;" /></p>
+                           <!-- <p><input class="account_f_btn" type="button" value="修改"  /></p> -->
                        </div>
                        
-                       <div class="account_f">
+                       <!-- <div class="account_f">
                            <p>性别：</p>
-                           <p><input  class="account_f_input" style="height:30px; width:200px;" /></p>
+                           <p><input id="sex"  class="account_f_input" style="height:30px; width:200px;" /></p>
                            <p><input class="account_f_btn" type="button" value="修改"  /></p>
-                       </div>
+                       </div> -->
                        
-                       <div class="account_f">
+                       <!-- <div class="account_f">
                            <p>省份：</p>
-                           <p><input  class="account_f_input" style="height:30px; width:200px;" /></p>
+                           <p><input id="province"  class="account_f_input" style="height:30px; width:200px;" /></p>
                            <p><input class="account_f_btn" type="button" value="修改"  /></p>
                        </div>
                        
                        <div class="account_f">
                            <p>城市：</p>
-                           <p><input  class="account_f_input" style="height:30px; width:200px;" /></p>
+                           <p><input id="city"  class="account_f_input" style="height:30px; width:200px;" /></p>
                            <p><input class="account_f_btn" type="button" value="修改"  /></p>
-                       </div>
+                       </div> -->
                        
                        <div class="account_f">
                            <p>单位名称：</p>
-                           <p><input  class="account_f_input" style="height:30px; width:200px;" /></p>
-                           <p><input class="account_f_btn" type="button" value="修改"  /></p>
+                           <p><input id="company"  class="account_f_input" style="height:30px; width:200px;" /></p>
+                           <!-- <p><input class="account_f_btn" type="button" value="修改"  /></p> -->
                        </div>
                        
-                       <div class="account_f">
+                       <!-- <div class="account_f">
                            <p>每页显示条数设置：</p>
-                           <p><input  class="account_f_input" style="height:30px; width:200px;" /></p>
+                           <p><input id="pageNum" class="account_f_input" style="height:30px; width:200px;" /></p>
                            <p><input class="account_f_btn" type="button" value="修改"  /></p>
-                       </div>          
+                       </div>        -->   
                    </div>
             
-                    <div class="r_form_sub m_top_150">
+                    <!-- <div class="r_form_sub m_top_150">
                         <p><input type="button" class="r_form_s r_form_submit" value="保存" /></p>
                         <p><input type="button" class="r_form_s r_form_reset" value="取消" /></p>
-                    </div>
+                    </div> -->
                 </div> 
                     
 
@@ -420,32 +404,83 @@ $(function(){
  
             </div>
         </div>
-        
-
-
-
     </div>
 
-
-
-
-
-
-
-
-</div>
-
-
-
-
-
-
+<script id="temp" type="html/text" >
+  <ul class="pwd-change">
+    <li>
+      <span>旧密码：</span>
+      <input id="oldPwd" type="password" >
+    </li>
+    <li>
+      <span>新密码：</span>
+      <input id="newPwd" type="password" >
+    </li>
+    <li>
+      <span>确认密码：</span>
+      <input id="rePwd" type="password" >
+    </li>
+  </ul>
+</script>
 
 <script>
 $(function(){ 
-    $('#tap2').click();
+    //$('#tap2').click();
+    util.client({
+        url: util.requestURL+'/web/v1/medic/getInformation',
+        success: function(data){
+            if(data.code == 1){
+              var data = data.data;
+              $("#account").val(data.loginName);
+              $("#email").val(data.bindEmail);
+              $("#realname").val(data.realName);
+              $("#mobile").val(data.bindMobileNo);
+              //$("#sex").val(data.medicInfo.sex);
+              //$("#province").val(data.medicInfo.province);
+              //$("#city").val(data.medicInfo.city);
+              $("#company").val(data.greeting);
+            }else{
+                layer.msg(data.msg);
+            }
+        }
+    });
+
+    $("#changePwd").on('click',function(e){
+      layer.open({
+        title: '修改密码',
+        content: $("#temp").html(),
+        btn:['确定'],
+        type: 1,
+        yes: function(index){
+            var oldPwd = $("#oldPwd").val();
+            var newPwd = $("#newPwd").val();
+            var rePwd = $("#rePwd").val();
+            if(newPwd != rePwd){
+              layer.msg('两次输入密码不一致，请重新输入！');
+            }else{
+              util.client({
+                url: util.requestURL+'/web/v1/medic/updateLoginPwd',
+                type: 'POST',
+                data: {
+                  oldPassword: oldPwd,
+                  newPassword: newPwd
+                },
+                success: function(resp){
+                  if(resp.code == 1){
+                    layer.msg('密码修改成功！');
+                    layer.close(index);
+                  }else{
+                    layer.msg(resp.msg);
+                  }
+                }
+              })
+            }
+         }
+
+      })
+    });
+
 });
 </script>
 
-</body>
-</html>
+

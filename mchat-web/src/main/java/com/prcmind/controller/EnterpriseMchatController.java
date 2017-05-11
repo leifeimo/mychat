@@ -51,7 +51,7 @@ public class EnterpriseMchatController {
 		}
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			
 			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
@@ -79,7 +79,7 @@ public class EnterpriseMchatController {
 		}
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			
 			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
@@ -108,8 +108,8 @@ public class EnterpriseMchatController {
 		}
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			// return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
+			
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		HashMap<String, String> map = null;
 		if (!StringUtils.isEmpty(req.getBirth())) {

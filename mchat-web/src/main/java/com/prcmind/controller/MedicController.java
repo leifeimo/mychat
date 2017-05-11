@@ -86,7 +86,7 @@ public class MedicController {
 	public CodeMsgBean<MedicInfo> getInformation(HttpServletRequest request) throws IOException {
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
-			medicNo = "937c2b21d3db406693c59a816614e26d";
+			
 			// return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
 		}
 		try {
@@ -118,8 +118,8 @@ public class MedicController {
 			throws IOException {
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
-			medicNo = "937c2b21d3db406693c59a816614e26d";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+			
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
 			long status = portalMedicFacade.updateLoginPwd(medicNo, oldPassword, newPassword);
@@ -178,9 +178,9 @@ public class MedicController {
 			enterpriseNo = info.getEnterpriseNo();
 			medicNo = info.getMedicNo();
 		} else {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			medicNo = "937c2b21d3db406693c59a816614e26d";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+			
+			
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
 			List<MedicScaleDosage> result = portalMedicFacade.listMedicScaleDosageByEnterpriseNoAndMedicNo(enterpriseNo,
@@ -218,9 +218,9 @@ public class MedicController {
 			enterpriseNo = info.getEnterpriseNo();
 			medicNo = info.getMedicNo();
 		} else {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			medicNo = "937c2b21d3db406693c59a816614e26d";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+			
+			
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
 			MedicScaleDosage medicScaleDosage = portalMedicFacade.getMedicScaleDosageByMedicNoAndScaleNo(enterpriseNo,
@@ -295,8 +295,8 @@ public class MedicController {
 	public CodeMsgBean<Object> listCertificateByMedicNo(HttpServletRequest request) throws IOException {
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
-			medicNo = "937c2b21d3db406693c59a816614e26d";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+			
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
 			List<Certificate> result = portalMedicFacade.listCertificateByMedicNo(medicNo);
