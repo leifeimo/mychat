@@ -1,5 +1,6 @@
 var util = {
-    requestURL: 'http://aliyun.mikoshu.me:8055',
+//    requestURL: 'http://aliyun.mikoshu.me:8055',
+		requestURL: 'http://localhost',
     getCurrentDateTime: function () { 
         var d = new Date(); 
         var year = d.getFullYear(); 
