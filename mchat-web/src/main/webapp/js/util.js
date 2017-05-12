@@ -1,5 +1,6 @@
 var util = {
-    requestURL: 'http://aliyun.mikoshu.me:8055/mchat-web',
+//    requestURL: 'http://aliyun.mikoshu.me:8055',
+		requestURL: 'http://localhost',
     getCurrentDateTime: function () { 
         var d = new Date(); 
         var year = d.getFullYear(); 
@@ -145,19 +146,84 @@ var util = {
     getUserInfo: function(){
         if(sessionStorage.token){
             var token = sessionStorage.token;
-            $.ajax({
+            this.client({
                 url: this.requestURL+'/web/v1/medic/getInformation',
                 success: function(data){
+                    if(data.code == 1){
+
+                    }else{
+                        layer.msg(data.msg);
+                    }
                     console.log(data);
-                },
-                xhrFields:{
-                    withCredentials: true
-                },
-                crossDomain: true
+                }
             })
         }else{
             layer.msg('请先登录！');
             window.location.href = "login.html";
         }
+    },
+    client: function(obj){
+        var index = layer.load(0, {shade: [0.8,'#000']});
+        var time = setTimeout(function(){
+            layer.close(index);
+            layer.msg('请求超时，请检查网络！')
+        },5000);
+        obj.xhrFields = {withCredentials: true};
+        if(!obj.data){
+            obj.data = {};
+        }
+        obj.crossDomain = true;
+        //obj.data.access_token = sessionStorage.token;
+        obj.complete = function(e){
+            if(e.responseJSON.code == '10002'){
+                layer.msg('登录超时，请重新登录！');
+                window.location.href = "../html/login.html";
+            }
+            clearTimeout(time);
+            layer.close(index);
+        }
+        obj.error = function(e){
+            layer.msg(e.status +" " +e.statusText);
+        }
+        $.ajax(obj);
+
+    },
+    pageClient: function(obj,page){
+        var index = layer.load(0, {shade: [0.8,'#000']});
+        var time = setTimeout(function(){
+            layer.close(index);
+            layer.msg('请求超时，请检查网络！')
+        },5000);
+        obj.xhrFields = {withCredentials: true};
+        if(!obj.data){
+            obj.data = {};
+        }
+        obj.crossDomain = true;
+        //obj.data.access_token = sessionStorage.token;
+        obj.data.pageNum =  page;
+        util.currentPage = page;
+        obj.complete = function(e){
+            if(e.responseJSON.code == '10002'){
+                layer.msg('登录超时，请重新登录！');
+                window.location.href = "../html/login.html";
+            }
+            clearTimeout(time);
+            layer.close(index);
+        }
+        obj.error = function(e){
+            layer.msg(e.status +" " +e.statusText);
+        }
+        $.ajax(obj);
+    },
+    currentPage: 1,
+    getDateStr: function(str){
+        if(str == ''){
+            return '';
+        }
+        var dateArr = str.split('-');
+        dateArr.map(function(val,i){
+            dateArr[i] = parseInt(val);
+        });
+        return dateArr.join('-');
     }
 }

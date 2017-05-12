@@ -296,7 +296,7 @@ $(function(){
             return false;
         }
         $.ajax({
-            url: util.requestURL+'/web/v1/medic/oauth-server/oauth/token',
+            url: util.requestURL+'/web/v1/enterprise/oauth-server/oauth/token',
             type: 'POST',
             data:{
                 // client_id:'enterprise-client',
@@ -311,7 +311,7 @@ $(function(){
                     layer.msg('登录成功');
                     sessionStorage.token = data.data.access_token;
                     setTimeout(function(){
-                        window.location.href = 'choose-system.html';
+                        window.location.href = 'admin/choose-system.html';
                     },1000)
                 }else{
                     layer.alert(data.msg);
