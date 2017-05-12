@@ -1,7 +1,6 @@
 package com.prcmind.filter;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -9,13 +8,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.prcmind.facade.user.entity.EnterpriseOperator;
-import com.prcmind.facade.user.entity.MedicOperator;
-import com.prcmind.utils.WebConstants;
 
 public class SessionFilter implements Filter {  
     
@@ -27,7 +19,7 @@ public class SessionFilter implements Filter {
     @Override  
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,  
             ServletException {  
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;  
+       /* HttpServletRequest httpServletRequest = (HttpServletRequest) request;  
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;  
         StringBuffer url=httpServletRequest.getRequestURL();
         String path =httpServletRequest.getRequestURI();
@@ -54,7 +46,7 @@ public class SessionFilter implements Filter {
         	   httpServletResponse.sendRedirect("/html/login.html");
                return;  
            }
-       }
+       }*/
         chain.doFilter(request, response);  
     }  
   
