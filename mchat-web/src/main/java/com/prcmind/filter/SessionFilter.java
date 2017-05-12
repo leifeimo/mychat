@@ -8,12 +8,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.prcmind.utils.WebConstants;
-import com.prcmind.view.BaseUserView;
 
 public class SessionFilter implements Filter {  
     
@@ -25,7 +19,7 @@ public class SessionFilter implements Filter {
     @Override  
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,  
             ServletException {  
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;  
+     /*   HttpServletRequest httpServletRequest = (HttpServletRequest) request;  
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;  
         StringBuffer url=httpServletRequest.getRequestURL();
         String path = httpServletRequest.getRequestURI();
@@ -51,7 +45,7 @@ public class SessionFilter implements Filter {
                }
         	  
            }
-       }
+       }*/
         chain.doFilter(request, response);  
     }  
   
