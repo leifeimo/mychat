@@ -3,6 +3,8 @@ package com.prcmind.controller;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -99,9 +101,9 @@ public class MchatMedicController {
 			medicNo = "937c2b21d3db406693c59a816614e26d";
 			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
-		HashMap<String, String> map = null;
+		Map<String, Integer> map = null;
 		if (!StringUtils.isEmpty(req.getBirth())) {
-			map = initBirthMap(req.getBirth());
+			map= initBirthMap(req.getBirth(),"birthYear","birthMonth","birthToday");
 			if (map != null && map.size() != 3) {
 				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
 			}
@@ -154,9 +156,9 @@ public class MchatMedicController {
 			medicNo = "937c2b21d3db406693c59a816614e26d";
 			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
-		HashMap<String, String> map = null;
+		Map<String, Integer> map = null;
 		if (!StringUtils.isEmpty(req.getBirth())) {
-			map = initBirthMap(req.getBirth());
+			map= initBirthMap(req.getBirth(),"birthYear","birthMonth","birthToday");
 			if (map != null && map.size() != 3) {
 				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
 			}
@@ -301,9 +303,9 @@ public class MchatMedicController {
 	 */
 	@RequestMapping(value = "/web/v1/medicMchat/verifyBasicInformation", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> verifyBasicInformation(MchatScore mchatScore, HttpServletRequest request)
+	public CodeMsgBean<Object> verifyBasicInformation(MchatScore mchatScore,String birthDay,String testDay, HttpServletRequest request)
 			throws IOException {
-		if (mchatScore == null) {
+		if (mchatScore == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
 		HttpSession session = request.getSession();
@@ -318,14 +320,28 @@ public class MchatMedicController {
 			medicNo = "937c2b21d3db406693c59a816614e26d";
 			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
-		mchatScore.setEnterpriseNo(enterpriseNo);
-		mchatScore.setMedicNo(medicNo);
+		mchatScore = initMchatScore(mchatScore,enterpriseNo,medicNo,birthDay,testDay);
+		
 		try {
 			boolean bl = portalMchatMedicFacade.verifyBasicInformation(mchatScore);
 			return new CodeMsgBean<Object>(1, "操作成功", bl);
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
+	}
+
+	private MchatScore initMchatScore(MchatScore mchatScore, String enterpriseNo, String medicNo,String birthDay,String testDay ) {
+		mchatScore.setEnterpriseNo(enterpriseNo);
+		mchatScore.setMedicNo(medicNo);
+		Map<String,Integer> mapBirthDate= initBirthMap(birthDay,"birthYear","birthMonth","birthToday");
+		Map<String,Integer> mapTestDate= initBirthMap(testDay,"testYear","testMonth","testToday");
+		mchatScore.setBirthMonth(mapBirthDate.get("birthMonth"));
+		mchatScore.setBirthToday(mapBirthDate.get("birthToday"));
+		mchatScore.setBirthYear(mapBirthDate.get("birthYear"));
+		mchatScore.setTestYear(mapTestDate.get("testYear"));
+		mchatScore.setTestMonth(mapTestDate.get("testMonth"));
+		mchatScore.setTestToday(mapTestDate.get("testToday"));
+		return mchatScore;
 	}
 
 	/**
@@ -398,9 +414,9 @@ public class MchatMedicController {
 	 */
 	@RequestMapping(value = "/web/v1/medicMchat/createMchatReport", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> createMchatReport(MchatScore mchatScore,
+	public CodeMsgBean<Object> createMchatReport(MchatScore mchatScore,String testDay,String birthDay,
 			MchatQuestionnaireResponse mchatQuestionnaireResponse, HttpServletRequest request) throws IOException {
-		if (mchatScore == null) {
+		if (mchatScore == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
 		HttpSession session = request.getSession();
@@ -415,8 +431,7 @@ public class MchatMedicController {
 			medicNo = "937c2b21d3db406693c59a816614e26d";
 			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
-		mchatScore.setEnterpriseNo(enterpriseNo);
-		mchatScore.setMedicNo(medicNo);
+		mchatScore = initMchatScore(mchatScore,enterpriseNo,medicNo,birthDay,testDay);
 		try {
 			Map<String, String> result = portalMchatMedicFacade.createMchatScore(mchatScore,
 					mchatQuestionnaireResponse);
@@ -572,16 +587,31 @@ public class MchatMedicController {
 	 * @param birth
 	 * @return
 	 */
-	private HashMap<String, String> initBirthMap(String birth) {
-		HashMap<String, String> birthMap = new HashMap<String, String>();
+	private static Map<String, Integer> initBirthMap(String birth,String year,String month,String day) {
+		Map<String, Integer> birthMap = new HashMap<String, Integer>();
 		String[] array = birth.split("-");
 		if (array.length == 3) {
-			birthMap.put("birthYear", array[0]);
-			birthMap.put("birthMonth", array[1]);
-			birthMap.put("birthToday", array[2]);
+			birthMap.put(year, isNumeric(array[0]) ==true ? Integer.valueOf(array[0]) : 0);
+			birthMap.put(month, isNumeric(array[1]) ==true ? Integer.valueOf(array[1]) : 0);
+			birthMap.put(day, isNumeric(array[2]) ==true ? Integer.valueOf(array[2]) : 0);
 		}
 		return birthMap;
 	}
+	
+	/**
+	 * 校验是否为数字
+	 * @param str
+	 * @return
+	 */
+	public static boolean isNumeric(String str){ 
+		   Pattern pattern = Pattern.compile("[0-9]*"); 
+		   Matcher isNum = pattern.matcher(str);
+		   if( !isNum.matches() ){
+		       return false; 
+		   } 
+		   return true; 
+		}
+	
 	private String getIp(HttpServletRequest request) {
 		String ip = request.getHeader("X-Real-IP");  
 	    if (!StringUtils.isEmpty(ip) && !"unknown".equalsIgnoreCase(ip))  
@@ -606,5 +636,8 @@ public class MchatMedicController {
 	    {  
 	        return request.getRemoteAddr();  
 	    }  
+	}
+	public static void main(String[] args) {
+		System.out.println(initBirthMap("2015-11-11","year","moth","day").toString());
 	}
 }
