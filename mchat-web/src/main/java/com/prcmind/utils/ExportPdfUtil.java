@@ -13,6 +13,7 @@ import java.util.Map;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 
@@ -33,8 +34,8 @@ import com.itextpdf.text.pdf.PdfStamper;
  */
 public class ExportPdfUtil {
 
-	public static String exportpdf(String outpath, String templateName, Map<String, String> content) {
-
+	public static String exportpdf(String outpath, String templateName, Map<String, String> content) throws IOException {
+	
 		// 得到当前时间
 		Date now = new Date();
 		SimpleDateFormat dataformat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
@@ -53,14 +54,18 @@ public class ExportPdfUtil {
 			// 创建字体
 //			BaseFont chineseSong = BaseFont.createFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 			// 读取pdf
+//			String path=System.getProperty("user.dir")+"\\src\\main\\resources\\template\\GB.pdf";
+//			System.out.println(path);
+//			reader = new PdfReader(path	);
 			reader = new PdfReader(templateName);
 			bos = new ByteArrayOutputStream();
 			ps = new PdfStamper(reader, bos);
 			AcroFields s = ps.getAcroFields();
 			// 添加所创建的字体
 //			s.addSubstitutionFont(chineseSong);
-
 			// 找到pdf中输入域并替换为内容
+			BaseFont bf =BaseFont.createFont("STSong-Light",BaseFont.IDENTITY_H,BaseFont.NOT_EMBEDDED);   
+			s.addSubstitutionFont(bf);
 			Iterator<String> it = s.getFields().keySet().iterator();
 			while (it.hasNext()) {
 				String name = (String) it.next();
@@ -109,9 +114,17 @@ public class ExportPdfUtil {
 		return filename;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		Map<String,String> content=new HashMap<String,String>();
 		  content.put("name", "你好");//根据模板定义的输入域的名字（如：name），填充值
-		 ExportPdfUtil.exportpdf("D:\\test", "D:\\test\\A.pdf",  content);
+		  content.put("sex", "男");
+		  content.put("birthDate", "2016-05-12");
+		  content.put("createTime", "2017-05-12");
+		  content.put("score", "98");
+		  content.put("enterpriseName", "测试机构");
+		  content.put("medicName", "鲍赣修");
+		  content.put("gestationalWeeks", "40周1天");
+		  
+		 ExportPdfUtil.exportpdf("H:\\test", "H:\\test\\B.pdf",  content);
 	}
 }

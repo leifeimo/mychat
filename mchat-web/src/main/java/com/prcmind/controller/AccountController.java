@@ -1,5 +1,8 @@
 package com.prcmind.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -53,4 +56,15 @@ public class AccountController {
         return "ok";
     }
 
+    
+    
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    @ResponseBody
+    public String export(HttpServletRequest request, HttpServletResponse response) {
+    	Map<String,String> content=new HashMap<String,String>();
+		  content.put("name", "你好");//根据模板定义的输入域的名字（如：name），填充值
+		  response.setContentType("application/pdf");
+//		  response.setHeader("Content-disposition", "attachment; filename=abc.pdf");
+        return null;
+    }
 }
