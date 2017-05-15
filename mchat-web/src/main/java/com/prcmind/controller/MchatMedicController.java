@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -275,7 +276,7 @@ public class MchatMedicController {
 	 */
 	@RequestMapping(value = "/web/v1/medicMchat/downloadReport", method = RequestMethod.GET)
 	@ResponseBody
-	public CodeMsgBean<Object> downloadReport(String scoreNo, HttpServletRequest request) throws IOException {
+	public CodeMsgBean<Object> downloadReport(String scoreNo, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		if (StringUtils.isEmpty(scoreNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -286,10 +287,33 @@ public class MchatMedicController {
 		}
 		try {
 			MchatScore result = portalMchatMedicFacade.downloadReport(scoreNo, medicNo);
+			if(result!=null){
+				Map<String,String> content=initMap(result);
+			}
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
+	}
+
+	private Map<String, String> initMap(MchatScore result) {
+		Map<String,String> content=new HashMap<String,String>();
+		 content.put("name", result.getTesteeName());//根据模板定义的输入域的名字（如：name），填充值
+		  content.put("sex",result.getSex()==0?"男":"女" );
+		  String birthDate=result.getBirthYear()+"-"+result.getBirthMonth()+"-"+result.getBirthToday();
+		  content.put("birthDate", birthDate);
+		 //缺少日期格式化类
+		  content.put("createTime", "2017-05-12");
+//		  content.put("score", "98");
+		  content.put("r_score", "98");
+		  content.put("r_f_score", "98");
+		  content.put("enterpriseName", result.getEnterpriseName());
+		  content.put("medicName", result.getMedicName());
+		  String gestationalWeeks=result.getGestationalWeeks()+"周"+(result.getGestationalDays() ==0 ? "":result.getGestationalDays())+"天";
+		  content.put("gestationalWeeks", gestationalWeeks);
+		  content.put("age", "1周岁");
+		  content.put("births", "足月；剖腹产；双胞胎");
+		return content;
 	}
 
 	/**

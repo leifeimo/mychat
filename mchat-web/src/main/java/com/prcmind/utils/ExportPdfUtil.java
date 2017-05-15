@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.BaseFont;
@@ -34,7 +36,7 @@ import com.itextpdf.text.pdf.PdfStamper;
  */
 public class ExportPdfUtil {
 
-	public static String exportpdf(String outpath, String templateName, Map<String, String> content) throws IOException {
+	public static String exportpdf(String outpath, String templateName, Map<String, String> content,HttpServletResponse response) throws IOException {
 	
 		// 得到当前时间
 		Date now = new Date();
@@ -120,11 +122,14 @@ public class ExportPdfUtil {
 		  content.put("sex", "男");
 		  content.put("birthDate", "2016-05-12");
 		  content.put("createTime", "2017-05-12");
-		  content.put("score", "98");
+//		  content.put("score", "98");
+		  content.put("r_score", "98");
+		  content.put("r_f_score", "98");
 		  content.put("enterpriseName", "测试机构");
 		  content.put("medicName", "鲍赣修");
 		  content.put("gestationalWeeks", "40周1天");
-		  
-		 ExportPdfUtil.exportpdf("H:\\test", "H:\\test\\B.pdf",  content);
+		  content.put("age", "1周岁");
+		  content.put("births", "足月；剖腹产；双胞胎");
+		 ExportPdfUtil.exportpdf("D:\\test", "D:\\test\\B.pdf",  content,null);
 	}
 }
