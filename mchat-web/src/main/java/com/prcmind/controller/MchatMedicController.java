@@ -423,6 +423,7 @@ public class MchatMedicController {
 		MedicInfo info = (MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
 		String enterpriseNo = null;
 		String medicNo = null;
+		String ip = getIp(request);
 		if (info != null) {
 			enterpriseNo = info.getEnterpriseNo();
 			medicNo = info.getMedicNo();
@@ -432,6 +433,7 @@ public class MchatMedicController {
 			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		mchatScore = initMchatScore(mchatScore,enterpriseNo,medicNo,birthDay,testDay);
+		mchatScore.setIp(ip);
 		try {
 			Map<String, String> result = portalMchatMedicFacade.createMchatScore(mchatScore,
 					mchatQuestionnaireResponse);
