@@ -308,7 +308,7 @@ public class MchatMedicController {
 				  response.setHeader("Content-disposition", "attachment; filename=test.pdf");
 				  String path="";
 				  if(result.getLevel() ==1){
-					  if(result.getScore()<=2){
+					  if(result.getScore()==null || result.getScore()<=2){
 						  path= request.getRealPath("/")+"template\\A.pdf";
 					  }else if (result.getScore()>=3 &&result.getScore()<=7){
 						  path= request.getRealPath("/")+"template\\B.pdf";
@@ -462,6 +462,7 @@ public class MchatMedicController {
 	 * @return
 	 * @throws IOException
 	 */
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/web/v1/medicMchat/downloadRevisedFollowReport", method = RequestMethod.GET)
 	@ResponseBody
 	public CodeMsgBean<Object> downloadRevisedFollowReport(String scoreNo, HttpServletRequest request,HttpServletResponse response)
@@ -474,15 +475,25 @@ public class MchatMedicController {
 			medicNo = "937c2b21d3db406693c59a816614e26d";
 			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
-		try {
+		try { 
 			MchatScoreRevisedFollow result = portalMchatMedicFacade.downloadRevisedFollowReport(scoreNo, medicNo);
 			MchatScore mchatScore = portalMchatMedicFacade.downloadReport(result.getParentNo(), medicNo);
 			if (result != null) {
 				Map<String, String> content = initMap(result,mchatScore);
 				  response.setContentType("application/pdf");
 				  response.setHeader("Content-disposition", "attachment; filename=test.pdf");
-				  String path=request.getRealPath("/")+"template\\A.pdf";
-				ExportPdfUtil.exportpdf(OUT_PATH, path, content,response);
+				  String path="";
+				  if(result.getLevel() !=null && result.getLevel()==2){
+						  if(result.getScore()==null || result.getScore()<2){
+							  path= request.getRealPath("/")+"template\\D.pdf";
+						  }else if (result.getScore()>=2 ){
+							  path= request.getRealPath("/")+"template\\E.pdf";
+						  }
+				  }else{
+					  path =request.getRealPath("/")+"template\\D.pdf";
+				  }
+				  ExportPdfUtil.exportpdf(OUT_PATH, path, content,response);
+				
 			}
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
