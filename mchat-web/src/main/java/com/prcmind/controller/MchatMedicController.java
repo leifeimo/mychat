@@ -33,6 +33,7 @@ import com.prcmind.facade.user.entity.MedicOperator;
 import com.prcmind.utils.CodeMsgBean;
 import com.prcmind.utils.DateUtil;
 import com.prcmind.utils.ExportPdfUtil;
+import com.prcmind.utils.RunnerUtils;
 import com.prcmind.utils.WebConstants;
 import com.prcmind.view.req.FollowReq;
 import com.prcmind.view.req.RecordReq;
@@ -213,9 +214,15 @@ public class MchatMedicController {
 			medicNo = "937c2b21d3db406693c59a816614e26d";
 			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
+		final String medic_no=medicNo;
+		final String score_no=scoreNo;
 		try {
-			long status = portalMchatMedicFacade.deleteReportByMedicNoAndScoreNo(medicNo, scoreNo);
-			return new CodeMsgBean<Object>(1, "操作成功", status);
+			RunnerUtils.submit(new Runnable() {
+				@Override
+				public void run() {
+					 portalMchatMedicFacade.deleteReportByMedicNoAndScoreNo(medic_no, score_no);
+				}});
+			return new CodeMsgBean<Object>(1, "操作成功");
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
@@ -498,7 +505,7 @@ public class MchatMedicController {
 	@RequestMapping(value = "/web/v1/medicMchat/createMchatReport", method = RequestMethod.POST)
 	@ResponseBody
 	public CodeMsgBean<Object> createMchatReport(MchatScore mchatScore, String testDay, String birthDay,
-			MchatQuestionnaireResponse mchatQuestionnaireResponse, HttpServletRequest request) throws IOException {
+			final MchatQuestionnaireResponse mchatQuestionnaireResponse, HttpServletRequest request) throws IOException {
 		if (mchatScore == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -516,14 +523,19 @@ public class MchatMedicController {
 			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		mchatScore = initMchatScore(mchatScore, enterpriseNo, medicNo, birthDay, testDay);
+		final MchatScore mchat_score=mchatScore;
 		mchatScore.setIp(ip);
 		try {
-			Map<String, String> result = portalMchatMedicFacade.createMchatScore(mchatScore,
-					mchatQuestionnaireResponse);
-			return new CodeMsgBean<Object>(1, "操作成功", result);
+			RunnerUtils.submit(new Runnable() {
+				@Override
+				public void run() {
+					Map<String, String> result = portalMchatMedicFacade.createMchatScore(mchat_score,
+							mchatQuestionnaireResponse);
+				}});
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
+		return new CodeMsgBean<Object>(1, "操作成功");
 	}
 
 	/**
