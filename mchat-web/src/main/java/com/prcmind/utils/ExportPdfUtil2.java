@@ -11,9 +11,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.BaseFont;
@@ -35,9 +32,9 @@ import com.itextpdf.text.pdf.PdfStamper;
  *            需要填充内容
  * @return
  */
-public class ExportPdfUtil {
+public class ExportPdfUtil2 {
 
-	public static String exportpdf(String outpath, String templateName, Map<String, String> content,HttpServletResponse response) throws IOException {
+	public static String exportpdf(String outpath, String templateName, Map<String, String> content) throws IOException {
 	
 		// 得到当前时间
 		Date now = new Date();
@@ -79,10 +76,6 @@ public class ExportPdfUtil {
 			// 输出pdf
 			fos = new FileOutputStream(savepath);
 			fos.write(bos.toByteArray());
-			ServletOutputStream out = response.getOutputStream(); 
-			bos.writeTo(out);
-			out.flush(); 
-			out.close(); 
 			
 		} catch (FileNotFoundException e) {
 			System.out.println("FileNotFoundException");
@@ -135,6 +128,6 @@ public class ExportPdfUtil {
 		  content.put("gestationalWeeks", "40周1天");
 		  content.put("age", "1周岁");
 		  content.put("births", "足月；剖腹产；双胞胎");
-		 ExportPdfUtil.exportpdf("D:\\test", "D:\\test\\B.pdf",  content,null);
+		 ExportPdfUtil2.exportpdf("F:\\test", "F:\\test\\A.pdf",  content);
 	}
 }

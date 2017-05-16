@@ -80,13 +80,18 @@ public class PdfTool {
 	}
 	
 	public static void main(String[] args) {
-		String filename="d:\\aa.pdf";
-		try {
-			PdfTool.addNewPage(filename);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (DocumentException e) {
-			e.printStackTrace();
+		String a =",1,2,3,4,";
+		if(a.startsWith(",")){
+			a=a.substring(1, a.length());
+			System.out.println(a);
+		}
+		if(a.endsWith(",")){
+			a=a.substring(0, a.length()-1);
+			System.out.println(a);
+		}
+		String[] arr = a.split(",");
+		for (int i = 0; i < arr.length; i++) {
+			System.out.println("-------------------arr[i]="+arr[i]+"---------------------");
 		}
 	}
 }
