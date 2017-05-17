@@ -17,6 +17,10 @@
 	<mvc:resources mapping="/images/**" location="/images/" />
 	<mvc:resources mapping="/js/**" location="/js/" />
 	<mvc:resources mapping="/html/**" location="/html/" />
+	<mvc:resources mapping="/mobile/css/**" location="/mobile/css/" />
+	<mvc:resources mapping="/mobile/images/**" location="/mobile/images/" />
+	<mvc:resources mapping="/mobile/js/**" location="/mobile/js/" />
+	<mvc:resources mapping="/mobile/html/**" location="/mobile/html/" />
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/views/" />

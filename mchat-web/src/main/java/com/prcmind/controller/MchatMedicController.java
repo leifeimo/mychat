@@ -2,7 +2,6 @@ package com.prcmind.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -49,7 +48,8 @@ public class MchatMedicController {
 	@Autowired
 	PortalMchatMedicFacade portalMchatMedicFacade;
 	private static ResourceBundle resource = ResourceBundle.getBundle("mchat-config");
-	private static String OUT_PATH = resource.getString("out_path");  
+	private static String OUT_PATH = resource.getString("out_path");
+
 	/**
 	 * 施测者-全国查询
 	 * 
@@ -75,8 +75,6 @@ public class MchatMedicController {
 			paramMap.put("testeeName", testeeName);
 			paramMap.put("cardNo", cardNo);
 			PageBean PageBean = portalMchatMedicFacade.listNationwideSearch(pageParam, paramMap);
-			List<Object> recordList =PageBean.getRecordList();
-			
 			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
 		} catch (BizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
@@ -214,14 +212,15 @@ public class MchatMedicController {
 			medicNo = "937c2b21d3db406693c59a816614e26d";
 			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
-		final String medic_no=medicNo;
-		final String score_no=scoreNo;
+		final String medic_no = medicNo;
+		final String score_no = scoreNo;
 		try {
 			RunnerUtils.submit(new Runnable() {
 				@Override
 				public void run() {
-					 portalMchatMedicFacade.deleteReportByMedicNoAndScoreNo(medic_no, score_no);
-				}});
+					portalMchatMedicFacade.deleteReportByMedicNoAndScoreNo(medic_no, score_no);
+				}
+			});
 			return new CodeMsgBean<Object>(1, "操作成功");
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
@@ -302,26 +301,26 @@ public class MchatMedicController {
 		}
 		try {
 			MchatScore result = portalMchatMedicFacade.downloadReport(scoreNo, medicNo);
-			if (result != null) {
-				Map<String, String> content = initMap(null,result);
-				  response.setContentType("application/pdf");
-				  response.setHeader("Content-disposition", "attachment; filename=test.pdf");
-				  String path="";
-				  if(result.getLevel() ==1){
-					  if(result.getScore()==null || result.getScore()<=2){
-						  path= request.getRealPath("/")+"template\\A.pdf";
-					  }else if (result.getScore()>=3 &&result.getScore()<=7){
-						  path= request.getRealPath("/")+"template\\B.pdf";
-					  }else if (result.getScore()>=8 &&result.getScore()<=20){
-						  path= request.getRealPath("/")+"template\\C.pdf";
-					  }
-				  }
-				ExportPdfUtil.exportpdf(OUT_PATH, path, content,response);
-			}
-			return new CodeMsgBean<Object>(1, "操作成功", result);
+//			if (result != null) {
+//				Map<String, String> content = initMap(null, result);
+//				response.setContentType("application/pdf");
+//				response.setHeader("Content-disposition", "attachment; filename=test.pdf");
+//				String path = "";
+//				if(result.getScore() != null){
+//					if (result.getScore() <= 2) {
+//						path = request.getSession().getServletContext().getRealPath("template\\A.pdf") ;
+//					} else if (result.getScore() >= 3 && result.getScore() <= 7) {
+//						path = request.getSession().getServletContext().getRealPath("template\\B.pdf") ;
+//					} else if (result.getScore() >= 8 && result.getScore() <= 20) {
+//						path = request.getSession().getServletContext().getRealPath("template\\C.pdf") ;
+//					}
+//				}
+//				ExportPdfUtil.exportpdf(OUT_PATH, path, content, response);
+//			}
+			return new CodeMsgBean<Object>(1, "操作成功",result);
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return new CodeMsgBean<Object>(10005, "操作失败");
 		}
@@ -334,36 +333,36 @@ public class MchatMedicController {
 		String birthDate = result.getBirthYear() + "-" + result.getBirthMonth() + "-" + result.getBirthToday();
 		content.put("birthDate", birthDate);
 		// 缺少日期格式化类
-		if(mchatScoreRevisedFollow == null){
+		if (mchatScoreRevisedFollow == null) {
 			String createTime = DateUtil.DateToStr(result.getCreateTime(), "yyyy-MM-dd");
 			content.put("createTime", createTime);
-		}else{
+		} else {
 			String createTime = DateUtil.DateToStr(mchatScoreRevisedFollow.getCreateTime(), "yyyy-MM-dd");
 			content.put("createTime", createTime);
-			content.put("r_score", result.getScore()+"");
-			content.put("r_f_score", mchatScoreRevisedFollow.getScore()+"");
+			content.put("r_score", result.getScore() + "");
+			content.put("r_f_score", mchatScoreRevisedFollow.getScore() + "");
 		}
 		content.put("enterpriseName", result.getEnterpriseName());
 		content.put("medicName", result.getMedicName());
 		String gestationalWeeks = result.getGestationalWeeks() + "周"
-				+ (result.getGestationalDays() == 0 ? "" : result.getGestationalDays()+ "天") ;
+				+ (result.getGestationalDays() == 0 ? "" : result.getGestationalDays() + "天");
 		content.put("gestationalWeeks", gestationalWeeks);
 		content.put("age", "1周岁");
-		
+
 		if (!StringUtils.isEmpty(result.getBirths())) {
 			String births = result.getBirths();
-			if (births.startsWith(",")||births.startsWith(";")) {
+			if (births.startsWith(",") || births.startsWith(";")) {
 				births = births.substring(1, births.length());
 			}
-			if (births.endsWith(",")||births.endsWith(";")) {
+			if (births.endsWith(",") || births.endsWith(";")) {
 				births = births.substring(0, births.length() - 1);
 			}
-			String[] arr = births.split(",");
-			String birthsResult= "";
+			String[] arr = births.split(";");
+			String birthsResult = "";
 			for (int i = 0; i < arr.length; i++) {
-				birthsResult+=birthConvert(Integer.valueOf(arr[i]))+";";
+				birthsResult += birthConvert(Integer.valueOf(arr[i])) + ";";
 			}
-			birthsResult=birthsResult.substring(0, birthsResult.length() - 1);
+			birthsResult = birthsResult.substring(0, birthsResult.length() - 1);
 			content.put("births", birthsResult);
 		}
 
@@ -462,11 +461,10 @@ public class MchatMedicController {
 	 * @return
 	 * @throws IOException
 	 */
-	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/web/v1/medicMchat/downloadRevisedFollowReport", method = RequestMethod.GET)
 	@ResponseBody
-	public CodeMsgBean<Object> downloadRevisedFollowReport(String scoreNo, HttpServletRequest request,HttpServletResponse response)
-			throws IOException {
+	public CodeMsgBean<Object> downloadRevisedFollowReport(String scoreNo, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
 		if (StringUtils.isEmpty(scoreNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -475,30 +473,28 @@ public class MchatMedicController {
 			medicNo = "937c2b21d3db406693c59a816614e26d";
 			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
-		try { 
+		try {
 			MchatScoreRevisedFollow result = portalMchatMedicFacade.downloadRevisedFollowReport(scoreNo, medicNo);
 			MchatScore mchatScore = portalMchatMedicFacade.downloadReport(result.getParentNo(), medicNo);
 			if (result != null) {
-				Map<String, String> content = initMap(result,mchatScore);
-				  response.setContentType("application/pdf");
-				  response.setHeader("Content-disposition", "attachment; filename=test.pdf");
-				  String path="";
-				  if(result.getLevel() !=null && result.getLevel()==2){
-						  if(result.getScore()==null || result.getScore()<2){
-							  path= request.getRealPath("/")+"template\\D.pdf";
-						  }else if (result.getScore()>=2 ){
-							  path= request.getRealPath("/")+"template\\E.pdf";
-						  }
-				  }else{
-					  path =request.getRealPath("/")+"template\\D.pdf";
-				  }
-				  ExportPdfUtil.exportpdf(OUT_PATH, path, content,response);
-				
+				Map<String, String> content = initMap(result, mchatScore);
+				response.setContentType("application/pdf");
+				response.setHeader("Content-disposition", "attachment; filename=test.pdf");
+				String path = "";
+				if(result.getScore() !=null){
+					if (result.getScore() < 2) {
+						path = request.getSession().getServletContext().getRealPath("template\\D.pdf") ;
+					} else if (result.getScore() >= 2) {
+						path = request.getSession().getServletContext().getRealPath("template\\E.pdf") ;
+					}
+				}
+				ExportPdfUtil.exportpdf(OUT_PATH, path, content, response);
+
 			}
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return new CodeMsgBean<Object>(10005, "操作失败");
 		}
@@ -516,7 +512,8 @@ public class MchatMedicController {
 	@RequestMapping(value = "/web/v1/medicMchat/createMchatReport", method = RequestMethod.POST)
 	@ResponseBody
 	public CodeMsgBean<Object> createMchatReport(MchatScore mchatScore, String testDay, String birthDay,
-			final MchatQuestionnaireResponse mchatQuestionnaireResponse, HttpServletRequest request) throws IOException {
+			final MchatQuestionnaireResponse mchatQuestionnaireResponse, HttpServletRequest request)
+			throws IOException {
 		if (mchatScore == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -534,19 +531,16 @@ public class MchatMedicController {
 			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		mchatScore = initMchatScore(mchatScore, enterpriseNo, medicNo, birthDay, testDay);
-		final MchatScore mchat_score=mchatScore;
+		final MchatScore mchat_score = mchatScore;
 		mchatScore.setIp(ip);
 		try {
-			RunnerUtils.submit(new Runnable() {
-				@Override
-				public void run() {
-					Map<String, String> result = portalMchatMedicFacade.createMchatScore(mchat_score,
-							mchatQuestionnaireResponse);
-				}});
+			Map<String, String> result = portalMchatMedicFacade.createMchatScore(mchat_score,
+					mchatQuestionnaireResponse);
+			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
-		return new CodeMsgBean<Object>(1, "操作成功");
+
 	}
 
 	/**
@@ -636,13 +630,10 @@ public class MchatMedicController {
 		}
 		HttpSession session = request.getSession();
 		MedicInfo info = (MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
-		String enterpriseNo = null;
 		String medicNo = null;
 		if (info != null) {
-			enterpriseNo = info.getEnterpriseNo();
 			medicNo = info.getMedicNo();
 		} else {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
 			medicNo = "937c2b21d3db406693c59a816614e26d";
 			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
@@ -678,6 +669,67 @@ public class MchatMedicController {
 		}
 	}
 
+	/**
+	 * 施测者-查询所有R/F报告列表
+	 * 
+	 * @author leichang
+	 * @param req
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/medicMchat/listMchatScoreAndMchatScoreRevisedFollowListPage", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> listMchatScoreAndMchatScoreRevisedFollowListPage(RecordReq req,
+			HttpServletRequest request) throws IOException {
+		if (req.getPageNum() == 0 || req.getNumPerPage() == 0) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		HttpSession session = request.getSession();
+		MedicInfo info = (MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
+		String enterpriseNo = null;
+		String medicNo = null;
+		if (info != null) {
+			enterpriseNo = info.getEnterpriseNo();
+			medicNo = info.getMedicNo();
+		} else {
+			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			medicNo = "937c2b21d3db406693c59a816614e26d";
+			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		Map<String, Integer> map = null;
+		if (!StringUtils.isEmpty(req.getBirth())) {
+			map = initBirthMap(req.getBirth(), "birthYear", "birthMonth", "birthToday");
+			if (map != null && map.size() != 3) {
+				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
+			}
+		}
+		PageParam pageParam = new PageParam(req.getPageNum(), req.getNumPerPage());
+		try {
+
+			HashMap<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("pageNum", req.getPageNum() + "");
+			paramMap.put("numPerPage", req.getNumPerPage() + "");
+			paramMap.put("testeeName", req.getTesteeName());
+			paramMap.put("reportNo", req.getReportNo());
+			paramMap.put("cardNo", req.getCardNo());
+			paramMap.put("enterpriseNo", enterpriseNo);
+			paramMap.put("medicNo", medicNo);
+			paramMap.put("birthYear", map != null ? map.get("birthYear") : "");
+			paramMap.put("birthMonth", map != null ? map.get("birthMonth") : "");
+			paramMap.put("birthToday", map != null ? map.get("birthToday") : "");
+			paramMap.put("deleted", req.getDeleted());
+			paramMap.put("parentNo", req.getParentNo());
+			PageBean PageBean = portalMchatMedicFacade.listMchatScoreAndMchatScoreRevisedFollowListPage(pageParam,
+					paramMap);
+			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+
+	}
+
+	
 	/**
 	 * 获取用户编号
 	 * 

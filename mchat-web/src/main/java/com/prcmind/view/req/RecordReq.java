@@ -12,6 +12,14 @@ public class RecordReq {
 	int birthToday;
 	int deleted;
 	String birth;
+	String parentNo;
+	
+	public String getParentNo() {
+		return parentNo;
+	}
+	public void setParentNo(String parentNo) {
+		this.parentNo = parentNo;
+	}
 	public int getDeleted() {
 		return deleted;
 	}
