@@ -301,22 +301,22 @@ public class MchatMedicController {
 		}
 		try {
 			MchatScore result = portalMchatMedicFacade.downloadReport(scoreNo, medicNo);
-//			if (result != null) {
-//				Map<String, String> content = initMap(null, result);
-//				response.setContentType("application/pdf");
-//				response.setHeader("Content-disposition", "attachment; filename=test.pdf");
-//				String path = "";
-//				if(result.getScore() != null){
-//					if (result.getScore() <= 2) {
-//						path = request.getSession().getServletContext().getRealPath("template\\A.pdf") ;
-//					} else if (result.getScore() >= 3 && result.getScore() <= 7) {
-//						path = request.getSession().getServletContext().getRealPath("template\\B.pdf") ;
-//					} else if (result.getScore() >= 8 && result.getScore() <= 20) {
-//						path = request.getSession().getServletContext().getRealPath("template\\C.pdf") ;
-//					}
-//				}
-//				ExportPdfUtil.exportpdf(OUT_PATH, path, content, response);
-//			}
+			if (result != null) {
+				Map<String, String> content = initMap(null, result);
+				response.setContentType("application/pdf");
+				response.setHeader("Content-disposition", "attachment; filename=test.pdf");
+				String path = "";
+				if(result.getScore() != null){
+					if (result.getScore() <= 2) {
+						path = request.getSession().getServletContext().getRealPath("template\\A.pdf") ;
+					} else if (result.getScore() >= 3 && result.getScore() <= 7) {
+						path = request.getSession().getServletContext().getRealPath("template\\B.pdf") ;
+					} else if (result.getScore() >= 8 && result.getScore() <= 20) {
+						path = request.getSession().getServletContext().getRealPath("template\\C.pdf") ;
+					}
+				}
+				ExportPdfUtil.exportpdf(OUT_PATH, path, content, response);
+			}
 			return new CodeMsgBean<Object>(1, "操作成功",result);
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
