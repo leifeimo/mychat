@@ -107,30 +107,38 @@ $(function(){
     </script>
 
 <script id="ggList" type="text/html">
+{{if recordList && recordList.length}}
   {{each recordList}}
     <p><a class="ac-gg" data-id="{{$value.id}}" href="javascript:;">{{$index+1+'、'+$value.title}}</a></p>
   {{/each}}
+{{else}}
+  <p>暂无公告信息！</p>
+{{/if}}
 </script>
 
 <script id="table" type="text/html" >
+{{if recordList && recordList.length}}
   {{each recordList}}
   <li>
      <span>{{$value.reportNo}}</span>
      <span>{{$value.testeeName}}</span>
      <span>{{$value.birthYear+'-'+$value.birthMonth+'-'+$value.birthToday}}</span>
-     <span>{{$value.createTime}}</span>
+     <span>{{$imports.getTimeFromNum($value.createTime)}}</span>
      <span>{{['男','女'][$value.sex]}}</span>
      <span>--</span>
      <span>{{$value.cardType}}</span>
      <span><a href="{{url+'/web/v1/medicMchat/downloadReport?scoreNo='+$value.scoreNo}}"><img src="../images/down1.png" /></a></span>
    </li>
   {{/each}}
+{{else}}
+  <li>没有查询到相关信息，请检查搜索条件！</li>
+{{/if}}
 </script>
 
 <script>
   $(document).ready(function(){
         var obj = {
-          url: util.requestURL+'/web/v1/medicMchat/listMchatScore',
+          url: util.requestURL+'/web/v1/medicMchat/listMchatScoreAndMchatScoreRevisedFollowListPage',
           type: 'POST',
           data:{
             pageNum: 1,
@@ -229,7 +237,7 @@ $(function(){
                 var data = data.data;
                 $("#title").text(data.title);
                 $("#article").html(data.content);
-                $("#time").text(data.editTime);
+                $("#time").text(util.getTimeFromNum(data.editTime,1));
                 $("#tap1").trigger('click');
 
               }else{  

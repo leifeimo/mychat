@@ -18,29 +18,30 @@
  
 }
 .search_list_th p:nth-child(1){
-	width:10%;
+	width:20%;
 }
 .search_list_th p:nth-child(2){
-	width:8%;
+	width:10%;
 }
 .search_list_th p:nth-child(3){
-	width:9%;
+	width:15%;
 }
 .search_list_th p:nth-child(4){
-	width:9%;
+	width:15%;
 }
 .search_list_th p:nth-child(5){
-	width:5%;
+	width:10%;
 }
 .search_list_th p:nth-child(6){
-	width:5%;
+	width:10%;
 }
 .search_list_th p:nth-child(7){
-	width:5%;
+	width:10%;
 }
 .search_list_th p:nth-child(8){
-	width:11%;
+	width:10%;
 }
+
 .search_list_th p:nth-child(9){
 	width:8%;
 }
@@ -51,9 +52,6 @@
 	width:8%;
 }
 .search_list_th p:nth-child(12){
-	width:8%;
-}
-.search_list_th p:nth-child(13){
 	width:5%;
 }
 
@@ -87,30 +85,31 @@ ul{
 .search_list_th_ul span img{
 	margin-top:6px;
 }
+
 .search_list_th_ul span:nth-child(1){
-	width:10%;
+	width:20%;
 
 }
 .search_list_th_ul span:nth-child(2){
-	width:8%;
+	width:10%;
 }
 .search_list_th_ul span:nth-child(3){
-	width:9%;
+	width:15%;
 }
 .search_list_th_ul span:nth-child(4){
-	width:9%;
+	width:15%;
 }
 .search_list_th_ul span:nth-child(5){
-	width:5%;
+	width:10%;
 }
 .search_list_th_ul span:nth-child(6){
-	width:5%;
+	width:10%;
 }
 .search_list_th_ul span:nth-child(7){
-	width:5%;
+	width:10%;
 }
 .search_list_th_ul span:nth-child(8){
-	width:11%;
+	width:10%;
 }
 .search_list_th_ul span:nth-child(9){
 	width:8%;
@@ -122,9 +121,6 @@ ul{
 	width:8%;
 }
 .search_list_th_ul span:nth-child(12){
-	width:8%;
-}
-.search_list_th_ul span:nth-child(13){
 	width:5%;
 }
 </style>
@@ -167,14 +163,13 @@ ul{
                        <p>出生日期</p>
                        <p>施测日期</p>
                        <p>姓别</p>
-                       <p>问卷</p>
+                       <!-- <p>问卷</p>
                        <p>类型</p>
-                       <p>创建时间</p>
+                       <p>创建时间</p> -->
                        <p>基本信息</p>
                        <p>发育问卷</p>
-                       <p>信息汇总</p>
-                       <p>亲子活动</p>
-                       <p>作废</p>
+                       <p>MCHAT报告</p>
+                       <!-- <p>作废</p> -->
                      </div>
                      
                      <div class="search_list_th_ul">
@@ -230,9 +225,7 @@ ul{
 
 
 <script id="table" type="text/html" >
-  {{if recordList.length == 0}}
-  <li> 没有找到相关信息，请检查搜索条件！ </li>
-  {{else}}
+{{if recordList && recordList.length}}
   {{each recordList}}
   <li>
      <span>{{$value.reportNo}}</span>
@@ -240,22 +233,70 @@ ul{
      <span>{{$value.birthYear+'-'+$value.birthMonth+'-'+$value.birthToday}}</span>
      <span>{{$value.testYear+'-'+$value.testMonth+'-'+$value.testToday}}</span>
      <span>{{['男','女'][$value.sex]}}</span>
-     <span>{{$value.cardType}}</span>
+     <!-- <span>{{$value.cardType}}</span>
      <span>--</span>
-     <span>{{$value.createTime}}</span>
-     <span><a href="#"><img src="../images/s_2.png" /></a></span>
-     <span><a href="#"><img src="../images/s_2.png" /></a></span>
-     <span><a href="#"><img src="../images/s_2.png" /></a></span>
-     <span><a href="#"><img src="../images/s_2.png" /></a></span>
-     <span><a class="ac-delete" data-num="{{$value.scoreNo}}" href="javascript:;"><img src="../images/s_1.png" /></a></span>
+     <span>{{$imports.getTimeFromNum($value.createTime,1)}}</span> -->
+     <span><a data-index="{{$index}}" class="ac-check" href="javascript:;"><img class="looks" src="../images/looks.png" /></a></span>
+     <span><a data-scoreNo="{{$value.scoreNo}}" class="ac-check-wj" href="javascript:;"><img class="looks" src="../images/looks.png" /></a></span>
+     <span><a target='_blank' href="{{$imports.requestURL+'/web/v1/medicMchat/downloadReport?scoreNo='+$value.scoreNo}}"><img src="../images/s_2.png" /></a></span>
+    <!--  <span><a class="ac-delete" data-num="{{$value.scoreNo}}" href="javascript:;"><img src="../images/s_1.png" /></a></span> -->
    </li>
   {{/each}}
-  {{/if}}
+{{else}}
+  <li>没有查询到相关信息，请检查搜索条件！</li>
+{{/if}}
+</script>
+<script src="../js/question.js"></script>
+<script id="checkPop" type="text/html" >
+  <div class="r_form" id="check" >
+        <div>儿童姓名:</div>
+        <div><input class="chat_input" id="testeeName" style="width:350px" type="text" /></div>
+    </div>
+    
+    <div class="r_form">
+        <div>性别:</div>
+        <div>
+          <input class="chat_input" id="sex" style="width:350px" />
+        </div>
+    </div>
+    
+    <div class="r_form">
+        <div>身份信息:</div>
+        <div>
+        <input  id="cardType" class="chat_input" style="width:120px" />
+        <input class="chat_input" id="cardNo2" style="width:225px" type="text" />
+        </div>
+    </div> 
+    
+    <BR />
+    <div class="r_form">
+        <div>出生日期:</div>
+        <div><input class="chat_input" id="birthDay" style="width:350px; height:37px;"/></div>
+    </div> 
+    <div class="r_form">
+        <div>完成问卷日期:</div>
+        <div><input class="chat_input" id="testDay" style="width:350px; height:37px;"/></div>
+    </div> 
+   
+    <BR />
+    <div class="r_form">
+        <div>宝宝的孕周:</div>
+        <div>
+        <input id="gestationalWeeks" class="chat_input r_form_week" style="width:155px" type="text" />
+        <input id="gestationalDays" class="chat_input r_form_day" style="width:155px" type="text" />
+        </div>
+    </div>         
+    <div class="r_form">
+        <div>出生时情况:</div>
+        <div id="births"> 
+        </div>
+    </div>
 </script>
 
 <script>
   $(document).ready(function(){
-      var obj = {}
+      var obj = {};
+      var respData = {};
       $("#search").on('click',function(){
         var name = $("#name").val();
         var cardNo = $("#cardNo").val();
@@ -281,7 +322,7 @@ ul{
             if(data.code == 1){
               var html = template.render($("#table").text(), data.data);
               $("#list").html(html);
-
+              respData = data;
               $("#page").pagination({
                   totalData: data.data.totalCount,
                   showData: 10,
@@ -306,7 +347,6 @@ ul{
     //$("#search").trigger('click');
     $("body").delegate('.ac-delete','click',function(e){
       var scoreNo = $(this).attr('data-num');
-      console.log(scoreNo);
       layer.confirm('是否确定作废此条报告？',{btn:['确定','取消']},
       function(){
         util.client({
@@ -325,6 +365,80 @@ ul{
       })
       
     });
+
+    $("body").delegate('.ac-check','click',function(){
+      var index = $(this).attr('data-index');
+      var height = parseInt(window.innerHeight);
+      height = height > 532 ? 'auto' : height+'px';
+      var myLayer = layer.open({
+        title: '基本信息',
+        content: $("#checkPop").html(),
+        btn:['返回'],
+        area: ["700px",height],
+        success: function(){
+          var data = respData.data.recordList[index];
+          $("#testeeName").val(data.testeeName);
+          $("#sex").val(['男','女'][data.sex]);
+          $("#cardType").val(['儿童身份证','父亲身份证','母亲身份证','诊疗卡号','其他'][data.cardType]);
+          $("#cardNo2").val(data.cardNo);
+          $("#birthDay").val(data.birthYear+'-'+data.birthMonth+'-'+data.birthToday);
+          $("#testDay").val(util.getTimeFromNum(data.createTime));
+          $("#gestationalWeeks").val(data.gestationalWeeks);
+          $("#gestationalDays").val(data.gestationalDays);
+          if(data.births){
+            var births = data.births.split(';');
+            var map = ['足月','早产','顺产','剖腹产','产钳助产','吸引器助产','双胎','其他异常情况'];
+            var html = '';
+            births.map(function(val,i){
+              html += map[val]+' , ';
+            });
+            $("#births").text(html);
+          }
+          $(".r_form").find('input').attr('disabled','disabled');
+        }
+      })
+    });
+
+    $("body").delegate('.ac-check-wj','click',function(){
+      var scoreNo = $(this).attr('data-scoreNo');
+      util.client({
+        url: util.requestURL+'/web/v1/medicMchat/getMchatQuestionnaireResponse',
+        type: 'POST',
+        data: {
+          scoreNo: scoreNo
+        },
+        success: function(data){
+          if(data.code == 1){
+            layer.open({
+              title: '问卷填写信息',
+              content: '<div id="wj"></div>',
+              success: function(){
+                var list = data.data;
+                var html = '';
+                for(key in list){
+                  if(key.indexOf('topic_') == 0){
+                    var num = key.split('_')[1];
+                    var an = list[key] == 'Y' ? '是' :'否';
+                    html += '<p> '+num+'.'+questions[num-1]+'</p>'+
+                            '<p> 回答： '+an+'</p><br/>';
+                  }
+                }
+                $("#wj").html(html);
+              },
+              area: ["700px",'500px'],
+              btn: ["返回"]
+            })
+          }else{
+            layer.msg(data.msg);
+          }
+
+        }
+
+      })
+    });
+
+
+
   });
 </script>
 

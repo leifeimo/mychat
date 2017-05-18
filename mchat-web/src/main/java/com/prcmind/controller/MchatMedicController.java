@@ -336,6 +336,7 @@ public class MchatMedicController {
 		if (mchatScoreRevisedFollow == null) {
 			String createTime = DateUtil.DateToStr(result.getCreateTime(), "yyyy-MM-dd");
 			content.put("createTime", createTime);
+			content.put("score", result.getScore() + "");
 		} else {
 			String createTime = DateUtil.DateToStr(mchatScoreRevisedFollow.getCreateTime(), "yyyy-MM-dd");
 			content.put("createTime", createTime);

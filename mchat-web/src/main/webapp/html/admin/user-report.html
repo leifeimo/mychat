@@ -230,6 +230,7 @@ ul{
 
 
 <script id="table" type="text/html" >
+{{if recordList && recordList.length}}
   {{each recordList}}
   <li>
      <span>{{$value.reportNo}}</span>
@@ -239,7 +240,7 @@ ul{
      <span>{{['男','女'][$value.sex]}}</span>
      <span>{{$value.cardType}}</span>
      <span>--</span>
-     <span>{{$value.createTime}}</span>
+     <span>{{$imports.getTimeFromNum($value.createTime,1)}}</span>
      <span><a href="#"><img src="../../images/s_2.png" /></a></span>
      <span><a href="#"><img src="../../images/s_2.png" /></a></span>
      <span><a href="#"><img src="../../images/s_2.png" /></a></span>
@@ -247,6 +248,9 @@ ul{
      <span><a class="ac-delete" data-num="{{$value.scoreNo}}" href="javascript:;"><img src="../../images/s_1.png" /></a></span>
    </li>
   {{/each}}
+{{else}}
+  <li>没有查询到相关信息，请检查搜索条件！</li>
+{{/if}}
 </script>
 
 <script>

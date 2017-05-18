@@ -18,29 +18,24 @@
  
 }
 .search_list_th p:nth-child(1){
-	width:10%;
+	width:15%;
 }
 .search_list_th p:nth-child(2){
-	width:16%;
+	width:25%;
 }
 .search_list_th p:nth-child(3){
-	width:12%;
+	width:15%;
 }
 .search_list_th p:nth-child(4){
-	width:12%;
+	width:15%;
 }
 .search_list_th p:nth-child(5){
-	width:14%;
+	width:15%;
 }
 .search_list_th p:nth-child(6){
-	width:10%;
+	width:15%;
 }
-.search_list_th p:nth-child(7){
-	width:16%;
-}
-.search_list_th p:nth-child(8){
-	width:10%;
-}
+
 
 
 
@@ -74,30 +69,25 @@ ul{
 	margin-top:10px;
 }
 .search_list_th_ul span:nth-child(1){
-	width:10%;
+	width:15%;
 
 }
 .search_list_th_ul span:nth-child(2){
-	width:16%;
+	width:25%;
 }
 .search_list_th_ul span:nth-child(3){
-	width:12%;
+	width:15%;
 }
 .search_list_th_ul span:nth-child(4){
-	width:12%;
+	width:15%;
 }
 .search_list_th_ul span:nth-child(5){
-	width:14%;
+	width:15%;
 }
 .search_list_th_ul span:nth-child(6){
-	width:10%;
+	width:15%;
 }
-.search_list_th_ul span:nth-child(7){
-	width:16%;
-}
-.search_list_th_ul span:nth-child(8){
-	width:10%;
-}
+
 </style>
 
 
@@ -141,75 +131,16 @@ ul{
                        <p>儿童姓名</p>
                        <p>身份信息</p>
                        <p>出生日期</p>
-                       <p>报告总数量</p>
-                       <p>我的施测数量</p>
+                       <!-- <p>报告总数量</p>
+                       <p>我的施测数量</p> -->
                        <p>性别</p>
-                       <p>创建时间</p>
+                       <p>孕周</p>
                        <p>查看</p>
                      </div>
                      
                      <div class="search_list_th_ul">
                          <ul class="search_ul" id="list">
-                           <li>
-                             <span>刘开明</span>
-                             <span>a1234567890</span>
-                             <span>2014-11-5</span>
-                             <span>1</span>
-                             <span>1</span>
-                             <span>男</span>
-                             <span>2017 11-11 12:36:21</span>
-                             <span><a href="#"><img src="../images/looks.png" /></a></span>
-                           </li>
-                           <li>
-                             <span>刘开明</span>
-                             <span>a1234567890</span>
-                             <span>2014-11-5</span>
-                             <span>1</span>
-                             <span>1</span>
-                             <span>男</span>
-                             <span>2017 11-11 12:36:21</span>
-                             <span><a href="#"><img src="../images/looks.png" /></a></span>
-                           </li>
-                           <li>
-                             <span>刘开明</span>
-                             <span>a1234567890</span>
-                             <span>2014-11-5</span>
-                             <span>1</span>
-                             <span>1</span>
-                             <span>男</span>
-                             <span>2017 11-11 12:36:21</span>
-                             <span><a href="#"><img src="../images/looks.png" /></a></span>
-                           </li>
-                           <li>
-                             <span>刘开明</span>
-                             <span>a1234567890</span>
-                             <span>2014-11-5</span>
-                             <span>1</span>
-                             <span>1</span>
-                             <span>男</span>
-                             <span>2017 11-11 12:36:21</span>
-                             <span><a href="#"><img src="../images/looks.png" /></a></span>
-                           </li>
-                           <li>
-                             <span>刘开明</span>
-                             <span>a1234567890</span>
-                             <span>2014-11-5</span>
-                             <span>1</span>
-                             <span>1</span>
-                             <span>男</span>
-                             <span>2017 11-11 12:36:21</span>
-                             <span><a href="#"><img src="../images/looks.png" /></a></span>
-                           </li>
-                           <li>
-                             <span>刘开明</span>
-                             <span>a1234567890</span>
-                             <span>2014-11-5</span>
-                             <span>1</span>
-                             <span>1</span>
-                             <span>男</span>
-                             <span>2017 11-11 12:36:21</span>
-                             <span><a href="#"><img src="../images/looks.png" /></a></span>
-                           </li>
+                          
                          </ul>
                      </div>
 
@@ -239,18 +170,20 @@ ul{
 
 
 <script id="table" type="text/html" >
+{{if recordList && recordList.length}}
   {{each recordList}}
   <li>
      <span>{{$value.testeeName}}</span>
      <span>{{$value.cardNo}}</span>
      <span>{{$value.birthYear+'-'+$value.birthMonth+'-'+$value.birthToday}}</span>
-     <span>--</span>
-     <span>--</span>
      <span>{{['男','女'][$value.sex]}}</span>
-     <span>{{$value.createTime}}</span>
-     <span><a href="#"><img src="../images/looks.png" /></a></span>
+     <span>{{$value.gestationalWeeks+'周'+$value.gestationalDays+'天'}}</span>
+     <span><a class="ac-check" href="javascript:;" data-reportNo="{{$value.reportNo}}" ><img src="../images/looks.png" /></a></span>
    </li>
   {{/each}}
+{{else}}
+  <li>没有查询到相关信息，请检查搜索条件！</li>
+{{/if}}
 </script>
 
 <script>
@@ -293,6 +226,11 @@ ul{
     })
 
     $("#search").trigger('click');
+
+    $("body").delegate('.ac-check','click',function(){
+      var reportNo = $(this).attr('data-reportNo');
+      window.location.href = '#report-query?reportNo='+reportNo;
+    });
 
   });
 </script>

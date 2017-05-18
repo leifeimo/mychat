@@ -2,8 +2,11 @@ package com.prcmind.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +22,11 @@ import com.prcmind.facade.portal.exception.PortalBizException;
 import com.prcmind.facade.portal.mchat.service.PortalMchatEnterpriseFacade;
 import com.prcmind.facade.scale.mchat.entity.MchatQuestionnaireResponse;
 import com.prcmind.facade.scale.mchat.entity.MchatScore;
+import com.prcmind.facade.scale.mchat.entity.MchatScoreRevisedFollow;
 import com.prcmind.facade.user.entity.EnterpriseOperator;
 import com.prcmind.utils.CodeMsgBean;
+import com.prcmind.utils.DateUtil;
+import com.prcmind.utils.ExportPdfUtil;
 import com.prcmind.utils.WebConstants;
 import com.prcmind.view.req.RecordReq;
 
@@ -34,7 +40,8 @@ import com.prcmind.view.req.RecordReq;
 public class EnterpriseMchatController {
 	@Autowired
 	PortalMchatEnterpriseFacade portalMchatEnterpriseFacade;
-
+	private static ResourceBundle resource = ResourceBundle.getBundle("mchat-config");
+	private static String OUT_PATH = resource.getString("out_path");
 	/**
 	 * 下载报告结果
 	 * 
@@ -45,7 +52,7 @@ public class EnterpriseMchatController {
 	 */
 	@RequestMapping(value = "/web/v1/enterpriseMchat/downloadReport", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> downloadReport(String scoreNo, HttpServletRequest request) throws IOException {
+	public CodeMsgBean<Object> downloadReport(String scoreNo, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		if (StringUtils.isEmpty(scoreNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -56,9 +63,28 @@ public class EnterpriseMchatController {
 		}
 		try {
 			MchatScore result = portalMchatEnterpriseFacade.downloadReport(scoreNo, enterpriseNo);
-			return new CodeMsgBean<Object>(1, "操作成功", result);
+			if (result != null) {
+				Map<String, String> content = initMap(null, result);
+				response.setContentType("application/pdf");
+				response.setHeader("Content-disposition", "attachment; filename=test.pdf");
+				String path = "";
+				if(result.getScore() != null){
+					if (result.getScore() <= 2) {
+						path = request.getSession().getServletContext().getRealPath("template\\A.pdf") ;
+					} else if (result.getScore() >= 3 && result.getScore() <= 7) {
+						path = request.getSession().getServletContext().getRealPath("template\\B.pdf") ;
+					} else if (result.getScore() >= 8 && result.getScore() <= 20) {
+						path = request.getSession().getServletContext().getRealPath("template\\C.pdf") ;
+					}
+				}
+				ExportPdfUtil.exportpdf(OUT_PATH, path, content, response);
+			}
+			return new CodeMsgBean<Object>(1, "操作成功",result);
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new CodeMsgBean<Object>(10005, "操作失败");
 		}
 	}
 
@@ -194,5 +220,80 @@ public class EnterpriseMchatController {
 		}
 		return birthMap;
 	}
+	private Map<String, String> initMap(MchatScoreRevisedFollow mchatScoreRevisedFollow, MchatScore result) {
+		Map<String, String> content = new HashMap<String, String>();
+		content.put("name", result.getTesteeName());// 根据模板定义的输入域的名字（如：name），填充值
+		content.put("sex", result.getSex() == 0 ? "男" : "女");
+		String birthDate = result.getBirthYear() + "-" + result.getBirthMonth() + "-" + result.getBirthToday();
+		content.put("birthDate", birthDate);
+		// 缺少日期格式化类
+		if (mchatScoreRevisedFollow == null) {
+			String createTime = DateUtil.DateToStr(result.getCreateTime(), "yyyy-MM-dd");
+			content.put("createTime", createTime);
+			content.put("score", result.getScore() + "");
+		} else {
+			String createTime = DateUtil.DateToStr(mchatScoreRevisedFollow.getCreateTime(), "yyyy-MM-dd");
+			content.put("createTime", createTime);
+			content.put("r_score", result.getScore() + "");
+			content.put("r_f_score", mchatScoreRevisedFollow.getScore() + "");
+		}
+		content.put("enterpriseName", result.getEnterpriseName());
+		content.put("medicName", result.getMedicName());
+		String gestationalWeeks = result.getGestationalWeeks() + "周"
+				+ (result.getGestationalDays() == 0 ? "" : result.getGestationalDays() + "天");
+		content.put("gestationalWeeks", gestationalWeeks);
+		content.put("age", "1周岁");
 
+		if (!StringUtils.isEmpty(result.getBirths())) {
+			String births = result.getBirths();
+			if (births.startsWith(",") || births.startsWith(";")) {
+				births = births.substring(1, births.length());
+			}
+			if (births.endsWith(",") || births.endsWith(";")) {
+				births = births.substring(0, births.length() - 1);
+			}
+			String[] arr = births.split(";");
+			String birthsResult = "";
+			for (int i = 0; i < arr.length; i++) {
+				birthsResult += birthConvert(Integer.valueOf(arr[i])) + ";";
+			}
+			birthsResult = birthsResult.substring(0, birthsResult.length() - 1);
+			content.put("births", birthsResult);
+		}
+
+		return content;
+	}
+	public static String birthConvert(int birthId) {
+		String birth = "";
+		switch (birthId) {
+		case 0:
+			birth = "足月";
+			break;
+		case 1:
+			birth = "早产";
+			break;
+		case 2:
+			birth = "顺产";
+			break;
+		case 3:
+			birth = "剖腹产";
+			break;
+		case 4:
+			birth = "产钳助产";
+			break;
+		case 5:
+			birth = "吸引器助产";
+			break;
+		case 6:
+			birth = "双胎";
+			break;
+		case 7:
+			birth = "其他异常情况";
+			break;
+		default:
+			birth = "";
+			break;
+		}
+		return birth;
+	}
 }
