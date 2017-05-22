@@ -121,13 +121,28 @@
 	var cardType = $("#contentDiv input[name='cardType']").val();
 	var cardNo = $("#contentDiv input[name='cardNo']").val();
 	var sex = $("#contentDiv input[name='sex']").val();
+	if(sex!=null&&sex!=""){
+		sex = parseInt(sex);
+	}else{
+		sex = -1;
+	}
 	var birthDay = $("#contentDiv input[name='birthDay']").val();
 	var testDay = $("#contentDiv input[name='testDay']").val();
 	var gestationalWeeks = $("#contentDiv input[name='gestationalWeeks']").val();
+	if(gestationalWeeks!=null&&gestationalWeeks!=""){
+		gestationalWeeks = parseInt(gestationalWeeks);
+	}else{
+		gestationalWeeks = 0;
+	}
 	var births = $("#contentDiv input[name='births']").val();
 	var consignorName = $("#contentDiv input[name='consignorName']").val();
 	var consignorType = $("#contentDiv input[name='consignorType']").val();
 	var weight = $("#contentDiv input[name='weight']").val();
+	if(weight!=null&&weight!=""){
+		weight = parseInt(weight);
+	}else{
+		weight = 0;
+	}
 	var address = $("#contentDiv input[name='address']").val();
 	var zip = $("#contentDiv input[name='zip']").val();
 	var email = $("#contentDiv input[name='email']").val();
@@ -135,9 +150,19 @@
 	var remarks = $("#contentDiv input[name='remarks']").val();
 	var motherCultureDegree = $("#contentDiv input[name='motherCultureDegree']").val();
 	var motherCareerCategory = $("#contentDiv input[name='motherCareerCategory']").val();
+	if(motherCareerCategory!=null&&motherCareerCategory!=""){
+		motherCareerCategory = parseInt(motherCareerCategory);
+	}else{
+		motherCareerCategory = 0;
+	}
 	var motherCareer = $("#contentDiv input[name='motherCareer']").val();
 	var fatherCultureDegree = $("#contentDiv input[name='fatherCultureDegree']").val();
 	var fatherCareerCategory = $("#contentDiv input[name='fatherCareerCategory']").val();
+	if(fatherCareerCategory!=null&&fatherCareerCategory!=""){
+		fatherCareerCategory = parseInt(fatherCareerCategory);
+	}else{
+		fatherCareerCategory = 0;
+	}
 	var fatherCareer = $("#contentDiv input[name='fatherCareer']").val();
 	var caregiversCultureDegree = $("#contentDiv input[name='caregiversCultureDegree']").val();
 	var motherBirthDay = $("#contentDiv input[name='motherBirthDay']").val();
@@ -150,19 +175,19 @@
         cardType: cardType,
         cardNo: cardNo,
         birthDay: birthDay,
-        birthYear: birthDay.split("-")[0],
-        birthMonth: birthDay.split("-")[1],
-        birthToday: birthDay.split("-")[2],
+        birthYear: parseInt(birthDay.split("-")[0]),
+        birthMonth: parseInt(birthDay.split("-")[1]),
+        birthToday: parseInt(birthDay.split("-")[2]),
         testDay: testDay,
-        testYear: testDay.split("-")[0],
-        testMonth: testDay.split("-")[1],
-        testToday: testDay.split("-")[2],
+        testYear: parseInt(testDay.split("-")[0]),
+        testMonth: parseInt(testDay.split("-")[1]),
+        testToday: parseInt(testDay.split("-")[2]),
         gestationalWeeks: gestationalWeeks,
         births: births,
         level: 1,
         consignorName: consignorName,
         consignorType: consignorType,
-		weight: weight,
+		birthWeight: weight,
         address: address,
         zip: zip,
         tel: tel,
