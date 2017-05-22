@@ -1,6 +1,6 @@
 jQuery.support.cors=true;
 var util = {
-    requestURL: 'http://localhost/mchat-web',
+    requestURL: 'http://aliyun.mikoshu.me:8055',
     getCurrentDateTime: function () { 
         var d = new Date(); 
         var year = d.getFullYear(); 

@@ -282,6 +282,7 @@
                 				hasBtn:true
                 			})
                 		}
+                		window.location.href =  util.requestURL+"/mobile/html/guardian.html"
                 	}
                 });
             }
