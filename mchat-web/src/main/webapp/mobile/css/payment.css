@@ -1,0 +1,923 @@
+em{font-style:normal}
+li{
+	list-style-type:none;
+	color:#666;
+}
+
+
+/****************/
+.payment_testname_mask{
+	display: none;
+}
+.payment_testname_list{
+	width: 94%;
+	margin: 0 auto;
+}
+.payment_testname_list li{
+	width: 44%;
+	height: 140px;
+	float: left;
+	margin: 10px 3%;
+}
+.payment_testname_list span{
+	height: 105px;
+	display: block;
+}
+.payment_testname_list em{
+	height: 35px;
+	display: block;
+	text-align: center;
+	line-height: 35px;
+	overflow: hidden;
+	font-size: 14px;
+	
+}
+.payment_testname_list span a img{
+	width: 100%;
+	height: 100%;
+}
+.payment_testname_mask{
+	z-index: 999;
+	width: 90%;
+	position:fixed;
+	left: 5%;
+	bottom: 0px;
+	border-radius: 10px;
+	overflow: hidden;
+	text-align: center;
+}
+.payment_testname_mask li{
+	height: 38px;
+	line-height: 38px;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+
+
+
+
+
+/**************/
+
+.payment_situation_title{
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	overflow: hidden;
+	font-size: 14px;
+}
+.payment_situation_title label{
+	margin-left: 15px;
+}
+.payment_situation_title span{
+	float: right;
+	margin-right: 15px;
+	color: #999;
+}
+.payment_situation_mask{
+	display: none;
+}
+.payment_situation_list{
+	width: 94%;
+	margin: 0 auto;
+}
+.payment_situation_list li{
+	width: 44%;
+	height: 140px;
+	float: left;
+	margin: 10px 3%;
+}
+.payment_situation_list span{
+	height: 105px;
+	display: block;
+}
+.payment_situation_list em{
+	height: 35px;
+	display: block;
+	text-align: center;
+	line-height: 35px;
+	overflow: hidden;
+	font-size: 14px;
+	
+}
+.payment_situation_list span a img{
+	width: 100%;
+	height: 100%;
+}
+.payment_situation_mask{
+	z-index: 999;
+	width: 90%;
+	position:fixed;
+	left: 5%;
+	bottom: 0px;
+	border-radius: 10px;
+	overflow: hidden;
+	text-align: center;
+}
+.payment_situation_mask li{
+	height: 38px;
+	line-height: 38px;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+
+/**************/
+
+.payment_week_title{
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	overflow: hidden;
+	font-size: 14px;
+}
+.payment_week_title label{
+	margin-left: 15px;
+}
+.payment_week_title span{
+	float: right;
+	margin-right: 15px;
+	color: #999;
+}
+.payment_week_mask{
+	display: none;
+}
+.payment_week_list{
+	width: 94%;
+	margin: 0 auto;
+}
+.payment_week_list li{
+	width: 44%;
+	height: 140px;
+	float: left;
+	margin: 10px 3%;
+}
+.payment_week_list span{
+	height: 105px;
+	display: block;
+}
+.payment_week_list em{
+	height: 35px;
+	display: block;
+	text-align: center;
+	line-height: 35px;
+	overflow: hidden;
+	font-size: 14px;
+	
+}
+.payment_week_list span a img{
+	width: 100%;
+	height: 100%;
+}
+.payment_week_mask{
+	z-index: 999;
+	width: 90%;
+	position:fixed;
+	left: 5%;
+	bottom: 0px;
+	border-radius: 10px;
+	overflow: hidden;
+	text-align: center;
+}
+.payment_week_mask li{
+	height: 38px;
+	line-height: 38px;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+/***********************/
+.payment_sex_title{
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	overflow: hidden;
+	font-size: 14px;
+}
+.payment_sex_title label{
+	margin-left: 15px;
+}
+.payment_sex_title span{
+	float: right;
+	margin-right: 15px;
+	color: #999;
+}
+.payment_sex_mask{
+	display: none;
+}
+.payment_sex_list{
+	width: 94%;
+	margin: 0 auto;
+}
+.payment_sex_list li{
+	width: 44%;
+	height: 140px;
+	float: left;
+	margin: 10px 3%;
+}
+.payment_sex_list span{
+	height: 105px;
+	display: block;
+}
+.payment_sex_list em{
+	height: 35px;
+	display: block;
+	text-align: center;
+	line-height: 35px;
+	overflow: hidden;
+	font-size: 14px;
+	
+}
+.payment_sex_list span a img{
+	width: 100%;
+	height: 100%;
+}
+.payment_sex_mask{
+	z-index: 999;
+	width: 90%;
+	position:fixed;
+	left: 5%;
+	bottom: 0px;
+	border-radius: 10px;
+	overflow: hidden;
+	text-align: center;
+}
+.payment_sex_mask li{
+	height: 38px;
+	line-height: 38px;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+/***********************/
+
+.payment_nexus_title{
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	overflow: hidden;
+	font-size: 14px;
+}
+.payment_nexus_title label{
+	margin-left: 15px;
+}
+.payment_nexus_title span{
+	float: right;
+	margin-right: 15px;
+	color: #999;
+}
+.payment_nexus_mask{
+	display: none;
+}
+.payment_nexus_list{
+	width: 94%;
+	margin: 0 auto;
+}
+.payment_nexus_list li{
+	width: 44%;
+	height: 140px;
+	float: left;
+	margin: 10px 3%;
+}
+.payment_nexus_list span{
+	height: 105px;
+	display: block;
+}
+.payment_nexus_list em{
+	height: 35px;
+	display: block;
+	text-align: center;
+	line-height: 35px;
+	overflow: hidden;
+	font-size: 14px;
+	
+}
+.payment_nexus_list span a img{
+	width: 100%;
+	height: 100%;
+}
+.payment_nexus_mask{
+	z-index: 999;
+	width: 90%;
+	position:fixed;
+	left: 5%;
+	bottom: 0px;
+	border-radius: 10px;
+	overflow: hidden;
+	text-align: center;
+}
+.payment_nexus_mask li{
+	height: 38px;
+	line-height: 38px;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+
+/**********************/
+
+
+.payment_culture_title{
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	overflow: hidden;
+	font-size: 14px;
+}
+.payment_culture_title label{
+	margin-left: 15px;
+}
+.payment_culture_title span{
+	float: right;
+	margin-right: 15px;
+	color: #999;
+}
+.payment_culture_mask{
+	display: none;
+}
+.payment_culture_list{
+	width: 94%;
+	margin: 0 auto;
+}
+.payment_culture_list li{
+	width: 44%;
+	height: 140px;
+	float: left;
+	margin: 10px 3%;
+}
+.payment_culture_list span{
+	height: 105px;
+	display: block;
+}
+.payment_culture_list em{
+	height: 35px;
+	display: block;
+	text-align: center;
+	line-height: 35px;
+	overflow: hidden;
+	font-size: 14px;
+	
+}
+.payment_culture_list span a img{
+	width: 100%;
+	height: 100%;
+}
+.payment_culture_mask{
+	z-index: 999;
+	width: 90%;
+	position:fixed;
+	left: 5%;
+	bottom: 0px;
+	border-radius: 10px;
+	overflow: hidden;
+	text-align: center;
+}
+.payment_culture_mask li{
+	height: 38px;
+	line-height: 38px;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+
+
+/**********************/
+
+.payment_occupation_title{
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	overflow: hidden;
+	font-size: 14px;
+}
+.payment_occupation_title label{
+	margin-left: 15px;
+}
+.payment_occupation_title span{
+	float: right;
+	margin-right: 15px;
+	color: #999;
+}
+.payment_occupation_mask{
+	display: none;
+}
+.payment_occupation_list{
+	width: 94%;
+	margin: 0 auto;
+}
+.payment_occupation_list li{
+	width: 44%;
+	height: 140px;
+	float: left;
+	margin: 10px 3%;
+}
+.payment_occupation_list span{
+	height: 105px;
+	display: block;
+}
+.payment_occupation_list em{
+	height: 35px;
+	display: block;
+	text-align: center;
+	line-height: 35px;
+	overflow: hidden;
+	font-size: 14px;
+	
+}
+.payment_occupation_list span a img{
+	width: 100%;
+	height: 100%;
+}
+.payment_occupation_mask{
+	z-index: 999;
+	width: 90%;
+	position:fixed;
+	left: 5%;
+	bottom: 0px;
+	border-radius: 10px;
+	overflow: hidden;
+	text-align: center;
+}
+.payment_occupation_mask li{
+	height: 38px;
+	line-height: 38px;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+
+
+/**********母亲职业小类****************/
+.payment_occupation_small_title{
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	overflow: hidden;
+	font-size: 14px;
+}
+.payment_occupation_small_title label{
+	margin-left: 15px;
+}
+.payment_occupation_small_title span{
+	float: right;
+	margin-right: 15px;
+	color: #999;
+}
+.payment_occupation_small_mask{
+	display: none;
+}
+.payment_occupation_small_list{
+	width: 94%;
+	margin: 0 auto;
+}
+.payment_occupation_small_list li{
+	width: 44%;
+	height: 140px;
+	float: left;
+	margin: 10px 3%;
+}
+.payment_occupation_small_list span{
+	height: 105px;
+	display: block;
+}
+.payment_occupation_small_list em{
+	height: 35px;
+	display: block;
+	text-align: center;
+	line-height: 35px;
+	overflow: hidden;
+	font-size: 14px;
+	
+}
+.payment_occupation_small_list span a img{
+	width: 100%;
+	height: 100%;
+}
+.payment_occupation_small_mask{
+	z-index: 999;
+	width: 90%;
+	position:fixed;
+	left: 5%;
+	bottom: 0px;
+	border-radius: 10px;
+	overflow: hidden;
+	text-align: center;
+}
+.payment_occupation_small_mask li{
+	height: 38px;
+	line-height: 38px;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+
+
+
+
+
+/**********************/
+
+
+.payment_culture2_title{
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	overflow: hidden;
+	font-size: 14px;
+}
+.payment_culture2_title label{
+	margin-left: 15px;
+}
+.payment_culture2_title span{
+	float: right;
+	margin-right: 15px;
+	color: #999;
+}
+.payment_culture2_mask{
+	display: none;
+}
+.payment_culture2_list{
+	width: 94%;
+	margin: 0 auto;
+}
+.payment_culture2_list li{
+	width: 44%;
+	height: 140px;
+	float: left;
+	margin: 10px 3%;
+}
+.payment_culture2_list span{
+	height: 105px;
+	display: block;
+}
+.payment_culture2_list em{
+	height: 35px;
+	display: block;
+	text-align: center;
+	line-height: 35px;
+	overflow: hidden;
+	font-size: 14px;
+	
+}
+.payment_culture2_list span a img{
+	width: 100%;
+	height: 100%;
+}
+.payment_culture2_mask{
+	z-index: 999;
+	width: 90%;
+	position:fixed;
+	left: 5%;
+	bottom: 0px;
+	border-radius: 10px;
+	overflow: hidden;
+	text-align: center;
+}
+.payment_culture2_mask li{
+	height: 38px;
+	line-height: 38px;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+
+
+/**************************/
+.payment_culture3_title{
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	overflow: hidden;
+	font-size: 14px;
+}
+.payment_culture3_title label{
+	margin-left: 15px;
+}
+.payment_culture3_title span{
+	float: right;
+	margin-right: 15px;
+	color: #999;
+}
+.payment_culture3_mask{
+	display: none;
+}
+.payment_culture3_list{
+	width: 94%;
+	margin: 0 auto;
+}
+.payment_culture3_list li{
+	width: 44%;
+	height: 140px;
+	float: left;
+	margin: 10px 3%;
+}
+.payment_culture3_list span{
+	height: 105px;
+	display: block;
+}
+.payment_culture3_list em{
+	height: 35px;
+	display: block;
+	text-align: center;
+	line-height: 35px;
+	overflow: hidden;
+	font-size: 14px;
+	
+}
+.payment_culture3_list span a img{
+	width: 100%;
+	height: 100%;
+}
+.payment_culture3_mask{
+	z-index: 999;
+	width: 90%;
+	position:fixed;
+	left: 5%;
+	bottom: 0px;
+	border-radius: 10px;
+	overflow: hidden;
+	text-align: center;
+}
+.payment_culture3_mask li{
+	height: 38px;
+	line-height: 38px;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+
+
+
+/**********************/
+
+.payment_occupation2_title{
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	overflow: hidden;
+	font-size: 14px;
+}
+.payment_occupation2_title label{
+	margin-left: 15px;
+}
+.payment_occupation2_title span{
+	float: right;
+	margin-right: 15px;
+	color: #999;
+}
+.payment_occupation2_mask{
+	display: none;
+}
+.payment_occupation2_list{
+	width: 94%;
+	margin: 0 auto;
+}
+.payment_occupation2_list li{
+	width: 44%;
+	height: 140px;
+	float: left;
+	margin: 10px 3%;
+}
+.payment_occupation2_list span{
+	height: 105px;
+	display: block;
+}
+.payment_occupation2_list em{
+	height: 35px;
+	display: block;
+	text-align: center;
+	line-height: 35px;
+	overflow: hidden;
+	font-size: 14px;
+	
+}
+.payment_occupation2_list span a img{
+	width: 100%;
+	height: 100%;
+}
+.payment_occupation2_mask{
+	z-index: 999;
+	width: 90%;
+	position:fixed;
+	left: 5%;
+	bottom: 0px;
+	border-radius: 10px;
+	overflow: hidden;
+	text-align: center;
+}
+.payment_occupation2_mask li{
+	height: 38px;
+	line-height: 38px;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+
+
+
+
+/**********父亲职业小类****************/
+.payment_occupation2_small_title{
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	overflow: hidden;
+	font-size: 14px;
+}
+.payment_occupation2_small_title label{
+	margin-left: 15px;
+}
+.payment_occupation2_small_title span{
+	float: right;
+	margin-right: 15px;
+	color: #999;
+}
+.payment_occupation2_small_mask{
+	display: none;
+}
+.payment_occupation2_small_list{
+	width: 94%;
+	margin: 0 auto;
+}
+.payment_occupation2_small_list li{
+	width: 44%;
+	height: 140px;
+	float: left;
+	margin: 10px 3%;
+}
+.payment_occupation2_small_list span{
+	height: 105px;
+	display: block;
+}
+.payment_occupation2_small_list em{
+	height: 35px;
+	display: block;
+	text-align: center;
+	line-height: 35px;
+	overflow: hidden;
+	font-size: 14px;
+	
+}
+.payment_occupation2_small_list span a img{
+	width: 100%;
+	height: 100%;
+}
+.payment_occupation2_small_mask{
+	z-index: 999;
+	width: 90%;
+	position:fixed;
+	left: 5%;
+	bottom: 0px;
+	border-radius: 10px;
+	overflow: hidden;
+	text-align: center;
+}
+.payment_occupation2_small_mask li{
+	height: 38px;
+	line-height: 38px;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+
+
+
+
+
+/*payment_time*/
+.payment_time{
+	width: 100%;
+}
+.payment_time_title{
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	overflow: hidden;
+	font-size: 14px;
+}
+.payment_time_title label{
+	margin-left: 15px;
+}
+.payment_time_title span{
+	float: right;
+	margin-right: 15px;
+	color: #999;
+}
+.payment_time_mask{
+	display: none;
+}
+.payment_time_list{
+	width: 94%;
+	margin: 0 auto;
+}
+.payment_time_list li{
+	width: 44%;
+	height: 140px;
+	float: left;
+	margin: 10px 3%;
+}
+.payment_time_list span{
+	height: 105px;
+	display: block;
+}
+.payment_time_list em{
+	height: 35px;
+	display: block;
+	text-align: center;
+	line-height: 35px;
+	overflow: hidden;
+	font-size: 14px;
+	
+}
+.payment_time_list span a img{
+	width: 100%;
+	height: 100%;
+}
+.payment_time_mask{
+	z-index: 999;
+	width: 90%;
+	position:fixed;
+	left: 5%;
+	bottom: 0px;
+	border-radius: 10px;
+	overflow: hidden;
+	text-align: center;
+}
+.payment_time_mask li{
+	height: 38px;
+	line-height: 38px;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+
+
+/**************************/
+.payment_wedding_title{
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	overflow: hidden;
+	font-size: 14px;
+}
+.payment_wedding_title label{
+	margin-left: 15px;
+}
+.payment_wedding_title span{
+	float: right;
+	margin-right: 15px;
+	color: #999;
+}
+.payment_wedding_mask{
+	display: none;
+}
+.payment_wedding_list{
+	width: 94%;
+	margin: 0 auto;
+}
+.payment_wedding_list li{
+	width: 44%;
+	height: 140px;
+	float: left;
+	margin: 10px 3%;
+}
+.payment_wedding_list span{
+	height: 105px;
+	display: block;
+}
+.payment_wedding_list em{
+	height: 35px;
+	display: block;
+	text-align: center;
+	line-height: 35px;
+	overflow: hidden;
+	font-size: 14px;
+	
+}
+.payment_wedding_list span a img{
+	width: 100%;
+	height: 100%;
+}
+.payment_wedding_mask{
+	z-index: 999;
+	width: 90%;
+	position:fixed;
+	left: 5%;
+	bottom: 0px;
+	border-radius: 10px;
+	overflow: hidden;
+	text-align: center;
+}
+.payment_wedding_mask li{
+	height: 38px;
+	line-height: 38px;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+
+/************************/
+
+
+
+#bg{
+	background-color:#000;
+	position:fixed;
+	z-index:99;
+	left:0;
+	top:0;
+	display:none;
+	width:100%;
+	height:100%;
+	opacity:0.3;
+	filter: alpha(opacity=30);
+	-moz-opacity: 0.3;
+}
+
