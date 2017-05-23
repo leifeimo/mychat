@@ -1,14 +1,18 @@
 <div class="r_title">
-                <p id="tap1" class="tap1">公告发布</p>
                 <p id="tap2" class="tap2">报告信息</p>
+                <p id="tap1" class="tap1">公告发布</p>
+               <!--  <p id="tap2" class="tap2">报告信息</p> -->
                 <p id="tap3" class="tap3"></p>
             </div>
             <div class="r_article">
             
             
                 <div class="article_list" style="display:none">
-                    <h4 class="article_list_title">报告信息</h4>
-                    <p class="article_info_date" id="quality">M-CHAT报告：23 | 剩余M-CHAT报告：87</p>
+                  <div class="clearfix">
+                    <h4 class="article_list_title f_l fl-10" >报告信息：</h4>
+                    <p class="article_info_date fl-10 f_l" id="quality">M-CHAT报告：23 | 剩余M-CHAT报告：87</p>
+                  </div>
+                    
                     
                    <div class="article_list_content">
 
@@ -39,7 +43,7 @@
                 </div>
 
             
-                <div class="article_info">
+                <div class="article_info" style="display:none">
                     <h4 id="title" class="article_info_title">发布公告的标题</h4>
                     <p class="article_info_date">发布时间：<span id="time">2016-07-04 00:00:00</span></p>
                     
@@ -72,17 +76,20 @@
         <script>
 $(function(){ 
     $("#tap2").click(function(){
-    $(this).removeClass("tap2");
+      $(this).removeClass("tap2");
       $(this).addClass("tap1");
-    
-    $("#tap1").removeClass("tap1");
-    $("#tap1").addClass("tap2");
-    
-    $("#tap3").addClass("click_check");
-    
-    $(".article_info").hide();
-    $(".article_list").show();
+      
+      $("#tap1").removeClass("tap1");
+      $("#tap1").addClass("tap2");
+      
+      //$("#tap3").addClass("click_check");
+      
+      $(".article_info").hide();
+      $(".article_list").show();
+
+    //$("#tap2").trigger('click');
   });
+
   
     $("#tap1").click(function(){
     
@@ -96,13 +103,14 @@ $(function(){
     $("#tap2").removeClass("tap2"); 
     $("#tap2").addClass("tap2");  
     
-    $("#tap3").removeClass("click_check");  
+    //$("#tap3").removeClass("click_check");  
 
-        $(".article_list").hide();  
+    $(".article_list").hide();  
     $(".article_info").show();
       
     //$("#tap2").addClass("click_no_check");
   });
+    $("#tap2").trigger('click');
 }); 
     </script>
 
@@ -254,6 +262,7 @@ $(function(){
         $("body").delegate('.ac-gg','click',function(){
           var id = $(this).attr("data-id");
           getArticle(id);
+          $("#tap1").trigger('click');
         });
 
         function getArticle(id){
@@ -268,7 +277,7 @@ $(function(){
                 $("#title").text(data.title);
                 $("#article").html(data.content);
                 $("#time").text(util.getTimeFromNum(data.editTime,1));
-                $("#tap1").trigger('click');
+                
 
               }else{  
                 layer.msg(data.msg);
