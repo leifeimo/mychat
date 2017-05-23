@@ -345,9 +345,11 @@ public class MchatMedicController {
 		}
 		content.put("enterpriseName", result.getEnterpriseName());
 		content.put("medicName", result.getMedicName());
-		String gestationalWeeks = result.getGestationalWeeks() + "周"
-				+ (result.getGestationalDays() == 0 ? "" : result.getGestationalDays() + "天");
-		content.put("gestationalWeeks", gestationalWeeks);
+		if(result.getGestationalWeeks() != 0){
+			String gestationalWeeks = result.getGestationalWeeks() + "周"
+					+ (result.getGestationalDays() == 0 ? "" : result.getGestationalDays() + "天");
+			content.put("gestationalWeeks", gestationalWeeks);
+		}
 		content.put("age", "1周岁");
 
 		if (!StringUtils.isEmpty(result.getBirths())) {
