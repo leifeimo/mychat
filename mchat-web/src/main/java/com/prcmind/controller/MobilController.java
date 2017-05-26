@@ -15,9 +15,17 @@ public class MobilController {
 	@RequestMapping("/mobile/html/question")
 	public String toQuestion(ReportParamView report,HttpServletRequest request,
 			HttpServletResponse response,Model model){
-		System.out.println(request.getCharacterEncoding());
-		System.out.println(report);
 		model.addAttribute("report", report);
 		return "mchat-mobile/question";
 	}
+	
+	@RequestMapping("/mobile/html/report")
+	public String toReport(ReportParamView report,HttpServletRequest request,
+			HttpServletResponse response,Model model){
+		report.checkShow();
+		report.getBirthsSituation();
+		model.addAttribute("report", report);
+		return "mchat-mobile/guardian";
+	}
+	
 }

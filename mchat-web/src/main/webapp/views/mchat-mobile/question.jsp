@@ -50,7 +50,7 @@
 
 <body>
 	<div id="contentDiv">
-		<input type="hidden" name="testName" value="${report.testName}"/>
+		<input type="hidden" name="medicName" value="${report.medicName}"/>
 		<input type="hidden" name="testeeName" value="${report.testeeName}"/>
 	    <input type="hidden" name="cardType" value="${report.cardType}">
 	    <input type="hidden" name="cardNo" value="${report.cardNo}">
@@ -67,6 +67,7 @@
 	    <input type="hidden" name="email" value="${report.email}">
 	    <input type="hidden" name="tel" value="${report.tel}">
 	    <input type="hidden" name="remarks" value="${report.remarks}">
+	    <input type="hidden" name="patronnInfo" value="${report.patronnInfo}">
 	    <input type="hidden" name="motherCultureDegree" value="${report.motherCultureDegree}">
 	    <input type="hidden" name="motherCareerCategory" value="${report.motherCareerCategory}">
 	    <input type="hidden" name="motherCareer" value="${report.motherCareer}">
@@ -83,7 +84,7 @@
 	    </div>
 	    
 	    <div id="m_test_name">
-	    <p>施测者：李明</p>
+	    <p>施测者：<span>${report.medicName}</span></p>
 	    <p>年龄组： 36&nbsp;&nbsp; </p>
 	    </div>
 		
@@ -116,7 +117,7 @@
 	</div>
 
 <script>
-	var testName = $("#contentDiv input[name='testName']").val();
+	var medicName = $("#contentDiv input[name='medicName']").val();
 	var testeeName = $("#contentDiv input[name='testeeName']").val();
 	var cardType = $("#contentDiv input[name='cardType']").val();
 	var cardNo = $("#contentDiv input[name='cardNo']").val();
@@ -148,6 +149,7 @@
 	var email = $("#contentDiv input[name='email']").val();
 	var tel = $("#contentDiv input[name='tel']").val();
 	var remarks = $("#contentDiv input[name='remarks']").val();
+	var patronnInfo = $("#contentDiv input[name='patronnInfo']").val();
 	var motherCultureDegree = $("#contentDiv input[name='motherCultureDegree']").val();
 	var motherCareerCategory = $("#contentDiv input[name='motherCareerCategory']").val();
 	if(motherCareerCategory!=null&&motherCareerCategory!=""){
@@ -170,6 +172,7 @@
 	var maritalStatus = $("#contentDiv input[name='maritalStatus']").val();
 	
 	var obj1 = {
+		medicName:medicName,	
         testeeName: testeeName,
         sex: sex,
         cardType: cardType,
@@ -192,6 +195,7 @@
         zip: zip,
         tel: tel,
         remarks: remarks,
+        patronnInfo:patronnInfo,
         motherCultureDegree: motherCultureDegree,
         motherCareerCategory: motherCareerCategory,
         motherCareer: motherCareer,

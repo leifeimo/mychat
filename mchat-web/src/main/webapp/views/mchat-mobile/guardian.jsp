@@ -1,30 +1,59 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" isELIgnored="false"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ include file="/public/include.jsp"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" /> 
+
 <title>监护人</title>
-<script src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../mobile/js/zepto.min.js"></script>
+<script type='text/javascript' src='../../mobile/js/sm.min.js' charset='utf-8'></script>
+<script src="../../mobile/js/layer_mobile/layer.js"></script>
+<script src="../../js/jquery.min.js"></script>
 <script src="../../js/util.js"></script>
-<link rel="Stylesheet" type="text/css" href="../css/style.css" />
-<link rel="Stylesheet" type="text/css" href="../css/m_1.css" />
-<link rel="Stylesheet" type="text/css" href="../css/mobile.css" />
+<link rel="Stylesheet" type="text/css" href="../../mobile/css/style.css" />
+<link rel="Stylesheet" type="text/css" href="../../mobile/css/m_1.css" />
+<link rel="Stylesheet" type="text/css" href="../../mobile/css/mobile.css" />
+<link rel="stylesheet" type="text/css" href="../../mobile/css/sm.min.css">
+<link rel="stylesheet" type="text/css" href="../../mobile/css/payment.css" />
+
+<style>
+	.gif{
+		width:90%;
+		height:90%;
+	}
+	@media only screen and (min-width:320px){
+		.layui-m-layercont{
+			padding:0px 30px;
+		}
+	}
+	@media only screen and (min-width:500px){
+		.layui-m-layercont{
+			padding:0px 30px;
+		}
+	}
+	@media only screen and (min-width:700px){
+		.layui-m-layercont{
+			padding:0px 100px;
+		}
+	}
+	@media only screen and (min-width:1000px){
+		.layui-m-layercont{
+			padding:0px 160px;
+		}
+	}
+	input{border:0; text-align:right; margin-right:10px; width:80%;}
+	.divhide{
+		display: none;
+	}
+</style>
 
 
 </head>
 
 <body>
-
-<style>
-
-
-
-
-
-input{border:0; text-align:right; margin-right:10px; width:80%;}
-</style>
-
-
-<div>
+	<di>
 	<form action="" id="reportForm" accept-charset="UTF-8" method="post">
     <div id="m_guardian">
     <p class="m_faces"><img src="../images/faces.png" /></p>
@@ -33,7 +62,7 @@ input{border:0; text-align:right; margin-right:10px; width:80%;}
     </div>
     
     <div id="m_test_name" class="m_list_1 b_solid">
-    <p>施测者：<span id="testName"></span><input type="hidden" name="medicName"></p>
+    <p>施测者：<span id="testName">${report.medicName}</span><input type="hidden" name="medicName"></p>
     <p><a href="javascript:void(0)" onclick="getTestName();">切换 <img src="../images/tip1.jpg" align="absmiddle" /></a></p>
     <div class="payment_testname_mask">
         <ul id="payment_testname_mask_ul">
@@ -44,19 +73,48 @@ input{border:0; text-align:right; margin-right:10px; width:80%;}
 
 
     <div class="m_mid">
-      <div class="m_list b_solid">
+      <div class="m_list b_solid ${report.testeeNameShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_1.png" /></span></p>
         <p>儿童姓名*</p>
-        <p><span>&nbsp;</span><input type="text" value="" name="testeeName" id="testeeName"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.testeeName}" name="testeeName" id="testeeName"/></p>
       </div>
       
       
-      <div class="m_list b_solid">
+      <div class="m_list b_solid ${report.cardTypeShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_2.png" /></span></p>
         <p>身份信息*</p>
         <p class="payment_time_title">
-            <input type="hidden" value="" class="payment_time_value" name="cardType" id="cardType"/>
-            <span><em style="font-style:normal"></em> ></span>
+            <input type="hidden" value="${report.cardType}" class="payment_time_value" name="cardType" id="cardType"/>
+            <span>
+            	<em style="font-style:normal">
+            		<c:choose>
+            			<c:when test="${report.cardType eq '0'}">
+            				儿童身份证
+            			</c:when>
+            		</c:choose>
+            		<c:choose>
+            			<c:when test="${report.cardType eq '1'}">
+            				父亲身份证
+            			</c:when>
+            		</c:choose>
+            		<c:choose>
+            			<c:when test="${report.cardType eq '2'}">
+            				母亲身份证
+            			</c:when>
+            		</c:choose>
+            		<c:choose>
+            			<c:when test="${report.cardType eq '3'}">
+            				诊疗卡号
+            			</c:when>
+            		</c:choose>
+            		<c:choose>
+            			<c:when test="${report.cardType eq '9'}">
+            				其他
+            			</c:when>
+            		</c:choose>
+            	</em>
+            	 >
+           	</span>
             <div id="bg">
             </div>
 		</p>
@@ -72,20 +130,34 @@ input{border:0; text-align:right; margin-right:10px; width:80%;}
       </div>
 
 
-      <div class="m_list b_solid">
+      <div class="m_list b_solid ${report.cardNoShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_3.png" /></span></p>
         <p>身份证号码*</p>
-        <p><span>&nbsp;</span><input type="text" value="" id="cardNo" name="cardNo"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.cardNo}" id="cardNo" name="cardNo"/></p>
       </div>      
 
 
 
-      <div class="m_list_1 b_solid m_top_20">
+      <div class="m_list_1 b_solid m_top_20 ${report.sexShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_4.png" /></span></p>
         <p>性别*</p>
         <p class="payment_sex_title">
-		    <input type="hidden" value="" class="payment_sex_value" id="sex" name="sex"/>
-            <span><em>男</em> ></span>
+            <c:choose>
+            	<c:when test="${!empty report.sex}">
+            		<c:if test="${report.sex eq '0'}">
+            			<input type="hidden" value="0" class="payment_sex_value" id="sex" name="sex"/>
+            			<span><em>男</em> ></span>	
+            		</c:if>
+            		<c:if test="${report.sex eq '1'}">
+            			<input type="hidden" value="1" class="payment_sex_value" id="sex" name="sex"/>
+            			<span><em>女</em> ></span>
+            		</c:if>
+                </c:when>
+            	<c:otherwise>
+            		<input type="hidden" value="0" class="payment_sex_value" id="sex" name="sex"/>
+            		<span><em>男</em> ></span>		
+            	</c:otherwise>
+            </c:choose>
             <div id="bg">
             </div>
 		</p>
@@ -97,16 +169,16 @@ input{border:0; text-align:right; margin-right:10px; width:80%;}
         </div>	
       </div>  
       
-      <div class="m_list_1 b_solid">
+      <div class="m_list_1 b_solid ${report.birthDayShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_5.png" /></span></p>
         <p>出生日期*</p>
-        <p><input id="my-input" type="text" name="birthDay"/><span style="margin-right:15px">></span></p>
+        <p><input id="my-input" type="text" name="birthDay" value="${report.birthDay}"/><span style="margin-right:15px">></span></p>
       </div>  
       
-      <div class="m_list_1 b_solid">
+      <div class="m_list_1 b_solid ${report.testDayShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_6.png" /></span></p>
         <p>完成问卷日期*</p>
-        <p><input id="my-input1" type="text" name="testDay"/><span style="margin-right:15px">></span></p>
+        <p><input id="my-input1" type="text" name="testDay" value="${report.testDay}"/><span style="margin-right:15px">></span></p>
       </div>  
       
       <div class="m_list_1 b_solid" style="display:none">
@@ -117,12 +189,19 @@ input{border:0; text-align:right; margin-right:10px; width:80%;}
 
 
 	  
-      <div class="m_list_1 b_solid m_top_20">
+      <div class="m_list_1 b_solid m_top_20 ${report.gestationalWeeksDaysShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_8.png" /></span></p>
         <p>宝宝的孕周*</p>
         <p class="payment_week_title">
-            <input type="hidden" value="" class="payment_week_value" name="gestationalWeeks"/>
-            <span><em>4周</em> ></span>
+            <input type="hidden" value="${empty report.gestationalWeeks ? 4 : report.gestationalWeeks}" class="payment_week_value" name="gestationalWeeks"/>
+            <span><em>
+            	<c:choose>
+            		<c:when test="${!empty report.gestationalWeeks}">
+            			${report.gestationalWeeks}
+            		</c:when>
+	            	<c:otherwise>4</c:otherwise>
+	            </c:choose>
+            	周</em> ></span>
             <div id="bg">
             </div>
 		</p>
@@ -152,12 +231,14 @@ input{border:0; text-align:right; margin-right:10px; width:80%;}
         </div>	
       </div>  
 	   
-      <div class="m_list_1 b_solid">
+      <div class="m_list_1 b_solid ${report.birthsShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_7.png" /></span></p>
         <p>出生时情况(多选)</p>
         <p class="payment_situation_title">
-		    <input type="hidden" value="" class="payment_situation_value" name="births"/>
-            <span><em></em> ></span>
+		    <input type="hidden" value="${report.births}" class="payment_situation_value" name="births"/>
+            <span><em>
+            	${report.birthsResult}
+            </em> ></span>
             <div id="bg">
             </div>
 		</p>
@@ -187,77 +268,103 @@ input{border:0; text-align:right; margin-right:10px; width:80%;}
           
           
           
-      <div class="m_list_1 b_solid  m_top_20">
+      <div class="m_list_1 b_solid  m_top_20 ${report.consignorNameShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>完成问卷人姓名</p>
-        <p><span>&nbsp;</span><input type="text" value="" id="consignorName" name="consignorName"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.consignorName}" id="consignorName" name="consignorName"/></p>
       </div>    
       
-      <div class="m_list_1 b_solid">
+      <div class="m_list_1 b_solid ${report.consignorTypeShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_2.png" /></span></p>
         <p>与儿童的关系</p>
         <p class="payment_nexus_title">
-            <input type="hidden" value="" class="payment_nexus_value" name="consignorType"/>
-            <span><em></em> ></span>
+            <input type="hidden" value="${report.consignorType}" class="payment_nexus_value" name="consignorType"/>
+            <span><em>
+            	<c:choose>
+            		<c:when test="${report.consignorType eq '1'}">父母</c:when>
+            		<c:when test="${report.consignorType eq '2'}">祖父母</c:when>
+            		<c:when test="${report.consignorType eq '3'}">照看人</c:when>
+            		<c:when test="${report.consignorType eq '4'}">老师</c:when>
+            		<c:when test="${report.consignorType eq '5'}">其他</c:when>
+            	</c:choose>
+            </em> ></span>
             <div id="bg">
             </div>
 		</p>
         <div class="payment_nexus_mask">
             <ul>  
-                <li>父母</li>
-                <li>祖父母</li>
-                <li>照看人</li>
-                <li>老师</li>
-                <li>其他</li>
+                <li value="1">父母</li>
+                <li value="2">祖父母</li>
+                <li value="3">照看人</li>
+                <li value="4">老师</li>
+                <li value="5">其他</li>
             </ul>
         </div>	
       </div> 
 
-      <div class="m_list_1 b_solid">
+      <div class="m_list_1 b_solid ${report.weightShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_7.png" /></span></p>
         <p>出生时体重(克)</p>
-        <p><span>&nbsp;</span><input type="text" value="" id="weight" name="weight"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.weight}" id="weight" name="weight"/></p>
       </div> 
 
-      <div class="m_list_1 b_solid">
+      <div class="m_list_1 b_solid ${report.addressShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_6.png" /></span></p>
         <p>通信地址</p>
-        <p><span>&nbsp;</span><input type="text" value="" id="address" name="address"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.address}" id="address" name="address"/></p>
       </div> 
       
-      <div class="m_list_1 b_solid">
+      <div class="m_list_1 b_solid ${report.zipShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>邮政编码</p>
-        <p><span>&nbsp;</span><input type="text" value="" id="zip" name="zip"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.zip}" id="zip" name="zip"/></p>
       </div> 
       
-      <div class="m_list_1 b_solid">
+      <div class="m_list_1 b_solid ${report.emailShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>电子邮箱</p>
-        <p><span>&nbsp;</span><input type="text" value="" id="email" name="email"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.email}" id="email" name="email"/></p>
       </div>  
  
       
-      <div class="m_list_1 b_solid">
+      <div class="m_list_1 b_solid ${report.telShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>联系电话</p>
-        <p><span>&nbsp;</span><input type="text" value="" id="tel" name="tel"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.tel}" id="tel" name="tel"/></p>
       </div>   
 
 
-      <div class="m_list_1 b_solid">
+      <div class="m_list_1 b_solid ${report.patronnInfoShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_10.png" /></span></p>
         <p>协助填写问卷人</p>
-        <p><span>&nbsp;</span><input type="text" value="" id="remarks" name="remarks"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.patronnInfo}" id="patronnInfo" name="patronnInfo"/></p>
       </div> 
 
       
-      <div class="m_list_1 b_solid">
+      <div class="m_list_1 b_solid ${report.motnerCultureDegreeShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>母亲文化程度</p>
         <p class="payment_culture_title">
-            <input type="hidden" value="0" class="payment_culture_value" name="motherCultureDegree"/>
-            <span><em>请选择</em> ></span>
+            <input type="hidden" value="${report.motherCultureDegree}" class="payment_culture_value" name="motherCultureDegree"/>
+            <span><em>
+            	<c:choose>
+            		<c:when test="${!empty report.motherCultureDegree}">
+            			<c:choose>
+            				<c:when test="${report.motherCultureDegree eq '1'}">小学</c:when>
+            				<c:when test="${report.motherCultureDegree eq '8'}">完成部分初中课程</c:when>
+            				<c:when test="${report.motherCultureDegree eq '2'}">初中毕业</c:when>
+            				<c:when test="${report.motherCultureDegree eq '3'}">完成部分高中课程</c:when>
+            				<c:when test="${report.motherCultureDegree eq '4'}">高中毕业</c:when>
+            				<c:when test="${report.motherCultureDegree eq '5'}">完成部分大学课程（至少一年）</c:when>
+            				<c:when test="${report.motherCultureDegree eq '6'}">大学毕业（大专或大学）</c:when>
+            				<c:when test="${report.motherCultureDegree eq '7'}">硕士毕业或以上</c:when>
+            			</c:choose>
+            		</c:when>
+            		<c:otherwise>
+            			请选择
+            		</c:otherwise>
+            	</c:choose>
+            	</em> ></span>
             <div id="bg">
             </div>
 		</p>
@@ -277,12 +384,34 @@ input{border:0; text-align:right; margin-right:10px; width:80%;}
 
 
 
-      <div class="m_list_1 b_solid">
+      <div class="m_list_1 b_solid ${report.motherCareerCategoryShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>母亲职业大类</p>
         <p class="payment_occupation_title">
-            <input type="hidden" value="" class="payment_occupation_value" name="motherCareerCategory"/>
-            <span><em>请选择大类</em> ></span>
+            <input type="hidden" value="${report.motherCareerCategory}" class="payment_occupation_value" name="motherCareerCategory"/>
+            <span><em>
+				
+				<c:choose>
+            		<c:when test="${!empty report.motherCareerCategory}">
+            			<c:choose>
+            				<c:when test="${report.motherCareerCategory eq '1'}">第一大类</c:when> 				
+            				<c:when test="${report.motherCareerCategory eq '2'}">第二大类</c:when>
+            				<c:when test="${report.motherCareerCategory eq '3'}">第三大类</c:when>
+            				<c:when test="${report.motherCareerCategory eq '4'}">第四大类</c:when>
+            				<c:when test="${report.motherCareerCategory eq '5'}">第五大类</c:when>
+            				<c:when test="${report.motherCareerCategory eq '6'}">第六大类</c:when>
+            				<c:when test="${report.motherCareerCategory eq '7'}">第七大类</c:when>
+            				<c:when test="${report.motherCareerCategory eq '8'}">第八大类</c:when>
+            				<c:when test="${report.motherCareerCategory eq '9'}">第九大类</c:when>
+            				<c:when test="${report.motherCareerCategory eq '10'}">第十大类</c:when>
+            			</c:choose>
+            		</c:when>
+            		<c:otherwise>
+            			请选择
+            		</c:otherwise>
+            	</c:choose>
+			
+			</em> ></span>
             <div id="bg">
             </div>
 		</p>
@@ -302,12 +431,21 @@ input{border:0; text-align:right; margin-right:10px; width:80%;}
         </div>	
       </div>
       
-      <div class="m_list_1 b_solid">
+      <div class="m_list_1 b_solid ${report.motherCareerShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>母亲职业</p>
         <p class="payment_occupation_small_title">
-            <input type="hidden" value="" class="payment_occupation_small_value" name="motherCareer"/>
-            <span><em>请选择小类</em> ></span>
+            <input type="hidden" value="${report.motherCareer}" class="payment_occupation_small_value" name="motherCareer"/>
+            <span><em>
+    				<c:choose>
+	            		<c:when test="${!empty report.motherCareer}">
+	            			${report.motherCareer}
+	            		</c:when>
+	            		<c:otherwise>
+	            			请选择小类
+	            		</c:otherwise>
+            		</c:choose>             
+            </em> ></span>
             <div id="bg">
             </div>
 		</p>
@@ -317,19 +455,33 @@ input{border:0; text-align:right; margin-right:10px; width:80%;}
         </div>	
       </div>
       
-        
 
-
-
-
-
-
-      <div class="m_list_1 b_solid">
+      <div class="m_list_1 b_solid ${report.fatherCultureDegreeShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>父亲文化程度</p>
         <p class="payment_culture2_title">
-            <input type="hidden" value="0" class="payment_culture2_value" name="fatherCultureDegree"/>
-            <span><em>请选择</em> ></span>
+            <input type="hidden" value="${report.fatherCultureDegree}" class="payment_culture2_value" name="fatherCultureDegree"/>
+            <span><em>
+ 					
+ 					<c:choose>
+            		<c:when test="${!empty report.fatherCultureDegree}">
+            			<c:choose>
+            				<c:when test="${report.fatherCultureDegree eq '1'}">小学</c:when>
+            				<c:when test="${report.fatherCultureDegree eq '8'}">完成部分初中课程</c:when>
+            				<c:when test="${report.fatherCultureDegree eq '2'}">初中毕业</c:when>
+            				<c:when test="${report.fatherCultureDegree eq '3'}">完成部分高中课程</c:when>
+            				<c:when test="${report.fatherCultureDegree eq '4'}">高中毕业</c:when>
+            				<c:when test="${report.fatherCultureDegree eq '5'}">完成部分大学课程（至少一年）</c:when>
+            				<c:when test="${report.fatherCultureDegree eq '6'}">大学毕业（大专或大学）</c:when>
+            				<c:when test="${report.fatherCultureDegree eq '7'}">硕士毕业或以上</c:when>
+            			</c:choose>
+            		</c:when>
+            		<c:otherwise>
+            			请选择
+            		</c:otherwise>
+            	</c:choose>
+            	
+            	</em> ></span>
             <div id="bg">
             </div>
 		</p>
@@ -349,12 +501,34 @@ input{border:0; text-align:right; margin-right:10px; width:80%;}
 
 
 
-      <div class="m_list_1 b_solid">
+      <div class="m_list_1 b_solid ${report.fatherCareerCategoryShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>父亲职业大类</p>
         <p class="payment_occupation2_title">
-            <input type="hidden" value="" class="payment_occupation2_value" name="fatherCareerCategory"/>
-            <span><em>请选择</em> ></span>
+            <input type="hidden" value="${report.fatherCareerCategory}" class="payment_occupation2_value" name="fatherCareerCategory"/>
+            <span><em>
+     			
+     			<c:choose>
+            		<c:when test="${!empty report.fatherCareerCategory}">
+            			<c:choose>
+            				<c:when test="${report.fatherCareerCategory eq '1'}">第一大类</c:when> 				
+            				<c:when test="${report.fatherCareerCategory eq '2'}">第二大类</c:when>
+            				<c:when test="${report.fatherCareerCategory eq '3'}">第三大类</c:when>
+            				<c:when test="${report.fatherCareerCategory eq '4'}">第四大类</c:when>
+            				<c:when test="${report.fatherCareerCategory eq '5'}">第五大类</c:when>
+            				<c:when test="${report.fatherCareerCategory eq '6'}">第六大类</c:when>
+            				<c:when test="${report.fatherCareerCategory eq '7'}">第七大类</c:when>
+            				<c:when test="${report.fatherCareerCategory eq '8'}">第八大类</c:when>
+            				<c:when test="${report.fatherCareerCategory eq '9'}">第九大类</c:when>
+            				<c:when test="${report.fatherCareerCategory eq '10'}">第十大类</c:when>
+            			</c:choose>
+            		</c:when>
+            		<c:otherwise>
+            			请选择
+            		</c:otherwise>
+            	</c:choose>
+            	       
+            </em> ></span>
             <div id="bg">
             </div>
 		</p>
@@ -375,12 +549,21 @@ input{border:0; text-align:right; margin-right:10px; width:80%;}
       </div>  
 
 	
-	 <div class="m_list_1 b_solid">
+	 <div class="m_list_1 b_solid ${report.fatherCareerShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>父亲职业小类</p>
         <p class="payment_occupation2_small_title">
-            <input type="hidden" value="" class="payment_occupation2_small_value" name="fatherCareer"/>
-            <span><em>请选择小类</em> ></span>
+            <input type="hidden" value="${report.fatherCareer}" class="payment_occupation2_small_value" name="fatherCareer"/>
+            <span><em>
+            		<c:choose>
+	            		<c:when test="${!empty report.fatherCareer}">
+	            			${report.fatherCareer}
+	            		</c:when>
+	            		<c:otherwise>
+	            			请选择小类
+	            		</c:otherwise>
+            		</c:choose> 
+            	</em> ></span>
             <div id="bg">
             </div>
 		</p>
@@ -391,12 +574,32 @@ input{border:0; text-align:right; margin-right:10px; width:80%;}
       </div>
 	
 	
-	<div class="m_list_1 b_solid">
+	<div class="m_list_1 b_solid ${report.caregiversCultureDegreeShow ? '' : 'divhide'}">
 	    <p class="box"><span></span></p>
 	    <p>主要照顾者文化程度</p>
 	    <p class="payment_culture3_title">
-	        <input type="hidden" value="0" class="payment_culture3_value" name="caregiversCultureDegree"/>
-	        <span><em>请选择</em> ></span>
+	        <input type="hidden" value="${report.caregiversCultureDegree}" class="payment_culture3_value" name="caregiversCultureDegree"/>
+	        <span><em>
+	        	
+	        	<c:choose>
+            		<c:when test="${!empty report.caregiversCultureDegree}">
+            			<c:choose>
+            				<c:when test="${report.caregiversCultureDegree eq '1'}">小学</c:when>
+            				<c:when test="${report.caregiversCultureDegree eq '8'}">完成部分初中课程</c:when>
+            				<c:when test="${report.caregiversCultureDegree eq '2'}">初中毕业</c:when>
+            				<c:when test="${report.caregiversCultureDegree eq '3'}">完成部分高中课程</c:when>
+            				<c:when test="${report.caregiversCultureDegree eq '4'}">高中毕业</c:when>
+            				<c:when test="${report.caregiversCultureDegree eq '5'}">完成部分大学课程（至少一年）</c:when>
+            				<c:when test="${report.caregiversCultureDegree eq '6'}">大学毕业（大专或大学）</c:when>
+            				<c:when test="${report.caregiversCultureDegree eq '7'}">硕士毕业或以上</c:when>
+            			</c:choose>
+            		</c:when>
+            		<c:otherwise>
+            			请选择
+            		</c:otherwise>
+            	</c:choose>
+	        	
+	        </em> ></span>
 	        <div id="bg">
 	        </div>
 	    </p>
@@ -414,24 +617,37 @@ input{border:0; text-align:right; margin-right:10px; width:80%;}
 	    </div>
 	</div>
 
-    <div class="m_list_1 b_solid">
+    <div class="m_list_1 b_solid ${report.motherBirthDayShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_5.png" /></span></p>
         <p>母亲生日*</p>
-        <p><input id="my-input2" type="text" name="motherBirthDay"/><span style="margin-right:15px">></span></p>
+        <p><input id="my-input2" type="text" name="motherBirthDay" value="${report.motherBirthDay}"/><span style="margin-right:15px">></span></p>
     </div>       
    
-   <div class="m_list_1 b_solid">
+   <div class="m_list_1 b_solid ${report.fatherBirthDayShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_5.png" /></span></p>
         <p>父亲生日*</p>
-        <p><input id="my-input3" type="text" name="fatherBirthDay"/><span style="margin-right:15px">></span></p>
+        <p><input id="my-input3" type="text" name="fatherBirthDay" value="${report.fatherBirthDay}"/><span style="margin-right:15px">></span></p>
    </div> 
    
-   <div class="m_list_1 b_solid">
+   <div class="m_list_1 b_solid ${report.maritalStatusShow ? '' : 'divhide'}">
 	    <p class="box"><span></span></p>
 	    <p>婚姻状况</p>
 	    <p class="payment_wedding_title">
-	        <input type="hidden" value="0" class="payment_wedding_value" name="maritalStatus"/>
-	        <span><em>请选择</em> ></span>
+	        <input type="hidden" value="${report.maritalStatus}" class="payment_wedding_value" name="maritalStatus"/>
+	        <span><em>
+	   			<c:choose>
+	   				<c:when test="${!empty report.maritalStatus}">
+	   					<c:choose>
+	   						<c:when test="${report.maritalStatus eq '1'}">未婚</c:when>
+	   						<c:when test="${report.maritalStatus eq '2'}">已婚</c:when>
+	   						<c:when test="${report.maritalStatus eq '3'}">离异</c:when>
+	   					</c:choose>
+	   				</c:when>
+	   				<c:otherwise>
+	   					请选择
+	   				</c:otherwise>
+	   			</c:choose>     
+	       </em> ></span>
 	        <div id="bg">
 	        </div>
 	    </p>
@@ -459,31 +675,26 @@ input{border:0; text-align:right; margin-right:10px; width:80%;}
     </form>
 </div>
 
-
-
-
-<link rel="stylesheet" href="../css/sm.min.css">
 <script>jQuery.noConflict()</script>
-<script type='text/javascript' src='../js/zepto.min.js' charset='utf-8'></script>
-<script type='text/javascript' src='../js/sm.min.js' charset='utf-8'></script>
 <script type="text/javascript">
+	var birthDay = ${empty report.birthDay ? '2015-12-05' : report.birthDay};
+	var testDay = ${empty report.testDay ? '2015-12-05' : report.testDay};
+	var motherBirthDay = ${empty report.motherBirthDay ? '2015-12-05' : report.motherBirthDay};
+	var fatherBirthDay = ${empty report.fatherBirthDay ? '2015-12-05' : report.fatherBirthDay};
 	$("#my-input").calendar({
-	value: ['2015-12-05']
+	value: birthDay
 	});
 	$("#my-input1").calendar({
-	value: ['2015-12-05']
+	value: testDay
 	});
 	$("#my-input2").calendar({
-	value: ['2015-12-05']
+	value: motherBirthDay
 	});
 	$("#my-input3").calendar({
-	value: ['2015-12-05']
+	value: fatherBirthDay
 	});
 </script>
 
-
-
-<link rel="stylesheet" type="text/css" href="../css/payment.css" />
 <script type="text/javascript">
 	var enterNo = "20252a32e38c44f9ac02ca623f4ee503";
 	var scaleNo = "SCALENO001";
@@ -522,19 +733,16 @@ $(function () {
 	    $(".payment_situation_title em").text("");
         $(".payment_situation_value").val("");
     });
-	//
     $(".payment_situation_mask li").on('click',function () {
 
 	   var str = $(".payment_situation_value").val();
-	　　var sear=new RegExp($(this).html());
+	　　var sear=new RegExp($(this).attr('value'));
 	　　if(!sear.test(str)){
            $(".payment_situation_title em").text($(this).html()+";"+$(".payment_situation_title em").html());
 		   $(".payment_situation_value").val($(this).attr('value')+";"+$(".payment_situation_value").val());
        }
 
     });
-	
-
 	
 	
 //------------		
@@ -587,7 +795,7 @@ $(function () {
     $(".payment_nexus_mask li").on('click',function () {
         $("#bg,.payment_nexus_mask").css("display", "none");
         $(".payment_nexus_title em").text($(this).html());
-		$(".payment_nexus_value").val($(this).html());
+		$(".payment_nexus_value").val($(this).attr('value'));
     });	
 	
 	
@@ -680,13 +888,23 @@ $(function () {
 	
 //------
 	 $(".payment_occupation_small_title").click(function () {
-	        $("#bg").css({
-	            display: "block", height: $(document).height()
-	        });
-	        var $box = $('.payment_occupation_small_mask');
-	        $box.css({
-	            display: "block",
-	        });
+		 	var bigType = $(".payment_occupation_value").val();
+		 	if(bigType != ''){
+		 		$("#bg").css({
+		            display: "block", height: $(document).height()
+		        });
+		        var $box = $('.payment_occupation_small_mask');
+		        $box.css({
+		            display: "block",
+		        });
+		 	}else{
+		 		layer.open({
+                    content: '请先选择职业大类'
+                    ,skin: 'msg'
+                    ,time: 2 //2秒后自动关闭
+                });
+		 	}
+		 	
 	    });
 
 	   		
@@ -723,13 +941,22 @@ $(function () {
 //-----------	
 	
 	$(".payment_occupation2_small_title").click(function () {
-	     $("#bg").css({
-	          display: "block", height: $(document).height()
-	     });
-	     var $box = $('.payment_occupation2_small_mask');
-	     $box.css({
-	          display: "block",
-	     });
+		var bigType = $(".payment_occupation2_value").val(); 
+		if(bigType != ''){
+			$("#bg").css({
+		          display: "block", height: $(document).height()
+		     });
+		     var $box = $('.payment_occupation2_small_mask');
+		     $box.css({
+		          display: "block",
+		     });
+		}else{
+			layer.open({
+                content: '请先选择职业大类'
+                ,skin: 'msg'
+                ,time: 2 //2秒后自动关闭
+            });
+		}
 	});
 	
 	
@@ -880,5 +1107,6 @@ $(function () {
 	}
 
 </script>
+
 </body>
 </html>
