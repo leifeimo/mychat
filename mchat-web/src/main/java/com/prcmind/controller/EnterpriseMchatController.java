@@ -50,7 +50,7 @@ public class EnterpriseMchatController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/web/v1/enterpriseMchat/downloadReport", method = RequestMethod.POST)
+	@RequestMapping(value = "/web/v1/enterpriseMchat/downloadReport", method = RequestMethod.GET)
 	@ResponseBody
 	public CodeMsgBean<Object> downloadReport(String scoreNo, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		if (StringUtils.isEmpty(scoreNo)) {

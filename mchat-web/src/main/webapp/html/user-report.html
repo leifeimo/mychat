@@ -79,7 +79,7 @@
       {{/if}}
     </td>
     <td>{{$imports.getTimeFromNum($value.createTime,1)}}</td>
-    <td><a data-index="{{$index}}" class="ac-check" href="javascript:;"><img class="looks" src="../images/looks.png" /></a></td>
+    <td><a data-scoreNo="{{$value.scoreNo}}" class="ac-check" href="javascript:;"><img class="looks" src="../images/looks.png" /></a></td>
     <td><a data-scoreNo="{{$value.scoreNo}}" class="ac-check-wj" href="javascript:;"><img class="looks" src="../images/looks.png" /></a></td>
     <td><a target="_blank" href="{{$imports.requestURL+'/web/v1/medicMchat/downloadReport?scoreNo='+$value.scoreNo}}"><img class="looks" src="../images/s_2.png" /></a></td>
     <td><a data-scoreNo="{{$value.scoreNo}}" class="ac-delete" href="javascript:;"><img src="../images/s_1.png" /></a></td>
@@ -470,7 +470,7 @@
 
 
     $("body").delegate('.ac-check','click',function(){
-      var index = $(this).attr('data-index');
+      var scoreNo = $(this).attr('data-scoreNo');
       var height = parseInt(window.innerHeight);
       height = height > 532 ? '532px' : height+'px';
       var myLayer = layer.open({
@@ -479,37 +479,47 @@
         btn:['返回'],
         area: ["700px",height],
         success: function(){
-          var data = respData.data.recordList[index];
-          $("#testeeName").val(data.testeeName);
-          $("#sex").val(['男','女'][data.sex]);
-          $("#cardType").val(['儿童身份证','父亲身份证','母亲身份证','诊疗卡号','其他'][data.cardType]);
-          $("#cardNo2").val(data.cardNo);
-          $("#birthDay").val(data.birthYear+'-'+data.birthMonth+'-'+data.birthToday);
-          $("#testDay").val(util.getTimeFromNum(data.createTime));
-          $("#gestationalWeeks").val(data.gestationalWeeks);
-          $("#gestationalDays").val(data.gestationalDays);
-          $("#consignorName").val(data.consignorName);
-          $("#consignorType").val(data.consignorType);
-          $("#weight").val(data.birthWeight);
-          $("#address").val(data.address);
-          $("#tel").val(data.tel);
-          $("#motnerCultureDegree").val(data.motnerCultureDegree);
-          $("#fatherCultureDegree").val(data.fatherCultureDegree);
-          $("#remark").text(data.remark);
-          $("#fatherCareerCategory").text('第'+data.fatherCareerCategory+'大类');
-          $("#motherCareerCategory").text('第'+data.motherCareerCategory+'大类');
+          util.client({
+            url: util.requestURL+'/web/v1/medicMchat/getMchatScoreByScoreNo',
+            type: 'POST',
+            data:{
+              scoreNo: scoreNo
+            },
+            success: function(data){
+              var data = data.data;
+              $("#testeeName").val(data.testeeName);
+              $("#sex").val(['男','女'][data.sex]);
+              $("#cardType").val(['儿童身份证','父亲身份证','母亲身份证','诊疗卡号','其他'][data.cardType]);
+              $("#cardNo2").val(data.cardNo);
+              $("#birthDay").val(data.birthYear+'-'+data.birthMonth+'-'+data.birthToday);
+              $("#testDay").val(util.getTimeFromNum(data.createTime));
+              $("#gestationalWeeks").val(data.gestationalWeeks);
+              $("#gestationalDays").val(data.gestationalDays);
+              $("#consignorName").val(data.consignorName);
+              $("#consignorType").val(data.consignorType);
+              $("#weight").val(data.birthWeight);
+              $("#address").val(data.address);
+              $("#tel").val(data.tel);
+              $("#motnerCultureDegree").val(data.motnerCultureDegree);
+              $("#fatherCultureDegree").val(data.fatherCultureDegree);
+              $("#remark").text(data.remark);
+              $("#fatherCareerCategory").text('第'+data.fatherCareerCategory+'大类');
+              $("#motherCareerCategory").text('第'+data.motherCareerCategory+'大类');
 
-          if(data.births){
-            var births = data.births.split(';');
-            var map = ['足月','早产','顺产','剖腹产','产钳助产','吸引器助产','双胎','其他异常情况'];
-            var html = '';
-            births.map(function(val,i){
-              html += map[val]+' , ';
-            });
-            html = html.substring(0,html.length-2);
-            $("#births").text(html);
-          }
-          $(".r_form").find('input').attr('disabled','disabled');
+              if(data.births){
+                var births = data.births.split(';');
+                var map = ['足月','早产','顺产','剖腹产','产钳助产','吸引器助产','双胎','其他异常情况'];
+                var html = '';
+                births.map(function(val,i){
+                  html += map[val]+' , ';
+                });
+                html = html.substring(0,html.length-2);
+                $("#births").text(html);
+              }
+              $(".r_form").find('input').attr('disabled','disabled');
+            }
+          })
+          
         }
       })
     });
