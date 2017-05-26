@@ -365,10 +365,16 @@ public class EnterpriseController {
 		if (pageNum == 0 || numPerPage == 0) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
+		String enterpriseNo = getEnterpriseNo(request);
+		if (StringUtils.isEmpty(enterpriseNo)) {
+			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			// return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
+		}
 		PageParam pageParam = new PageParam(pageNum, numPerPage);
 		try {
 			HashMap<String, Object> paramMap = new HashMap<String, Object>();
 			paramMap.put("loginName", loginName);
+			paramMap.put("enterpriseNo", enterpriseNo);
 			PageBean pageBean = portalEnterpriseFacade.listMedicListPage(pageParam, paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", pageBean);
 		} catch (PortalBizException e) {

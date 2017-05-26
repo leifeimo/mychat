@@ -157,7 +157,10 @@ public class EnterpriseMchatController {
 			paramMap.put("birthMonth", map != null ? map.get("birthMonth") : "");
 			paramMap.put("birthToday", map != null ? map.get("birthToday") : "");
 			paramMap.put("deleted", req.getDeleted());
-
+			paramMap.put("testYear", "");
+			paramMap.put("testMonth", req.getCardNo());
+			paramMap.put("testToday", enterpriseNo);
+			paramMap.put("medicName", req.getMedicName());
 			PageBean PageBean = portalMchatEnterpriseFacade.listMchatScoreListPage(pageParam, paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
 		} catch (PortalBizException e) {

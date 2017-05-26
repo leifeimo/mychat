@@ -13,7 +13,16 @@ public class RecordReq {
 	int deleted;
 	String birth;
 	String parentNo;
+	String medicName;
 	
+	
+	
+	public String getMedicName() {
+		return medicName;
+	}
+	public void setMedicName(String medicName) {
+		this.medicName = medicName;
+	}
 	public String getParentNo() {
 		return parentNo;
 	}
