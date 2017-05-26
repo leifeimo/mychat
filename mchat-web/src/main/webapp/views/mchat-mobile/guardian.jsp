@@ -62,8 +62,11 @@
     </div>
     
     <div id="m_test_name" class="m_list_1 b_solid">
-    <p>施测者：<span id="testName">${report.medicName}</span><input type="hidden" name="medicName"></p>
-    <p><a href="javascript:void(0)" onclick="getTestName();">切换 <img src="../images/tip1.jpg" align="absmiddle" /></a></p>
+    <p>施测者：<span id="testName">${report.medicName}</span>
+    	<input type="hidden" name="medicNo" value="${report.medicNo}">
+    	<input type="hidden" name="medicName" value="${report.medicName}">
+    </p>
+    <p><a href="javascript:void(0)" ${empty report.medicName ? "onclick='getTestName();'" : ""}>切换 <img src="../images/tip1.jpg" align="absmiddle" /></a></p>
     <div class="payment_testname_mask">
         <ul id="payment_testname_mask_ul">
         </ul>
@@ -76,7 +79,7 @@
       <div class="m_list b_solid ${report.testeeNameShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_1.png" /></span></p>
         <p>儿童姓名*</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.testeeName}" name="testeeName" id="testeeName"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.testeeName}" name="testeeName" id="testeeName" ${empty report.testeeName ? "" : "disabled='disabled'"}/></p>
       </div>
       
       
@@ -133,7 +136,7 @@
       <div class="m_list b_solid ${report.cardNoShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_3.png" /></span></p>
         <p>身份证号码*</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.cardNo}" id="cardNo" name="cardNo"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.cardNo}" id="cardNo" name="cardNo" ${empty report.cardNo ? "" : "disabled='disabled'"}/></p>
       </div>      
 
 
@@ -172,13 +175,13 @@
       <div class="m_list_1 b_solid ${report.birthDayShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_5.png" /></span></p>
         <p>出生日期*</p>
-        <p><input id="my-input" type="text" name="birthDay" value="${report.birthDay}"/><span style="margin-right:15px">></span></p>
+        <p><input id="my-input" type="text" name="birthDay" value="${report.birthDay}" ${empty report.birthDay ? "" : "disabled:'disabled'"}/><span style="margin-right:15px">></span></p>
       </div>  
       
       <div class="m_list_1 b_solid ${report.testDayShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_6.png" /></span></p>
         <p>完成问卷日期*</p>
-        <p><input id="my-input1" type="text" name="testDay" value="${report.testDay}"/><span style="margin-right:15px">></span></p>
+        <p><input id="my-input1" type="text" name="testDay" value="${report.testDay}" ${empty report.testDay ? "" : "disabled:'disabled'"}/><span style="margin-right:15px">></span></p>
       </div>  
       
       <div class="m_list_1 b_solid" style="display:none">
@@ -271,14 +274,14 @@
       <div class="m_list_1 b_solid  m_top_20 ${report.consignorNameShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>完成问卷人姓名</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.consignorName}" id="consignorName" name="consignorName"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.consignorName}" id="consignorName" name="consignorName" ${empty report.consignorName ? "" : "disabled:'disabled'"}/></p>
       </div>    
       
       <div class="m_list_1 b_solid ${report.consignorTypeShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_2.png" /></span></p>
         <p>与儿童的关系</p>
         <p class="payment_nexus_title">
-            <input type="hidden" value="${report.consignorType}" class="payment_nexus_value" name="consignorType"/>
+            <input type="hidden" value="${report.consignorType}" class="payment_nexus_value" name="consignorType" ${ empty report.consignorType ? "" : "disabled:'disabled'"}/>
             <span><em>
             	<c:choose>
             		<c:when test="${report.consignorType eq '1'}">父母</c:when>
@@ -305,39 +308,39 @@
       <div class="m_list_1 b_solid ${report.weightShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_7.png" /></span></p>
         <p>出生时体重(克)</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.weight}" id="weight" name="weight"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.weight}" id="weight" name="weight" ${empty report.weight ? "" : "disabled:'disabled'"}/></p>
       </div> 
 
       <div class="m_list_1 b_solid ${report.addressShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_6.png" /></span></p>
         <p>通信地址</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.address}" id="address" name="address"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.address}" id="address" name="address" ${empty report.address ? "" : "disabled:'disabled'"}/></p>
       </div> 
       
       <div class="m_list_1 b_solid ${report.zipShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>邮政编码</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.zip}" id="zip" name="zip"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.zip}" id="zip" name="zip" ${empty report.zip ? "" : "disabled:'disabled'"}/></p>
       </div> 
       
       <div class="m_list_1 b_solid ${report.emailShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>电子邮箱</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.email}" id="email" name="email"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.email}" id="email" name="email" ${empty report.email ? "" : "disabled:'disabled'"}/></p>
       </div>  
  
       
       <div class="m_list_1 b_solid ${report.telShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>联系电话</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.tel}" id="tel" name="tel"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.tel}" id="tel" name="tel" ${empty report.tel ? "" : "disabled:'disabled'"}/></p>
       </div>   
 
 
       <div class="m_list_1 b_solid ${report.patronnInfoShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_10.png" /></span></p>
         <p>协助填写问卷人</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.patronnInfo}" id="patronnInfo" name="patronnInfo"/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.patronnInfo}" id="patronnInfo" name="patronnInfo" ${empty report.patronnInfo ? "" : "disabled:'disabled'"}/></p>
       </div> 
 
       
@@ -620,13 +623,13 @@
     <div class="m_list_1 b_solid ${report.motherBirthDayShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_5.png" /></span></p>
         <p>母亲生日*</p>
-        <p><input id="my-input2" type="text" name="motherBirthDay" value="${report.motherBirthDay}"/><span style="margin-right:15px">></span></p>
+        <p><input id="my-input2" type="text" name="motherBirthDay" value="${report.motherBirthDay}" ${empty report.motherBirthDay ? "" : "disabled:'disabled'"}/><span style="margin-right:15px">></span></p>
     </div>       
    
    <div class="m_list_1 b_solid ${report.fatherBirthDayShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_5.png" /></span></p>
         <p>父亲生日*</p>
-        <p><input id="my-input3" type="text" name="fatherBirthDay" value="${report.fatherBirthDay}"/><span style="margin-right:15px">></span></p>
+        <p><input id="my-input3" type="text" name="fatherBirthDay" value="${report.fatherBirthDay}" ${empty report.fatherBirthDay ? "" : "disabled:'disabled'"}/><span style="margin-right:15px">></span></p>
    </div> 
    
    <div class="m_list_1 b_solid ${report.maritalStatusShow ? '' : 'divhide'}">
@@ -677,22 +680,30 @@
 
 <script>jQuery.noConflict()</script>
 <script type="text/javascript">
-	var birthDay = ${empty report.birthDay ? '2015-12-05' : report.birthDay};
-	var testDay = ${empty report.testDay ? '2015-12-05' : report.testDay};
-	var motherBirthDay = ${empty report.motherBirthDay ? '2015-12-05' : report.motherBirthDay};
-	var fatherBirthDay = ${empty report.fatherBirthDay ? '2015-12-05' : report.fatherBirthDay};
-	$("#my-input").calendar({
-	value: birthDay
-	});
-	$("#my-input1").calendar({
-	value: testDay
-	});
-	$("#my-input2").calendar({
-	value: motherBirthDay
-	});
-	$("#my-input3").calendar({
-	value: fatherBirthDay
-	});
+	var birthDay = '${report.birthDay}';
+	var testDay = '${report.testDay}';
+	var motherBirthDay = '${report.motherBirthDay}';
+	var fatherBirthDay = '${report.fatherBirthDay}';
+	if(birthDay==''){
+		$("#my-input").calendar({
+			value: '2015-12-05'
+		});
+	}
+	if(testDay==''){
+		$("#my-input1").calendar({
+			value: '2015-12-05'
+		});
+	}
+	if(motherBirthDay==''){
+		$("#my-input2").calendar({
+			value: '2015-12-05'
+		});
+	}
+	if(fatherBirthDay==''){
+		$("#my-input3").calendar({
+			value: '2015-12-05'
+		});
+	}
 </script>
 
 <script type="text/javascript">
@@ -714,18 +725,20 @@
 
 $(function () {
 	
-	
-    $(".payment_situation_title").click(function () {
-        $("#bg").css({
-            display: "block", height: $(document).height()
-        });
-        var $box = $('.payment_situation_mask');
-        $box.css({
-            display: "block",
-        });
-    });
-
+	var births = '${report.births}';
+	if(births==''){
+		$(".payment_situation_title").click(function () {
+	        $("#bg").css({
+	            display: "block", height: $(document).height()
+	        });
+	        var $box = $('.payment_situation_mask');
+	        $box.css({
+	            display: "block",
+	        });
+	    });
+	}
     
+
     $(".payment_close").on('click',function () {
         $("#bg,.payment_situation_mask").css("display", "none");
     });
@@ -745,34 +758,41 @@ $(function () {
     });
 	
 	
-//------------		
-    $(".payment_sex_title").click(function () {
-        $("#bg").css({
-            display: "block", height: $(document).height()
-        });
-        var $box = $('.payment_sex_mask');
-        $box.css({
-            display: "block",
-        });
-    });
-
+//------------	
+	
+	var sex = '${report.sex}';
+	
+	if(sex==''){
+		$(".payment_sex_title").click(function () {
+	        $("#bg").css({
+	            display: "block", height: $(document).height()
+	        });
+	        var $box = $('.payment_sex_mask');
+	        $box.css({
+	            display: "block",
+	        });
+	    });
+	}
+    
     $(".payment_sex_mask li").on('click',function () {
         $("#bg,.payment_sex_mask").css("display", "none");
         $(".payment_sex_title em").text($(this).html());
 		$(".payment_sex_value").val($(this).attr('value'));
     });
 	
-//------------		
-    $(".payment_week_title").click(function () {
-        $("#bg").css({
-            display: "block", height: $(document).height()
-        });
-        var $box = $('.payment_week_mask');
-        $box.css({
-            display: "block",
-        });
-    });
-
+//------------
+	var gestationalWeeks = '${report.gestationalWeeks}';
+	if(gestationalWeeks==''){
+		$(".payment_week_title").click(function () {
+	        $("#bg").css({
+	            display: "block", height: $(document).height()
+	        });
+	        var $box = $('.payment_week_mask');
+	        $box.css({
+	            display: "block",
+	        });
+	    });
+	}
     $(".payment_week_mask li").on('click',function () {
         $("#bg,.payment_week_mask").css("display", "none");
         $(".payment_week_title em").text($(this).html());
@@ -780,18 +800,19 @@ $(function () {
     });	
 //------------	
 
-	
-	
-    $(".payment_nexus_title").click(function () {
-        $("#bg").css({
-            display: "block", height: $(document).height()
-        });
-        var $box = $('.payment_nexus_mask');
-        $box.css({
-            display: "block",
-        });
-    });
-
+	var consignorType =  '${report.consignorType}';
+	if(consignorType == ''){
+		 $(".payment_nexus_title").click(function () {
+		        $("#bg").css({
+		            display: "block", height: $(document).height()
+		        });
+		        var $box = $('.payment_nexus_mask');
+		        $box.css({
+		            display: "block",
+		        });
+		 });
+	}
+   
     $(".payment_nexus_mask li").on('click',function () {
         $("#bg,.payment_nexus_mask").css("display", "none");
         $(".payment_nexus_title em").text($(this).html());
@@ -800,17 +821,19 @@ $(function () {
 	
 	
 //------------	
-
-    $(".payment_culture_title").click(function () {
-        $("#bg").css({
-            display: "block", height: $(document).height()
-        });
-        var $box = $('.payment_culture_mask');
-        $box.css({
-            display: "block",
-        });
-    });
-
+	var motherCultureDegree = '${report.motherCultureDegree}';
+	if(motherCultureDegree == ''){
+		$(".payment_culture_title").click(function () {
+	        $("#bg").css({
+	            display: "block", height: $(document).height()
+	        });
+	        var $box = $('.payment_culture_mask');
+	        $box.css({
+	            display: "block",
+	        });
+	    });
+	}
+    
     $(".payment_culture_mask li").on('click',function () {
         $("#bg,.payment_culture_mask").css("display", "none");
         $(".payment_culture_title em").text($(this).html());
@@ -818,17 +841,19 @@ $(function () {
     });	
 
 //------------	
-
-    $(".payment_culture2_title").click(function () {
-        $("#bg").css({
-            display: "block", height: $(document).height()
-        });
-        var $box = $('.payment_culture2_mask');
-        $box.css({
-            display: "block",
-        });
-    });
-
+	var fatherCultureDegree= '${report.fatherCultureDegree}';
+	if(fatherCultureDegree==''){
+		$(".payment_culture2_title").click(function () {
+	        $("#bg").css({
+	            display: "block", height: $(document).height()
+	        });
+	        var $box = $('.payment_culture2_mask');
+	        $box.css({
+	            display: "block",
+	        });
+	    });
+	}
+    
     $(".payment_culture2_mask li").on('click',function () {
         $("#bg,.payment_culture2_mask").css("display", "none");
         $(".payment_culture2_title em").text($(this).html());
@@ -836,18 +861,20 @@ $(function () {
     });	
 
 //-----------
-
-
-	$(".payment_culture3_title").click(function () {
-        $("#bg").css({
-            display: "block", height: $(document).height()
-        });
-        var $box = $('.payment_culture3_mask');
-        $box.css({
-            display: "block",
-        });
-    });
-
+	
+	var caregiversCultureDegree = '${report.caregiversCultureDegree}';
+	if(caregiversCultureDegree==''){
+		$(".payment_culture3_title").click(function () {
+	        $("#bg").css({
+	            display: "block", height: $(document).height()
+	        });
+	        var $box = $('.payment_culture3_mask');
+	        $box.css({
+	            display: "block",
+	        });
+	    });
+	}
+	
     $(".payment_culture3_mask li").on('click',function () {
         $("#bg,.payment_culture3_mask").css("display", "none");
         $(".payment_culture3_title em").text($(this).html());
@@ -857,17 +884,19 @@ $(function () {
 
 
 //------------
-
-    $(".payment_occupation_title").click(function () {
-        $("#bg").css({
-            display: "block", height: $(document).height()
-        });
-        var $box = $('.payment_occupation_mask');
-        $box.css({
-            display: "block",
-        });
-    });
-
+	var motherCareerCategory = '${report.motherCareerCategory}';
+	if(motherCareerCategory==''){
+		$(".payment_occupation_title").click(function () {
+	        $("#bg").css({
+	            display: "block", height: $(document).height()
+	        });
+	        var $box = $('.payment_occupation_mask');
+	        $box.css({
+	            display: "block",
+	        });
+	    });
+	}
+    
     $(".payment_occupation_mask li").on('click',function () {
         $("#bg,.payment_occupation_mask").css("display", "none");
         $(".payment_occupation_title em").text($(this).html());
@@ -887,40 +916,43 @@ $(function () {
 	
 	
 //------
-	 $(".payment_occupation_small_title").click(function () {
-		 	var bigType = $(".payment_occupation_value").val();
-		 	if(bigType != ''){
-		 		$("#bg").css({
-		            display: "block", height: $(document).height()
-		        });
-		        var $box = $('.payment_occupation_small_mask');
-		        $box.css({
-		            display: "block",
-		        });
-		 	}else{
-		 		layer.open({
-                    content: '请先选择职业大类'
-                    ,skin: 'msg'
-                    ,time: 2 //2秒后自动关闭
-                });
-		 	}
-		 	
-	    });
-
-	   		
-
+	 var motherCareer= '${report.motherCareer}';
+	 if(motherCareer==''){
+		 $(".payment_occupation_small_title").click(function () {
+			 	var bigType = $(".payment_occupation_value").val();
+			 	if(bigType != ''){
+			 		$("#bg").css({
+			            display: "block", height: $(document).height()
+			        });
+			        var $box = $('.payment_occupation_small_mask');
+			        $box.css({
+			            display: "block",
+			        });
+			 	}else{
+			 		layer.open({
+	                    content: '请先选择职业大类'
+	                    ,skin: 'msg'
+	                    ,time: 2 //2秒后自动关闭
+	                });
+			 	}
+			 	
+		    });
+	 }
+	 
 //-----------
-
-    $(".payment_occupation2_title").click(function () {
-        $("#bg").css({
-            display: "block", height: $(document).height()
-        });
-        var $box = $('.payment_occupation2_mask');
-        $box.css({
-            display: "block",
-        });
-    });
-
+	var fatherCareerCategory= '${report.fatherCareerCategory}';
+	if(fatherCareerCategory==''){
+		$(".payment_occupation2_title").click(function () {
+	        $("#bg").css({
+	            display: "block", height: $(document).height()
+	        });
+	        var $box = $('.payment_occupation2_mask');
+	        $box.css({
+	            display: "block",
+	        });
+	    });
+	}
+    
     $(".payment_occupation2_mask li").on('click',function () {
         $("#bg,.payment_occupation2_mask").css("display", "none");
         $(".payment_occupation2_title em").text($(this).html());
@@ -939,38 +971,43 @@ $(function () {
     });		
 	
 //-----------	
-	
-	$(".payment_occupation2_small_title").click(function () {
-		var bigType = $(".payment_occupation2_value").val(); 
-		if(bigType != ''){
-			$("#bg").css({
-		          display: "block", height: $(document).height()
-		     });
-		     var $box = $('.payment_occupation2_small_mask');
-		     $box.css({
-		          display: "block",
-		     });
-		}else{
-			layer.open({
-                content: '请先选择职业大类'
-                ,skin: 'msg'
-                ,time: 2 //2秒后自动关闭
-            });
-		}
-	});
-	
+	var fatherCareer = '${report.fatherCareer}';
+	if(fatherCareer==''){
+		$(".payment_occupation2_small_title").click(function () {
+			var bigType = $(".payment_occupation2_value").val(); 
+			if(bigType != ''){
+				$("#bg").css({
+			          display: "block", height: $(document).height()
+			     });
+			     var $box = $('.payment_occupation2_small_mask');
+			     $box.css({
+			          display: "block",
+			     });
+			}else{
+				layer.open({
+	                content: '请先选择职业大类'
+	                ,skin: 'msg'
+	                ,time: 2 //2秒后自动关闭
+	            });
+			}
+		});
+		
+	}
 	
 //------------	
-	
-    $(".payment_time_title").click(function () {
-        $("#bg").css({
-            display: "block", height: $(document).height()
-        });
-        var $box = $('.payment_time_mask');
-        $box.css({
-            display: "block",
-        });
-    });
+	var cardType = '${report.cardType}';
+	if(cardType==''){
+		$(".payment_time_title").click(function () {
+	        $("#bg").css({
+	            display: "block", height: $(document).height()
+	        });
+	        var $box = $('.payment_time_mask');
+	        $box.css({
+	            display: "block",
+	        });
+	    });
+	}
+    
 
     $(".payment_time_mask li").on('click',function () {
         $("#bg,.payment_time_mask").css("display", "none");
@@ -979,16 +1016,19 @@ $(function () {
     });
 
 //------------
-	$(".payment_wedding_title").click(function () {
-        $("#bg").css({
-            display: "block", height: $(document).height()
-        });
-        var $box = $('.payment_wedding_mask');
-        $box.css({
-            display: "block",
-        });
-    });
-
+	var maritalStatus = '${report.maritalStatus}';
+	if(maritalStatus==''){
+		$(".payment_wedding_title").click(function () {
+	        $("#bg").css({
+	            display: "block", height: $(document).height()
+	        });
+	        var $box = $('.payment_wedding_mask');
+	        $box.css({
+	            display: "block",
+	        });
+	    });
+	}
+	
     $(".payment_wedding_mask li").on('click',function () {
         $("#bg,.payment_wedding_mask").css("display", "none");
         $(".payment_wedding_title em").text($(this).html());
@@ -998,57 +1038,32 @@ $(function () {
 //-----------------    
     
     
-    
     //创建报告按钮绑定事件
     $("#createReportBtn").on('click',function(){
-//    	var testName = $("#testName").html();//施测者
-//    	var testeeName = $("#testeeName").val();//儿童姓名
-//    	var cardType = $("#cardType").val();//身份信息卡类型
-//    	var cardNo = $("#cardNo").val();//身份证号码
-//    	var sex = $("#sex").val();//性别
-//    	var birthDay = $("#my-input").val();//出生日期
-//    	var testDay = $("#my-input1").val();//完成问卷日期
-//    	var gestationalWeeks = $("#payment_week_value").val();//孕周
-//    	var births = $("#payment_situation_value").val();//出生时情况
-//    	
-//    	var consignorName = $("#consignorName").val();//完成问卷人姓名
-//    	var consignorType = $("#payment_nexus_value").val();//与儿童关系
-//    	var weight = $("#weight").val();//体重
-//    	var address = $("#address").val();//通讯地址
-//    	var zip = $("#zip").val();//邮政编码
-//    	var email = $("#email").val();//电子邮箱
-//        var tel = $("#tel").val();//联系电话
-//        var remarks = $("#remarks").val();//协助填写问卷人
-//        var motherCultureDegree = $(".payment_culture_value").val();//母亲文化程度
-//        var motherCareerCategory = $(".payment_occupation_value").val();//母亲职业大类
-//        var motherCareer = $(".payment_occupation_small_value").val();//母亲职业
-//        var fatherCultureDegree = $(".payment_culture2_value").val();//父亲文化程度
-//        var fatherCareerCategory = $(".payment_occupation2_value").val();//父亲职业大类
-//        var fatherCareer = $(".payment_occupation2_small_value").val();//父亲职业
-//        var caregiversCultureDegree = $(".payment_culture3_value").val();//主要照顾者文化程度
-//        var motherBirthDay = $("#my-input2").val();//母亲生日
-//        var fatherBirthDay = $("#my-input3").val();//父亲生日
-//        var maritalStatus = $(".payment_wedding_value").val();//婚姻状况
         $("#reportForm").attr("action",util.requestURL+"/mobile/html/question");
         $("#reportForm").submit();
     })
     
-    //施测者列表初始化
-    $.ajax({
-    	url: util.requestURL+'/api/v1/medicMchat/listMedic',
-    	data:{"enterpriseNo":enterNo,"scaleNo":scaleNo},
-        type: 'POST',
-        success: function(data){
-          if(data.code == 1){
-          	  var user = data.data.recordList[0];
-           	  $("#testName").html(user.realName);
-           	  $("#m_test_name input[name='medicName']").val(user.realName);
-          }else{
-          	  //接口获取失败
-          	  $("#testName").html("未查询到施测者信息");
-          }
-        }
-    });
+    //施测者列表初始化,没传值，才去接口获取
+    var medicName = '${report.medicName}';
+    if(medicName==''){
+    	$.ajax({
+        	url: util.requestURL+'/api/v1/medicMchat/listMedic',
+        	data:{"enterpriseNo":enterNo,"scaleNo":scaleNo},
+            type: 'POST',
+            success: function(data){
+              if(data.code == 1){
+              	  var user = data.data.recordList[0];
+               	  $("#testName").html(user.realName);
+               	  $("#m_test_name input[name='medicNo']").val(user.medicNo);
+               	  $("#m_test_name input[name='medicName']").val(user.realName);
+              }else{
+              	  //接口获取失败
+              	  $("#testName").html("未查询到施测者信息");
+              }
+            }
+        });
+    }  
 });
 	
 	
@@ -1081,7 +1096,7 @@ $(function () {
 	          	  var userList = data.data.recordList;
 	           	  for (var i = 0; i < userList.length; i++) {
 						var user = userList[i];
-						$("#payment_testname_mask_ul").empty().append("<li>"+user.realName+"</li>");
+						$("#payment_testname_mask_ul").empty().append("<li value='"+user.medicNo+"'>"+user.realName+"</li>");
 				  }
 				  //展示列表框
 				  $("#bg").css({
@@ -1095,6 +1110,7 @@ $(function () {
 				  $(".payment_testname_mask li").on('click',function () {
 				        $("#bg,.payment_testname_mask").css("display", "none");
 				        $("#testName").html($(this).html());
+				        $("#m_test_name input[name='medicNo']").val($(this).attr('value'));
 				        $("#m_test_name input[name='medicName']").val($(this).html());
     			  });
 	          }else{

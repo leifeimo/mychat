@@ -11,6 +11,8 @@ public class ReportParamView implements Serializable{
 	
 	private static final long serialVersionUID = 1857581288851781834L;
 
+	private String medicNo;//施测者
+	
 	private String medicName;//施测者姓名
 	
 	private String testeeName;//儿童姓名
@@ -179,6 +181,14 @@ public class ReportParamView implements Serializable{
 	private String remarksHide;
 	
 	private boolean remarksShow;
+
+	public String getMedicNo() {
+		return medicNo;
+	}
+
+	public void setMedicNo(String medicNo) {
+		this.medicNo = medicNo;
+	}
 
 	public String getMedicName() {
 		return medicName;

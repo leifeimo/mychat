@@ -50,6 +50,7 @@
 
 <body>
 	<div id="contentDiv">
+		<input type="hidden" name="medicNo" value="${report.medicNo}">
 		<input type="hidden" name="medicName" value="${report.medicName}"/>
 		<input type="hidden" name="testeeName" value="${report.testeeName}"/>
 	    <input type="hidden" name="cardType" value="${report.cardType}">
@@ -117,6 +118,7 @@
 	</div>
 
 <script>
+	var medicNo = $("#contentDiv input[name='medicNo']").val();
 	var medicName = $("#contentDiv input[name='medicName']").val();
 	var testeeName = $("#contentDiv input[name='testeeName']").val();
 	var cardType = $("#contentDiv input[name='cardType']").val();
@@ -172,6 +174,7 @@
 	var maritalStatus = $("#contentDiv input[name='maritalStatus']").val();
 	
 	var obj1 = {
+		medicNo : medicNo,
 		medicName:medicName,	
         testeeName: testeeName,
         sex: sex,
