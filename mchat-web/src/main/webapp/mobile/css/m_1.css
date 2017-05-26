@@ -94,13 +94,14 @@ body{
 /**必选**/
 .m_list{
     background-color:#FFF; 
-    height:80px;
+    height:60px;
     font-size:2.4rem;
 }
 
 .m_list p{
-    height:80px;
-    line-height:80px;
+    height:60px;
+    line-height:60px;
+	font-size:1.4rem;
 
 }
 .m_list p:nth-child(1){
@@ -120,11 +121,13 @@ body{
 	float:left;	
 	width:60%;
 	color:#9a9a9a;
+
 }
 
 .m_list img{
    margin:0 auto;
    vertical-align:middle;
+   width:20px;
 }
 
 .box{
@@ -148,22 +151,27 @@ body{
 	width:10%;
 }
 }
+/**必选**/
 
+
+
+
+/**选填**/
 .m_list_1{
     background-color:#FFF; 
-    height:80px;
-    font-size:2.4rem;
+    height:60px;
 }
 
 .m_list_1 p{
-    height:80px;
-    line-height:80px;
-
+    height:60px;
+    line-height:60px;
+	font-size:1.4rem;
 }
 .m_list_1 p:nth-child(1){
 	float:left;
 	width:10%;
 }
+
 
 .m_list_1 p:nth-child(2){
 	float:left;	
@@ -176,11 +184,13 @@ body{
 	float:left;	
 	width:50%;
 	color:#9a9a9a;
+
 }
 
 .m_list_1 img{
     margin:0 auto;
     vertical-align:middle;
+	   width:20px;
 }
 
 
