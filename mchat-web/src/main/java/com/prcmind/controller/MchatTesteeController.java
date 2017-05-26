@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,9 +22,7 @@ import com.prcmind.facade.portal.mchat.service.PortalMchatTesteeFacade;
 import com.prcmind.facade.scale.mchat.entity.MchatQuestionnaire;
 import com.prcmind.facade.scale.mchat.entity.MchatQuestionnaireResponse;
 import com.prcmind.facade.scale.mchat.entity.MchatScore;
-import com.prcmind.facade.user.entity.MedicInfo;
 import com.prcmind.utils.CodeMsgBean;
-import com.prcmind.utils.WebConstants;
 
 @Controller
 public class MchatTesteeController {
@@ -51,20 +48,10 @@ public class MchatTesteeController {
 		if (mchatScore == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
-		HttpSession session = request.getSession();
-		MedicInfo info = (MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
-		String enterpriseNo = null;
-		String medicNo = null;
+		String enterpriseNo ="20252a32e38c44f9ac02ca623f4ee503";
 		String ip = getIp(request);
-		if (info != null) {
-			enterpriseNo = info.getEnterpriseNo();
-			medicNo = info.getMedicNo();
-		} else {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			medicNo = "937c2b21d3db406693c59a816614e26d";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
-		}
-		mchatScore = initMchatScore(mchatScore, enterpriseNo, medicNo, birthDay, testDay);
+		mchatScore.setMedicNo("937c2b21d3db406693c59a816614e26d");
+		mchatScore = initMchatScore(mchatScore, enterpriseNo, birthDay, testDay);
 		final MchatScore mchat_score = mchatScore;
 		mchatScore.setIp(ip);
 		try {
@@ -146,10 +133,9 @@ public class MchatTesteeController {
 		}
 	}
 	
-	private MchatScore initMchatScore(MchatScore mchatScore, String enterpriseNo, String medicNo, String birthDay,
+	private MchatScore initMchatScore(MchatScore mchatScore, String enterpriseNo, String birthDay,
 			String testDay) {
 		mchatScore.setEnterpriseNo(enterpriseNo);
-		mchatScore.setMedicNo(medicNo);
 		Map<String, Integer> mapBirthDate = initBirthMap(birthDay, "birthYear", "birthMonth", "birthToday");
 		Map<String, Integer> mapTestDate = initBirthMap(testDay, "testYear", "testMonth", "testToday");
 		mchatScore.setBirthMonth(mapBirthDate.get("birthMonth"));
