@@ -1,4 +1,4 @@
-package com.prcmind.controller;
+package com.prcmind.controller.api;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.prcmind.view.ReportParamView;
 
 @Controller
-public class MobilController {
+public class MobileController {
 	
 	@RequestMapping("/mobile/html/question")
 	public String toQuestion(ReportParamView report,HttpServletRequest request,

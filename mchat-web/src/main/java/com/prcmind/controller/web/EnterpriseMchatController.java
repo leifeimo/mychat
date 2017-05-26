@@ -1,4 +1,4 @@
-package com.prcmind.controller;
+package com.prcmind.controller.web;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -58,8 +58,8 @@ public class EnterpriseMchatController {
 		}
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
 			MchatScore result = portalMchatEnterpriseFacade.downloadReport(scoreNo, enterpriseNo);
@@ -105,8 +105,8 @@ public class EnterpriseMchatController {
 		}
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			// return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
 			MchatQuestionnaireResponse result = portalMchatEnterpriseFacade.getMchatQuestionnaireResponse(scoreNo,
@@ -134,8 +134,8 @@ public class EnterpriseMchatController {
 		}
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			// return new CodeMsgBean<MedicInfo>(10002,"登录失效，请重新登录");
+			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		HashMap<String, String> map = null;
 		if (!StringUtils.isEmpty(req.getBirth())) {
@@ -158,8 +158,7 @@ public class EnterpriseMchatController {
 			paramMap.put("birthToday", map != null ? map.get("birthToday") : "");
 			paramMap.put("deleted", req.getDeleted());
 			paramMap.put("testYear", "");
-			paramMap.put("testMonth", req.getCardNo());
-			paramMap.put("testToday", enterpriseNo);
+			paramMap.put("cardNo", req.getCardNo());
 			paramMap.put("medicName", req.getMedicName());
 			PageBean PageBean = portalMchatEnterpriseFacade.listMchatScoreListPage(pageParam, paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
@@ -181,6 +180,11 @@ public class EnterpriseMchatController {
 	@RequestMapping(value = "/web/v1/enterpriseMchat/getMchatScoreByScoreNo", method = RequestMethod.POST)
 	@ResponseBody
 	public CodeMsgBean<Object> getMchatScoreByScoreNo(String scoreNo, HttpServletRequest request) throws IOException {
+		String enterpriseNo = getEnterpriseNo(request);
+		if (StringUtils.isEmpty(enterpriseNo)) {
+			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
 		if (StringUtils.isEmpty(scoreNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}

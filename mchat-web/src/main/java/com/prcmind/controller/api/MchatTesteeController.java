@@ -1,4 +1,4 @@
-package com.prcmind.controller;
+package com.prcmind.controller.api;
 
 import java.io.IOException;
 import java.util.HashMap;
