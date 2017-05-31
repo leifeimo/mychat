@@ -377,7 +377,7 @@ public class MchatMedicController {
 		content.put("medicName", result.getMedicName());
 		if(result.getGestationalWeeks() != 0){
 			String gestationalWeeks = result.getGestationalWeeks() + "周"
-					+ (result.getGestationalDays() == null ? "" : result.getGestationalDays() + "天");
+					+ (result.getGestationalDays() == null ? "0" : result.getGestationalDays() + "天");
 			content.put("gestationalWeeks", gestationalWeeks);
 		}
 		if(result.getLifeMonth() !=null && result.getLifeDay()!=null){

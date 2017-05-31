@@ -247,9 +247,11 @@ public class EnterpriseMchatController {
 		content.put("enterpriseName", result.getEnterpriseName());
 		content.put("medicName", result.getMedicName());
 		String gestationalWeeks = result.getGestationalWeeks() + "周"
-				+ (result.getGestationalDays() == 0 ? "" : result.getGestationalDays() + "天");
+				+ (result.getGestationalDays() == null ? "0" : result.getGestationalDays() + "天");
 		content.put("gestationalWeeks", gestationalWeeks);
-		content.put("age", "1周岁");
+		if(result.getLifeMonth() !=null && result.getLifeDay()!=null){
+			content.put("age", result.getLifeMonth()+"月"+result.getLifeDay()+"天");
+		}
 
 		if (!StringUtils.isEmpty(result.getBirths())) {
 			String births = result.getBirths();
