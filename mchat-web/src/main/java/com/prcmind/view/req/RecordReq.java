@@ -4,6 +4,12 @@ public class RecordReq {
 
 	int pageNum;
 	int numPerPage;
+	public String getTestDate() {
+		return testDate;
+	}
+	public void setTestDate(String testDate) {
+		this.testDate = testDate;
+	}
 	String testeeName;
 	String reportNo;
 	String cardNo;
@@ -14,7 +20,7 @@ public class RecordReq {
 	String birth;
 	String parentNo;
 	String medicName;
-	
+	String testDate;
 	
 	
 	public String getMedicName() {

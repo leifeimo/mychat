@@ -15,6 +15,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfReader;
@@ -66,8 +67,9 @@ public class ExportPdfUtil {
 			// 添加所创建的字体
 //			s.addSubstitutionFont(chineseSong);
 			// 找到pdf中输入域并替换为内容
-			BaseFont bf =BaseFont.createFont("STSong-Light",BaseFont.IDENTITY_H,BaseFont.NOT_EMBEDDED);   
-			s.addSubstitutionFont(bf);
+//			BaseFont bf =BaseFont.createFont("STSong-Light",BaseFont.IDENTITY_H,BaseFont.NOT_EMBEDDED);   
+			BaseFont font = BaseFont.createFont("C:/WINDOWS/Fonts/SIMSUN.TTC,1",BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+			s.addSubstitutionFont(font);
 			Iterator<String> it = s.getFields().keySet().iterator();
 			while (it.hasNext()) {
 				String name = (String) it.next();

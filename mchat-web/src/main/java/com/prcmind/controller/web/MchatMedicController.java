@@ -113,10 +113,17 @@ public class MchatMedicController {
 			// medicNo = "937c2b21d3db406693c59a816614e26d";
 			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
-		Map<String, Integer> map = null;
+		Map<String, Integer> birthMap = null;
+		Map<String, Integer> testMap = null;
 		if (!StringUtils.isEmpty(req.getBirth())) {
-			map = initBirthMap(req.getBirth(), "birthYear", "birthMonth", "birthToday");
-			if (map != null && map.size() != 3) {
+			birthMap = initBirthMap(req.getBirth(), "birthYear", "birthMonth", "birthToday");
+			if (birthMap != null && birthMap.size() != 3) {
+				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
+			}
+		}
+		if (!StringUtils.isEmpty(req.getTestDate())) {
+			testMap = initBirthMap(req.getTestDate(), "testYear", "testMonth", "testToday");
+			if (testMap != null && testMap.size() != 3) {
 				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
 			}
 		}
@@ -131,9 +138,12 @@ public class MchatMedicController {
 			paramMap.put("cardNo", req.getCardNo());
 			paramMap.put("enterpriseNo", enterpriseNo);
 			paramMap.put("medicNo", medicNo);
-			paramMap.put("birthYear", map != null ? map.get("birthYear") : "");
-			paramMap.put("birthMonth", map != null ? map.get("birthMonth") : "");
-			paramMap.put("birthToday", map != null ? map.get("birthToday") : "");
+			paramMap.put("birthYear", birthMap != null ? birthMap.get("birthYear") : "");
+			paramMap.put("birthMonth", birthMap != null ? birthMap.get("birthMonth") : "");
+			paramMap.put("birthToday", birthMap != null ? birthMap.get("birthToday") : "");
+			paramMap.put("testYear", testMap != null ? testMap.get("testYear") : "");
+			paramMap.put("testMonth", testMap != null ? testMap.get("testMonth") : "");
+			paramMap.put("testToday", testMap != null ? testMap.get("testToday") : "");
 			PageBean PageBean = portalMchatMedicFacade.listMchatScoreUniqueListPage(pageParam, paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
 		} catch (PortalBizException e) {
@@ -168,10 +178,17 @@ public class MchatMedicController {
 			// medicNo = "937c2b21d3db406693c59a816614e26d";
 			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
-		Map<String, Integer> map = null;
+		Map<String, Integer> birthMap = null;
+		Map<String, Integer> testMap = null;
 		if (!StringUtils.isEmpty(req.getBirth())) {
-			map = initBirthMap(req.getBirth(), "birthYear", "birthMonth", "birthToday");
-			if (map != null && map.size() != 3) {
+			birthMap = initBirthMap(req.getBirth(), "birthYear", "birthMonth", "birthToday");
+			if (birthMap != null && birthMap.size() != 3) {
+				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
+			}
+		}
+		if (!StringUtils.isEmpty(req.getTestDate())) {
+			testMap = initBirthMap(req.getTestDate(), "testYear", "testMonth", "testToday");
+			if (testMap != null && testMap.size() != 3) {
 				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
 			}
 		}
@@ -185,9 +202,12 @@ public class MchatMedicController {
 			paramMap.put("cardNo", req.getCardNo());
 			paramMap.put("enterpriseNo", enterpriseNo);
 			paramMap.put("medicNo", medicNo);
-			paramMap.put("birthYear", map != null ? map.get("birthYear") : "");
-			paramMap.put("birthMonth", map != null ? map.get("birthMonth") : "");
-			paramMap.put("birthToday", map != null ? map.get("birthToday") : "");
+			paramMap.put("birthYear", birthMap != null ? birthMap.get("birthYear") : "");
+			paramMap.put("birthMonth", birthMap != null ? birthMap.get("birthMonth") : "");
+			paramMap.put("birthToday", birthMap != null ? birthMap.get("birthToday") : "");
+			paramMap.put("testYear", testMap != null ? testMap.get("testYear") : "");
+			paramMap.put("testMonth", testMap != null ? testMap.get("testMonth") : "");
+			paramMap.put("testToday", testMap != null ? testMap.get("testToday") : "");
 			paramMap.put("deleted", req.getDeleted());
 
 			PageBean PageBean = portalMchatMedicFacade.listMchatScoreListPage(pageParam, paramMap);
@@ -357,10 +377,13 @@ public class MchatMedicController {
 		content.put("medicName", result.getMedicName());
 		if(result.getGestationalWeeks() != 0){
 			String gestationalWeeks = result.getGestationalWeeks() + "周"
-					+ (result.getGestationalDays() == 0 ? "" : result.getGestationalDays() + "天");
+					+ (result.getGestationalDays() == null ? "" : result.getGestationalDays() + "天");
 			content.put("gestationalWeeks", gestationalWeeks);
 		}
-		content.put("age", "1周岁");
+		if(result.getLifeMonth() !=null && result.getLifeDay()!=null){
+			content.put("age", result.getLifeMonth()+"月"+result.getLifeDay()+"天");
+		}
+		
 
 		if (!StringUtils.isEmpty(result.getBirths())) {
 			String births = result.getBirths();
@@ -720,10 +743,17 @@ public class MchatMedicController {
 			// medicNo = "937c2b21d3db406693c59a816614e26d";
 			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
-		Map<String, Integer> map = null;
+		Map<String, Integer> birthMap = null;
+		Map<String, Integer> testMap = null;
 		if (!StringUtils.isEmpty(req.getBirth())) {
-			map = initBirthMap(req.getBirth(), "birthYear", "birthMonth", "birthToday");
-			if (map != null && map.size() != 3) {
+			birthMap = initBirthMap(req.getBirth(), "birthYear", "birthMonth", "birthToday");
+			if (birthMap != null && birthMap.size() != 3) {
+				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
+			}
+		}
+		if (!StringUtils.isEmpty(req.getTestDate())) {
+			testMap = initBirthMap(req.getTestDate(), "testYear", "testMonth", "testToday");
+			if (testMap != null && testMap.size() != 3) {
 				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
 			}
 		}
@@ -738,9 +768,12 @@ public class MchatMedicController {
 			paramMap.put("cardNo", req.getCardNo());
 			paramMap.put("enterpriseNo", enterpriseNo);
 			paramMap.put("medicNo", medicNo);
-			paramMap.put("birthYear", map != null ? map.get("birthYear") : "");
-			paramMap.put("birthMonth", map != null ? map.get("birthMonth") : "");
-			paramMap.put("birthToday", map != null ? map.get("birthToday") : "");
+			paramMap.put("birthYear", birthMap != null ? birthMap.get("birthYear") : "");
+			paramMap.put("birthMonth", birthMap != null ? birthMap.get("birthMonth") : "");
+			paramMap.put("birthToday", birthMap != null ? birthMap.get("birthToday") : "");
+			paramMap.put("testYear", testMap != null ? testMap.get("testYear") : "");
+			paramMap.put("testMonth", testMap != null ? testMap.get("testMonth") : "");
+			paramMap.put("testToday", testMap != null ? testMap.get("testToday") : "");
 			paramMap.put("deleted", req.getDeleted());
 			paramMap.put("parentNo", req.getParentNo());
 			PageBean PageBean = portalMchatMedicFacade.listMchatScoreAndMchatScoreRevisedFollowListPage(pageParam,
