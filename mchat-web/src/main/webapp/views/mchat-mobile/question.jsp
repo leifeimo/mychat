@@ -49,6 +49,7 @@
 </head>
 
 <body>
+	<form method="post" id="reportForm">
 	<div id="contentDiv">
 		<input type="hidden" name="medicNo" value="${report.medicNo}">
 		<input type="hidden" name="medicName" value="${report.medicName}"/>
@@ -59,6 +60,7 @@
 	    <input type="hidden" name="birthDay" value="${report.birthDay}">
 	    <input type="hidden" name="testDay" value="${report.testDay}">
 	    <input type="hidden" name="gestationalWeeks" value="${report.gestationalWeeks}">
+	    <input type="hidden" name="gestationalDays" value="${report.gestationalDays}">
 	    <input type="hidden" name="births" value="${report.births}">
 	    <input type="hidden" name="consignorName" value="${report.consignorName}">
 	    <input type="hidden" name="consignorType" value="${report.consignorType}">
@@ -80,13 +82,13 @@
 	    <input type="hidden" name="fatherBirthDay" value="${report.fatherBirthDay}">
 	    <input type="hidden" name="maritalStatus" value="${report.maritalStatus}">
 	    <div id="m_guardian">
-	    <p>< 返回</p>
+	    <p onclick="backToReport();">< 返回</p>
 	    <p>填写问卷</p>
 	    </div>
 	    
 	    <div id="m_test_name">
-	    <p>施测者：<span>${report.medicName}</span></p>
-	    <p>年龄组： 36&nbsp;&nbsp; </p>
+	    <p>施测者：<span>${report.medicName}</span></p>  
+	    <!-- <p>年龄组： 36&nbsp;&nbsp; </p> -->
 	    </div>
 		
 	    <div class="m_mid">
@@ -116,6 +118,7 @@
 	        <p><a href="javascript:;" id="next"><span class="m_foot_r b_blue f_white">下一条</span></a></p>
 	    </div>
 	</div>
+	</form>
 
 <script>
 	var medicNo = $("#contentDiv input[name='medicNo']").val();
@@ -276,14 +279,14 @@
                 	success : function(msg){
                 		if(msg!=null&&msg.code==1){
                 			new TipBox({
-                				setTime:3000,
+                				setTime:5000,
                 				type:"success",
                 				str:msg.msg,
                 				hasBtn:true
                 			})
                 		}else{
                 			new TipBox({
-                				setTime:3000,
+                				setTime:5000,
                 				type:"error",
                 				str:msg.msg,
                 				hasBtn:true
@@ -346,6 +349,13 @@
             }
         } 
     });
+	
+	
+	//返回信息页面
+	function backToReport(){
+		$("#reportForm").attr("action",util.requestURL+'/mobile/html/report');
+		$("#reportForm").submit();
+	}
 </script>
 
 </body>

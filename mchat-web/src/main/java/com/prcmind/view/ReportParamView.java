@@ -29,6 +29,8 @@ public class ReportParamView implements Serializable{
 	
 	private String gestationalWeeks;//孕周
 	
+	private String gestationalDays;//孕天
+	
 	private String births;//出生时情况
 	
 	private String consignorName;//完成问卷人姓名
@@ -852,6 +854,14 @@ public class ReportParamView implements Serializable{
 
 	public void setBirthsResult(String birthsResult) {
 		this.birthsResult = birthsResult;
+	}
+
+	public String getGestationalDays() {
+		return gestationalDays;
+	}
+
+	public void setGestationalDays(String gestationalDays) {
+		this.gestationalDays = gestationalDays;
 	}
 
 	/**

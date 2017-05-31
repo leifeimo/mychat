@@ -11,10 +11,12 @@
 <script src="../../mobile/js/layer_mobile/layer.js"></script>
 <script src="../../js/jquery.min.js"></script>
 <script src="../../js/util.js"></script>
+<script src="../../mobile/js/picker/picker.min.js"></script>
 <link rel="Stylesheet" type="text/css" href="../../mobile/css/style.css" />
 <link rel="Stylesheet" type="text/css" href="../../mobile/css/m_1.css" />
 <link rel="Stylesheet" type="text/css" href="../../mobile/css/mobile.css" />
 <link rel="Stylesheet" type="text/css" href="../../mobile/css/payment.css" />
+<link rel="Stylesheet" type="text/css" href="../../mobile/css/icons/iconfont.css" />
 <style>
 .gif{
 		width:90%;
@@ -44,13 +46,118 @@
 	.divhide{
 		display: none;
 	}
+	
+	.m-select-box {
+		position:fixed;
+		top:0;
+		left:0;
+		bottom: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,.5);
+		display: none;
+		z-index: 9999;
+	}
+
+ 
+	.m-select-info{
+		background: #0081d2;
+		width: 90%;
+		margin: 30% auto;
+	}
+	.m-select-info-t{
+		text-align: center;
+		color:#fff;
+		border-bottom: 1px solid #fff;
+		font-size:1.125rem;
+		line-height: 32px;
+	}
+	.m-select-info-c-t{
+		color:#fff;
+		border-bottom: 1px solid #fff;
+		font-size:1rem;
+		line-height: 34px;
+		padding: 0 0 0 8px;
+	}
+	.m-select-info-c-t-2{
+		color:#fff;
+		border-bottom: 1px solid #fff;
+		font-size:1rem;
+		line-height: 34px;
+		padding: 0 0 0 8px;
+	}
+	.m-s-s{
+		text-align: center;
+		color:#fff;
+		font-size:1.125rem;
+		line-height: 32px;
+	}
+	.m-select-info-c-t i{
+		float: right;
+		margin: 0 8px 0 0;
+		display: none;
+	}
+	.m-select-info-c-t-2 i{
+		float: right;
+		margin: 0 8px 0 0;
+		display: none;
+	}
+	    .show-g {
+	    display: block !important;
+	}
 </style>
 
 
 </head>
 
 <body>
-	<di>
+	
+	<!--新增s-->
+    <div class="m-select-box">
+        <div class="m-select-info">
+            <div class="m-select-info-t">
+                出生时情况（多选）
+            </div>
+            <div class="m-select-info-c">
+                <div class="m-select-info-c-t">
+                    足月
+                    <i class="iconfont" data-id="0" data-value="足月">&#xe602;</i>
+                </div>
+                <div class="m-select-info-c-t">
+                    早产
+                    <i class="iconfont" data-id="1" data-value="早产">&#xe602;</i>
+                </div>
+                <div class="m-select-info-c-t">
+                    顺产
+                    <i class="iconfont" data-id="2" data-value="顺产">&#xe602;</i>
+                </div>
+                <div class="m-select-info-c-t">
+                    剖腹产
+                    <i class="iconfont" data-id="3" data-value="剖腹产">&#xe602;</i>
+                </div>
+                <div class="m-select-info-c-t">
+                    产钳助产
+                    <i class="iconfont" data-id="4" data-value="产钳助产">&#xe602;</i>
+                </div>
+                <div class="m-select-info-c-t">
+                    吸引器助产
+                    <i class="iconfont" data-id="5" data-value="吸引器助产">&#xe602;</i>
+                </div>
+                <div class="m-select-info-c-t">
+                    双胎
+                    <i class="iconfont" data-id="6" data-value="双胎">&#xe602;</i>
+                </div>
+                <div class="m-select-info-c-t">
+                    其他异常情况
+                    <i class="iconfont" data-id="7" data-value="其他异常情况">&#xe602;</i>
+                </div>
+            </div>
+            <div class="m-s-s">确定</div>
+        </div>
+    </div>
+
+
+	<div>
 	<form action="" id="reportForm" accept-charset="UTF-8" method="post">
     <div id="m_guardian">
     <p class="m_faces"><img src="../images/faces.png" /></p>
@@ -144,31 +251,21 @@
 
 	  
       <div class="m_list_1 b_solid m_top_20 ${report.gestationalWeeksDaysShow ? '' : 'divhide'}">
-        <p class="box"><span><img src="../images/m_tip_8.png" /></span></p>
+        <p class="box"><span><img src="../images/m_tip_8.png" style="height:20px;"/></span></p>
         <p>宝宝的孕周*</p> 
         <p>
-		    <select name="gestationalWeeks" id="gestationalWeeks" class="fs" ${ empty report.gestationalWeeks ? "" : "disabled"}>
-			    <option value="" ${empty report.gestationalWeeks ? "selected = 'selected'" : ""}>请选择</option>
-			    <option value="1" ${report.gestationalWeeks eq '1' ? "selected = 'selected'" : ""}>1周</option>
-				<option value="2" ${report.gestationalWeeks eq '2' ? "selected = 'selected'" : ""}>2周</option>
-				<option value="3" ${report.gestationalWeeks eq '3' ? "selected = 'selected'" : ""}>3周</option>
-				<option value="4" ${report.gestationalWeeks eq '4' ? "selected = 'selected'" : ""}>4周</option>
-				<option value="5" ${report.gestationalWeeks eq '5' ? "selected = 'selected'" : ""}>5周</option>
-				<option value="6" ${report.gestationalWeeks eq '6' ? "selected = 'selected'" : ""}>6周</option>
-				<option value="7" ${report.gestationalWeeks eq '7' ? "selected = 'selected'" : ""}>7周</option>
-				<option value="8" ${report.gestationalWeeks eq '8' ? "selected = 'selected'" : ""}>8周</option>
-				<option value="9" ${report.gestationalWeeks eq '9' ? "selected = 'selected'" : ""}>9周</option>
-				<option value="10" ${report.gestationalWeeks eq '10' ? "selected = 'selected'" : ""}>10周</option>
-				<option value="11" ${report.gestationalWeeks eq '11' ? "selected = 'selected'" : ""}>11周</option>
-				<option value="12" ${report.gestationalWeeks eq '12' ? "selected = 'selected'" : ""}>12周</option>
-				<option value="13" ${report.gestationalWeeks eq '13' ? "selected = 'selected'" : ""}>13周</option>
-				<option value="14" ${report.gestationalWeeks eq '14' ? "selected = 'selected'" : ""}>14周</option>
-				<option value="15" ${report.gestationalWeeks eq '15' ? "selected = 'selected'" : ""}>15周</option>
-				<option value="16" ${report.gestationalWeeks eq '16' ? "selected = 'selected'" : ""}>16周</option>
-				<option value="17" ${report.gestationalWeeks eq '17' ? "selected = 'selected'" : ""}>17周</option>
-				<option value="18" ${report.gestationalWeeks eq '18' ? "selected = 'selected'" : ""}>18周</option>
-				<option value="19" ${report.gestationalWeeks eq '19' ? "selected = 'selected'" : ""}>19周</option>
-				<option value="20" ${report.gestationalWeeks eq '20' ? "selected = 'selected'" : ""}>20周</option>
+        	<input type="hidden" name="gestationalWeeks" value="${report.gestationalWeeks}"/>
+		    <input type="hidden" name="gestationalDays" value="${report.gestationalDays}"/>
+		    <select id="gestationalWeeks" class="fs" ${ empty report.gestationalWeeks ? "" : "disabled"}>
+			    
+			    <c:choose>
+			    	<c:when test="${not empty report.gestationalWeeks && not empty report.gestationalDays}">
+			    		<option selected="selected">${report.gestationalWeeks}周${report.gestationalDays}天</option>
+			    	</c:when>
+			    	<c:when test="${not empty report.gestationalWeeks && empty report.gestationalDays}">
+			    		<option selected="selected">${report.gestationalWeeks}周</option>
+			    	</c:when>
+			    </c:choose>
 			</select>
 		</p>
       </div>  
@@ -179,7 +276,9 @@
         <p class="box"><span><img src="../images/m_tip_7.png" /></span></p>
         <p>出生时情况(多选)</p>
         <p class="payment_situation_title">
-		   	 <input type="hidden" value="${report.birthsResult}" name="birthsResult"/>
+		   	 <input type="hidden" value="${report.births}" name="births" id="births"/>
+		   	 <input type="text" class="fs1" value="${report.birthsResult}" name="birthsResult" id="birthsResult" ${empty report.birthsResult ? "" : "disabled"}/>
+		   	 <!--
 		   	 <select name="births" id="births"  multiple="multiple" class="fs">
 			    <option value="0">足月</option>
 			    <option value="1">早产</option>
@@ -190,6 +289,7 @@
 				<option value="6">双胎</option>
 				<option value="7">其他异常情况</option>
 			</select>
+			  -->
 		</p>
       </div>        
 
@@ -438,8 +538,112 @@
         Career10 : ['请选择','未受雇佣','其它']
     }
 	
+	
+	var GWpicker, weekList, dayList;
+	function initControl(){
+        //出生情况
+	    $(".payment_situation_title").bind("touchstart", function () {
+	        $(".m-select-box").show();
+	        $("body").css({ overflow: "hidden" })
+	    }); 
+	    $(".m-select-box").bind("touchstart", function () {
+	        $(".m-select-box").hide();
+	        $("body").css({ overflow: null })
+	    });
+	    $(".m-select-info").bind("touchstart", function () {
+	        event.stopPropagation();
+	    }); 
+	    $(".m-select-info-c-t").on("touchstart", function () {
+	        $(this).css({ background: "#025d97" });
+	        if ($(this).children("i").hasClass("show-g")) {
+	            $(this).children("i").removeClass("show-g");
+	        } else {
+	            $(this).children("i").addClass("show-g");
+	        }
+
+	    })
+	    $(".m-select-info-c-t").on("touchend", function () {
+	        $(this).css({ background: "#0081d2" });
+	    })
+
+	    $(".m-s-s").on("touchstart", function () {
+	        $(".m-select-box").hide(); 
+	        $("body").css({ overflow: null }) 
+	        getBirthArray(); 
+	    });
+	    // end--- 出生情况
+	}
+	
+	function initWeekDayControl(){
+		//孕周
+	    weekList = new Array();
+	    for (var i = 0; i <= 40; i++) {
+	        var week = (i + 20);
+	        weekList[i] = {text:week+"周",value:week};
+	    }
+	    dayList = new Array();
+	    for (var i = 0; i < 7; i++) {
+	        dayList[i] = { text: i + "天", value: i };
+	    } 
+	    GWpicker = new Picker({
+	        data: [weekList, dayList]
+	    });
+
+	    $("#gestationalWeeks").on("touchstart", function () {
+	        GWpicker.show();
+	    });
+	    GWpicker.on('picker.change', function (index, selectedIndex) {
+	       // alert(index);
+	    });
+	    GWpicker.on('picker.select', function (selectedVal, selectedIndex) {
+	       // debugger;
+	        var v1 = (selectedIndex + "").split(",")[0];
+	        var v2 = (selectedIndex + "").split(",")[1];
+	        
+	        var GWValue = weekList[v1].value + "," + dayList[v2].value;
+	        var GWText = weekList[v1].text + dayList[v2].text;
+			
+	        var gestationalWeeks = weekList[v1].value;
+	        var gestationalDays = dayList[v2].value;
+	      	$("#reportForm input[name='gestationalWeeks']").val(gestationalWeeks);
+	      	$("#reportForm input[name='gestationalDays']").val(gestationalDays);
+	        var html = "<option selected='selected'>"+GWText+"</option>";
+	      	$("#gestationalWeeks").empty().append(html);
+	    });  
+        // end --孕周
+	}
+	
+	function getBirthArray() {
+	    var birthsArray = "";
+	    var birthsArrayName = "";
+	    $.each($(".m-select-info-c-t i"), function (i, v) {
+	        if ($(this).hasClass("show-g")) {
+	            birthsArray += $(this).attr("data-id") + ";";
+	            birthsArrayName += $(this).attr("data-value") + ";";
+	        }
+	    });
+	    if (birthsArray != "") {
+	        birthsArray = birthsArray.substring(0, birthsArray.length - 1);
+	        birthsArrayName = birthsArrayName.substring(0, birthsArrayName.length - 1);
+	    }
+	    //alert("birthsArray="+birthsArray);
+	    //alert("birthsArrayName=" + birthsArrayName);
+	    $("#births").val(birthsArray);
+	    $("#birthsResult").val(birthsArrayName);
+	}
+
 
 $(function () {
+	
+	var births = '${report.births}';
+	if(births==''){
+		initControl();
+	}
+	
+	var gestationalWeeks = '${report.gestationalWeeks}';
+	if(gestationalWeeks==''){
+		initWeekDayControl();
+	}
 	
 	var motherCareerCategory = '${report.motherCareerCategory}';
 	var motherCareer= '${report.motherCareer}';
