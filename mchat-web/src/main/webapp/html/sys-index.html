@@ -1,7 +1,10 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
 <div class="r_title">
-                <p id="tap2" class="tap2">±¨¸æĞÅÏ¢</p>
-                <p id="tap1" class="tap1">¹«¸æ·¢²¼</p>
-               <!--  <p id="tap2" class="tap2">±¨¸æĞÅÏ¢</p> -->
+                <p id="tap2" class="tap2">æŠ¥å‘Šä¿¡æ¯</p>
+                <p id="tap1" class="tap1">å…¬å‘Šå‘å¸ƒ</p>
+               <!--  <p id="tap2" class="tap2">æŠ¥å‘Šä¿¡æ¯</p> -->
                 <p id="tap3" class="tap3"></p>
             </div>
             <div class="r_article">
@@ -9,8 +12,8 @@
             
                 <div class="article_list" style="display:none">
                   <div class="clearfix">
-                    <h4 class="article_list_title f_l fl-10" >ĞÅÏ¢×ÜÀÀ£º</h4>
-                    <p class="article_info_date fl-10 f_l" id="quality">M-CHAT±¨¸æ£º23 | Ê£ÓàM-CHAT±¨¸æ£º87</p>
+                    <h4 class="article_list_title f_l fl-10" >ä¿¡æ¯æ€»è§ˆï¼š</h4>
+                    <p class="article_info_date fl-10 f_l" id="quality">M-CHATæŠ¥å‘Šï¼š23 | å‰©ä½™M-CHATæŠ¥å‘Šï¼š87</p>
                   </div>
                     
                     
@@ -18,12 +21,12 @@
                     <table class="m-table" cellspacing="0" >
                       <thead>
                         <tr>
-                          <th>±¨¸æ±àºÅ</th>
-                          <th>¶ùÍ¯ĞÕÃû</th>
-                          <th>³öÉúÈÕÆÚ</th>
-                          <th>´´½¨ÈÕÆÚ</th>
-                          <th>ĞÔ±ğ</th>
-                          <th>ÏÂÔØ</th>
+                          <th>æŠ¥å‘Šç¼–å·</th>
+                          <th>å„¿ç«¥å§“å</th>
+                          <th>å‡ºç”Ÿæ—¥æœŸ</th>
+                          <th>åˆ›å»ºæ—¥æœŸ</th>
+                          <th>æ€§åˆ«</th>
+                          <th>ä¸‹è½½</th>
                         </tr>
                       </thead>
                       <tbody id="list">
@@ -42,8 +45,8 @@
 
             
                 <div class="article_info" style="display:none">
-                    <h4 id="title" class="article_info_title">·¢²¼¹«¸æµÄ±êÌâ</h4>
-                    <p class="article_info_date">·¢²¼Ê±¼ä£º<span id="time">2016-07-04 00:00:00</span></p>
+                    <h4 id="title" class="article_info_title">å‘å¸ƒå…¬å‘Šçš„æ ‡é¢˜</h4>
+                    <p class="article_info_date">å‘å¸ƒæ—¶é—´ï¼š<span id="time">2016-07-04 00:00:00</span></p>
                     
                    <div class="article_content" id="article">
     
@@ -54,7 +57,7 @@
 
                 <div class="announcement">
                     <div class="announcement_tip">
-                    <img src="../images/announcement.png" />&nbsp;¹«¸æ
+                    <img src="../images/announcement.png" />&nbsp;å…¬å‘Š
                     </div>
                     <p class="announcement_more" style=""><a id="nextPage" href="javascript:;">MORE ></a>&nbsp;&nbsp;</p>
                     
@@ -115,10 +118,10 @@ $(function(){
 <script id="ggList" type="text/html">
 {{if recordList && recordList.length}}
   {{each recordList}}
-    <p><a class="ac-gg" data-id="{{$value.id}}" href="javascript:;">{{$index+1+'¡¢'+$value.title}}</a></p>
+    <p><a class="ac-gg" data-id="{{$value.id}}" href="javascript:;">{{$index+1+'ã€'+$value.title}}</a></p>
   {{/each}}
 {{else}}
-  <p>ÔİÎŞ¹«¸æĞÅÏ¢£¡</p>
+  <p>æš‚æ— å…¬å‘Šä¿¡æ¯ï¼</p>
 {{/if}}
 </script>
 
@@ -130,12 +133,12 @@ $(function(){
      <td>{{$value.testeeName}}</td>
      <td>{{$value.birthYear+'-'+$value.birthMonth+'-'+$value.birthToday}}</td>
      <td>{{$imports.getTimeFromNum($value.createTime)}}</td>
-     <td>{{['ÄĞ','Å®'][$value.sex]}}</td>
+     <td>{{['ç”·','å¥³'][$value.sex]}}</td>
      <td><a href="{{url+'/web/v1/medicMchat/downloadReport?scoreNo='+$value.scoreNo}}"><img src="../images/down1.png" /></a></td>
    </tr>
   {{/each}}
 {{else}}
-  <li>Ã»ÓĞ²éÑ¯µ½Ïà¹ØĞÅÏ¢£¬Çë¼ì²éËÑË÷Ìõ¼ş£¡</li>
+  <li>æ²¡æœ‰æŸ¥è¯¢åˆ°ç›¸å…³ä¿¡æ¯ï¼Œè¯·æ£€æŸ¥æœç´¢æ¡ä»¶ï¼</li>
 {{/if}}
 </script>
 
@@ -180,7 +183,7 @@ $(function(){
         //   });
         // });
         
-        // »ñÈ¡±¨¸æĞÅÏ¢
+        // è·å–æŠ¥å‘Šä¿¡æ¯
         util.client({
           url: util.requestURL+'/web/v1/medic/listMedicScaleDosage',
           success: function(data){
@@ -195,8 +198,8 @@ $(function(){
                     scaleNo: val.scaleProducts.scaleNo
                   },
                   success: function(scale){
-                    html += val.scaleProducts.scaleName+'±¨¸æ£º'+val.consumption;
-                    html += ' | '+'Ê£Óà'+ val.scaleProducts.scaleName+'±¨¸æ£º'+scale.data.enterpriseScaleDosage.remainingAmount;
+                    html += val.scaleProducts.scaleName+'æŠ¥å‘Šï¼š'+val.consumption;
+                    html += ' | '+'å‰©ä½™'+ val.scaleProducts.scaleName+'æŠ¥å‘Šï¼š'+scale.data.enterpriseScaleDosage.remainingAmount;
                     $("#quality").html(html);
                   }
                 })
@@ -209,7 +212,7 @@ $(function(){
           }
         })
 
-        util.client({ // »ñÈ¡ÎÄÕÂÁĞ±í
+        util.client({ // è·å–æ–‡ç« åˆ—è¡¨
           url: util.requestURL+'/web/v1/medic/listArticle',
           type: 'POST',
           data: {
@@ -230,7 +233,7 @@ $(function(){
 
         $("body").delegate('#nextPage','click',function(){
           if(6*currentPage < total){
-            util.client({ // »ñÈ¡ÎÄÕÂÁĞ±í
+            util.client({ // è·å–æ–‡ç« åˆ—è¡¨
               url: util.requestURL+'/web/v1/medic/listArticle',
               type: 'POST',
               data: {
@@ -250,7 +253,7 @@ $(function(){
               }
             });
           }else{
-            layer.msg('ÒÑ¾­ÊÇ×îºóÒ»Ò³ÁË£¡');
+            layer.msg('å·²ç»æ˜¯æœ€åä¸€é¡µäº†ï¼');
           }
           
         });
