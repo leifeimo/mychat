@@ -434,7 +434,7 @@
         <p class="box"><span></span></p>
         <p>父亲职业大类</p>
         <p>
-			<select name="caregiversCultureDegree" id="fatherCareerCategory" class="fs" ${ empty report.fatherCareerCategory ? "" : "disabled"}>
+			<select name="fatherCareerCategory" id="fatherCareerCategory" class="fs" ${ empty report.fatherCareerCategory ? "" : "disabled"}>
 			    <option value="" ${empty report.fatherCareerCategory ? "selected = 'selected'" : ""}>请选择</option>
 			    <option value="1" ${report.fatherCareerCategory eq '1' ? "selected = 'selected'" : ""}>第一大类</option>
 				<option value="2" ${report.fatherCareerCategory eq '2' ? "selected = 'selected'" : ""}>第二大类</option>

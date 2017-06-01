@@ -77,7 +77,7 @@
 	    <input type="hidden" name="motherCareer" value="${report.motherCareer}">
 	    <input type="hidden" name="fatherCultureDegree" value="${report.fatherCultureDegree}">
 	    <input type="hidden" name="fatherCareerCategory" value="${report.fatherCareerCategory}">
-	    <input type="hidden" name="fatherCareerCategory" value="${report.fatherCareerCategory}">
+	    <input type="hidden" name="fatherCareer" value="${report.fatherCareer}">
 	    <input type="hidden" name="caregiversCultureDegree" value="${report.caregiversCultureDegree}">
 	    <input type="hidden" name="motherBirthDay" value="${report.motherBirthDay}">
 	    <input type="hidden" name="fatherBirthDay" value="${report.fatherBirthDay}">
@@ -134,12 +134,34 @@
 		sex = -1;
 	}
 	var birthDay = $("#contentDiv input[name='birthDay']").val();  	
-	var testDay = $("#contentDiv input[name='testDay']").val();
+    var birthYear = 0;
+    var birthMonth = 0;
+    var birthToday = 0;
+    if(birthDay!=null&&birthDay!=''){
+    	birthYear = parseInt(birthDay.split("-")[0]);
+    	birthMonth = parseInt(birthDay.split("-")[1]);
+    	birthToday = parseInt(birthDay.split("-")[2]);
+    }
+    var testDay = $("#contentDiv input[name='testDay']").val();
+    var testYear = 0;
+    var testMonth = 0;
+    var testToday = 0;
+	if(testDay!=null&&testDay!=''){
+		testYear=parseInt(testDay.split("-")[0]);
+		testMonth=parseInt(testDay.split("-")[1]);
+		testToday=parseInt(testDay.split("-")[2]);
+	}
 	var gestationalWeeks = $("#contentDiv input[name='gestationalWeeks']").val();
 	if(gestationalWeeks!=null&&gestationalWeeks!=""){
 		gestationalWeeks = parseInt(gestationalWeeks);
 	}else{
 		gestationalWeeks = 0;
+	}
+	var gestationalDays = $("#contentDiv input[name='gestationalDays']").val();
+	if(gestationalDays!=null&&gestationalDays!=""){
+		gestationalDays = parseInt(gestationalDays);
+	}else{
+		gestationalDays = 0;
 	}
 	var births = $("#contentDiv input[name='births']").val();
 	var consignorName = $("#contentDiv input[name='consignorName']").val();
@@ -185,8 +207,15 @@
         cardType: cardType,
         cardNo: cardNo,
         birthDay: birthDay,
+        birthYear : birthYear,
+        birthMonth : birthMonth,
+        birthToday : birthToday,
         testDay: testDay,
+        testYear : testYear,
+        testMonth : testYear,
+        testToday : testToday,
         gestationalWeeks: gestationalWeeks,
+        gestationalDays : gestationalDays,
         births: births,
         level: 1,
         consignorName: consignorName,
@@ -207,7 +236,7 @@
         motherBirthDay: motherBirthDay,
         fatherBirthDay: fatherBirthDay,      
         maritalStatus: maritalStatus
-      }
+    }
 	
     $(document).ready(function(){
         var index = 0;
@@ -288,7 +317,7 @@
                 			})
                 		}
                 		setTimeout(function(){
-                			window.location.href =  util.requestURL+"/mobile/html/guardian.html";
+                			window.location.href =  util.requestURL+"/mobile/html/report";
                 		}, 3000);
                 	}
                 });
