@@ -28,4 +28,9 @@ public class MobileController {
 		return "mchat-mobile/guardian";
 	}
 	
+	@RequestMapping("/mobile/html/instructions")
+	public String toInstructions(HttpServletRequest request,
+			HttpServletResponse response){
+		return "mchat-mobile/instructions";
+	}
 }

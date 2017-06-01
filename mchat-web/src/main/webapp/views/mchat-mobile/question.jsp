@@ -5,7 +5,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" /> 
 <title>问卷调查</title>
 <script type="text/javascript" src="../../mobile/js/zepto.min.js"></script>
 <script type="text/javascript" src="../../mobile/js/mdialog.js"></script>
@@ -132,7 +133,7 @@
 	}else{
 		sex = -1;
 	}
-	var birthDay = $("#contentDiv input[name='birthDay']").val();
+	var birthDay = $("#contentDiv input[name='birthDay']").val();  	
 	var testDay = $("#contentDiv input[name='testDay']").val();
 	var gestationalWeeks = $("#contentDiv input[name='gestationalWeeks']").val();
 	if(gestationalWeeks!=null&&gestationalWeeks!=""){
@@ -184,13 +185,7 @@
         cardType: cardType,
         cardNo: cardNo,
         birthDay: birthDay,
-        birthYear: parseInt(birthDay.split("-")[0]),
-        birthMonth: parseInt(birthDay.split("-")[1]),
-        birthToday: parseInt(birthDay.split("-")[2]),
         testDay: testDay,
-        testYear: parseInt(testDay.split("-")[0]),
-        testMonth: parseInt(testDay.split("-")[1]),
-        testToday: parseInt(testDay.split("-")[2]),
         gestationalWeeks: gestationalWeeks,
         births: births,
         level: 1,
@@ -266,6 +261,8 @@
             if(index < questions.length-1 && !answer.hasOwnProperty('topic_20')){
                 index += 1
             }
+            checkChoose();
+            tabQuestion();
             if(answer.hasOwnProperty('topic_20')){
                 $(this).find('span').text('提交');
                 for(key in answer){
@@ -279,26 +276,23 @@
                 	success : function(msg){
                 		if(msg!=null&&msg.code==1){
                 			new TipBox({
-                				setTime:5000,
                 				type:"success",
                 				str:msg.msg,
                 				hasBtn:true
                 			})
                 		}else{
                 			new TipBox({
-                				setTime:5000,
                 				type:"error",
                 				str:msg.msg,
                 				hasBtn:true
                 			})
                 		}
-                		window.location.href =  util.requestURL+"/mobile/html/guardian.html"
+                		setTimeout(function(){
+                			window.location.href =  util.requestURL+"/mobile/html/guardian.html";
+                		}, 3000);
                 	}
                 });
             }
-            checkChoose();
-            tabQuestion();
-            
         });
 
         function tabQuestion(){

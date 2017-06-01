@@ -702,7 +702,13 @@ $(function () {
 		}
 	}) 
 	
-    
+    //使用说明
+    $(".m_guardian_read").on('click',function(){
+    	var url = util.requestURL+"/mobile/html/instructions";
+    	window.location.href = url;
+    })
+	
+	
     //创建报告按钮绑定事件
     $("#createReportBtn").on('click',function(){
         $("#reportForm").attr("action",util.requestURL+"/mobile/html/question");
