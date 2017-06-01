@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,18 +19,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.prcmind.common.page.PageBean;
 import com.prcmind.facade.portal.exception.PortalBizException;
+import com.prcmind.facade.portal.mchat.service.PortalMchatMedicFacade;
 import com.prcmind.facade.portal.mchat.service.PortalMchatTesteeFacade;
 import com.prcmind.facade.scale.mchat.entity.MchatQuestionnaire;
 import com.prcmind.facade.scale.mchat.entity.MchatQuestionnaireResponse;
 import com.prcmind.facade.scale.mchat.entity.MchatScore;
+import com.prcmind.facade.user.entity.MedicInfo;
 import com.prcmind.utils.CodeMsgBean;
+import com.prcmind.utils.WebConstants;
 
 @Controller
 public class MchatTesteeController {
 
 	@Autowired
 	PortalMchatTesteeFacade portalMchatTesteeFacade;
-	
+	@Autowired
+	PortalMchatMedicFacade portalMchatMedicFacade;
 	
 	/**
 	 * 创建R报告
@@ -112,7 +117,31 @@ public class MchatTesteeController {
 		}
 	}
 	
-	
+	/**
+	 * 验证基本信息
+	 * 
+	 * @author leichang
+	 * @param mchatScore
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/api/v1/medicMchat/verifyBasicInformation", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> verifyBasicInformation(MchatScore mchatScore,String enterpriseNo,String medicNo, String birthDay, String testDay,
+			HttpServletRequest request) throws IOException {
+		if (mchatScore == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)|| StringUtils.isEmpty(enterpriseNo)|| StringUtils.isEmpty(medicNo)) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		mchatScore = initMchatScore(mchatScore, enterpriseNo, medicNo, birthDay, testDay);
+
+		try {
+			boolean bl = portalMchatMedicFacade.verifyBasicInformation(mchatScore);
+			return new CodeMsgBean<Object>(1, "操作成功", bl);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
 	
 	private String getIp(HttpServletRequest request) {
 		String ip = request.getHeader("X-Real-IP");
@@ -177,4 +206,19 @@ public class MchatTesteeController {
 		}
 		return true;
 	}
+	private MchatScore initMchatScore(MchatScore mchatScore, String enterpriseNo, String medicNo, String birthDay,
+			String testDay) {
+		mchatScore.setEnterpriseNo(enterpriseNo);
+		mchatScore.setMedicNo(medicNo);
+		Map<String, Integer> mapBirthDate = initBirthMap(birthDay, "birthYear", "birthMonth", "birthToday");
+		Map<String, Integer> mapTestDate = initBirthMap(testDay, "testYear", "testMonth", "testToday");
+		mchatScore.setBirthMonth(mapBirthDate.get("birthMonth"));
+		mchatScore.setBirthToday(mapBirthDate.get("birthToday"));
+		mchatScore.setBirthYear(mapBirthDate.get("birthYear"));
+		mchatScore.setTestYear(mapTestDate.get("testYear"));
+		mchatScore.setTestMonth(mapTestDate.get("testMonth"));
+		mchatScore.setTestToday(mapTestDate.get("testToday"));
+		return mchatScore;
+	}
+
 }
