@@ -165,8 +165,10 @@
     <p class="m_guardian_read"><span>使用说明</span></p>
     </div>
     
-    <div id="m_test_name" class="m_list_1 b_solid">
+    <div id="m_test_name" class="m_list_1 b_solid" ${empty report.enterpriseNo ? "divhide" : ""}>
     <p>施测者：<span id="medicName">${report.medicName}</span>
+    	<input title="hidden" name="scaleNo" value="${report.scaleNo}">
+    	<input type="hidden" name="enterpriseNo" value="${report.enterpriseNo}">
     	<input type="hidden" name="medicNo" value="${report.medicNo}">
     	<input type="hidden" name="medicName" value="${report.medicName}">
     </p>
@@ -326,7 +328,7 @@
       <div class="m_list_1 b_solid ${report.weightShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_7.png" /></span></p>
         <p>出生时体重(克)</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.weight}" id="weight" name="weight" ${empty report.weight ? "" : "disabled"}/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.weight}" id="weight" name="birthWeight" ${empty report.weight ? "" : "disabled"}/></p>
       </div> 
 
       <div class="m_list_1 b_solid ${report.addressShow ? '' : 'divhide'}">
@@ -523,8 +525,8 @@
 
 
 <script type="text/javascript">
-	var enterNo = "20252a32e38c44f9ac02ca623f4ee503";
-	var scaleNo = "SCALENO001";
+	var enterNo = '${report.enterpriseNo}';
+	var scaleNo = '${report.scaleNo}';
 	var jobData = {
         Career1 : ['请选择','按日计酬的散工','公共空间清洁工','家庭清洁工','农场工人','食品零售','后厨食物制备工','餐馆楼面杂工'],
         Career2 : ['请选择','垃圾收集工','快餐厨子','出租车司机','鞋类销售员','流水线工人','泥瓦匠','行李搬运工'],
@@ -711,8 +713,27 @@ $(function () {
 	
     //创建报告按钮绑定事件
     $("#createReportBtn").on('click',function(){
-        $("#reportForm").attr("action",util.requestURL+"/mobile/html/question");
-        $("#reportForm").submit();
+        $.ajax({
+        	type : "POST",
+        	url : util.requestURL+"/api/v1/medicMchat/verifyBasicInformation",
+        	data : $("#reportForm").serialize(),
+        	success : function(data){
+        		if(data.code=='1'){
+        			$("#reportForm").attr("action",util.requestURL+"/mobile/html/question");
+                    $("#reportForm").submit();
+        		}else{
+        			new TipBox({
+        				type:"error",
+        				str:data.msg,
+        				hasBtn:true
+        			})
+        		}
+        		$("#reportForm").attr("action",util.requestURL+"/mobile/html/question");
+                $("#reportForm").submit();
+        	}
+        })
+    	
+    	
     })
     
     //施测者列表初始化,没传值，才去接口获取
@@ -726,13 +747,14 @@ $(function () {
               if(data.code == 1){
               	  var user = data.data.recordList[0];
                	  $("#medicName").html(user.realName);
+               	  $("#m_test_name input[name='enterpriseNo']").val(user.enterpriseNo);
                	  $("#m_test_name input[name='medicNo']").val(user.medicNo);
                	  $("#m_test_name input[name='medicName']").val(user.realName);
-               	  var html = "<option value=''>"+'切换'+"</option>"
+               	  var html = "<option value='' enterpriseNo=''>"+'切换'+"</option>"
 				  var userList = data.data.recordList;
                	  for (var i = 0; i < userList.length; i++) {
 						var user = userList[i];
-						html += "<option value='"+user.medicNo+"'>"+user.realName+"</option>";	
+						html += "<option value='"+user.medicNo+"' enterpriseNo='"+user.enterpriseNo+"'>"+user.realName+"</option>";	
 				  }
 				  $("#changeTestName").empty().append(html);
               }else{
@@ -747,10 +769,12 @@ $(function () {
 	$("#changeTestName").on('change',function(){
 		var medicNo = $(this).children('option:selected').val(); 
 		var medicName = $(this).children('option:selected').html();
+		var enterpriseNo = $(this).children('option:selected').attr('enterpriseNo');
 		if(medicNo!=''){
 			$("#medicName").html(medicName);
 	      	$("#m_test_name input[name='medicNo']").val(medicNo);
 	      	$("#m_test_name input[name='medicName']").val(medicName);
+	      	$("#m_test_name input[name='enterpriseNo']").val(enterpriseNo);
 		}
 		
 	})

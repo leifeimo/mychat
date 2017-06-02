@@ -10,7 +10,11 @@ import com.prcmind.utils.ReflectUtil;
 public class ReportParamView implements Serializable{
 	
 	private static final long serialVersionUID = 1857581288851781834L;
-
+	
+	private String enterpriseNo;//
+	
+	private String scaleNo;//
+	
 	private String medicNo;//施测者
 	
 	private String medicName;//施测者姓名
@@ -862,6 +866,22 @@ public class ReportParamView implements Serializable{
 
 	public void setGestationalDays(String gestationalDays) {
 		this.gestationalDays = gestationalDays;
+	}
+
+	public String getEnterpriseNo() {
+		return enterpriseNo;
+	}
+
+	public void setEnterpriseNo(String enterpriseNo) {
+		this.enterpriseNo = enterpriseNo;
+	}
+
+	public String getScaleNo() {
+		return scaleNo;
+	}
+
+	public void setScaleNo(String scaleNo) {
+		this.scaleNo = scaleNo;
 	}
 
 	/**

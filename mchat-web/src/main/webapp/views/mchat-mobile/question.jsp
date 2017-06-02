@@ -52,6 +52,8 @@
 <body>
 	<form method="post" id="reportForm">
 	<div id="contentDiv">
+		<input type="hidden" name="enterpriseNo" value="${report.enterpriseNo}">
+		<input title="hidden" name="scaleNo" value="${report.scaleNo}">
 		<input type="hidden" name="medicNo" value="${report.medicNo}">
 		<input type="hidden" name="medicName" value="${report.medicName}"/>
 		<input type="hidden" name="testeeName" value="${report.testeeName}"/>
@@ -122,6 +124,8 @@
 	</form>
 
 <script>
+	var enterpriseNo = $("#contentDiv input[name='enterpriseNo']").val();
+	var scaleNo = $("#scaleNo input[name='scaleNo']").val();
 	var medicNo = $("#contentDiv input[name='medicNo']").val();
 	var medicName = $("#contentDiv input[name='medicName']").val();
 	var testeeName = $("#contentDiv input[name='testeeName']").val();
@@ -200,6 +204,8 @@
 	var maritalStatus = $("#contentDiv input[name='maritalStatus']").val();
 	
 	var obj1 = {
+		enterpriseNo : enterpriseNo,
+		scaleNo : scaleNo,
 		medicNo : medicNo,
 		medicName:medicName,	
         testeeName: testeeName,
