@@ -167,7 +167,7 @@
     <p class="m_guardian_read"><span>使用说明</span></p>
     </div>
     
-    <div id="m_test_name" class="m_list_1 b_solid" ${empty report.enterpriseNo ? "divhide" : ""}>
+    <div id="m_test_name" class="m_list_1 b_solid ${empty report.enterpriseNo ? 'divhide' : ''}">
     <p>施测者：<span id="medicName">${report.medicName}</span>
     	<input title="hidden" name="scaleNo" value="${report.scaleNo}">
     	<input type="hidden" name="enterpriseNo" value="${report.enterpriseNo}">
