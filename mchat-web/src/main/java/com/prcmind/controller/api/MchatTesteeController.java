@@ -35,7 +35,7 @@ public class MchatTesteeController {
 	PortalMchatTesteeFacade portalMchatTesteeFacade;
 	@Autowired
 	PortalMchatMedicFacade portalMchatMedicFacade;
-	
+
 	/**
 	 * 创建R报告
 	 * 
@@ -49,14 +49,12 @@ public class MchatTesteeController {
 	@ResponseBody
 	public CodeMsgBean<Object> createMchatReport(MchatScore mchatScore, String testDay, String birthDay,
 			final MchatQuestionnaireResponse mchatQuestionnaireResponse, HttpServletRequest request)
-			throws IOException {
+					throws IOException {
 		if (mchatScore == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
-		String enterpriseNo ="20252a32e38c44f9ac02ca623f4ee503";
 		String ip = getIp(request);
-		mchatScore.setMedicNo("937c2b21d3db406693c59a816614e26d");
-		mchatScore = initMchatScore(mchatScore, enterpriseNo, birthDay, testDay);
+		mchatScore = initMchatScore(mchatScore, birthDay, testDay);
 		final MchatScore mchat_score = mchatScore;
 		mchatScore.setIp(ip);
 		try {
@@ -68,21 +66,21 @@ public class MchatTesteeController {
 		}
 
 	}
-	
+
 	@RequestMapping(value = "/api/v1/medicMchat/listQuestionnaire", method = RequestMethod.GET)
 	@ResponseBody
-	public CodeMsgBean<Object> listQuestionnaire(Integer level, HttpServletRequest request)
-			throws IOException {
+	public CodeMsgBean<Object> listQuestionnaire(Integer level, HttpServletRequest request) throws IOException {
 		try {
-			 List<MchatQuestionnaire> result = portalMchatTesteeFacade.listQuestionnaire(1);
+			List<MchatQuestionnaire> result = portalMchatTesteeFacade.listQuestionnaire(1);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
-	
+
 	/**
 	 * 获取施测者列表
+	 * 
 	 * @param level
 	 * @param request
 	 * @return
@@ -90,33 +88,36 @@ public class MchatTesteeController {
 	 */
 	@RequestMapping(value = "/api/v1/medicMchat/listMedic", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> listMedicByEnterpriseNoAndScaleNoAndMedicNo(String  enterpriseNo,String scaleNo, HttpServletRequest request)
-			throws IOException {
+	public CodeMsgBean<Object> listMedicByEnterpriseNoAndScaleNoAndMedicNo(String enterpriseNo, String scaleNo,
+			HttpServletRequest request) throws IOException {
+		if (StringUtils.isEmpty(enterpriseNo) || StringUtils.isEmpty(scaleNo)) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
 		try {
-			PageBean result = portalMchatTesteeFacade.listMedicByEnterpriseNoAndScaleNoAndMedicNo(enterpriseNo, scaleNo);
+			PageBean result = portalMchatTesteeFacade.listMedicByEnterpriseNoAndScaleNoAndMedicNo(enterpriseNo,
+					scaleNo);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
-	
-	
+
 	@RequestMapping(value = "/api/v1/medicMchat/getMchatScoreHistoryRecord", method = RequestMethod.GET)
 	@ResponseBody
 	public CodeMsgBean<Object> getMchatScoreHistoryRecord(Integer level, HttpServletRequest request)
 			throws IOException {
 		try {
-			Map<String, Object> paramMap =new HashMap<String, Object>();
-//			paramMap.put("enterpriseNo", enterpriseNo);
-//			paramMap.put("testeeNo", testeeNo);
-//			paramMap.put("cardNo", cardNo);
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			// paramMap.put("enterpriseNo", enterpriseNo);
+			// paramMap.put("testeeNo", testeeNo);
+			// paramMap.put("cardNo", cardNo);
 			MchatScore result = portalMchatTesteeFacade.getMchatScoreHistoryRecord(paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
-	
+
 	/**
 	 * 验证基本信息
 	 * 
@@ -128,12 +129,15 @@ public class MchatTesteeController {
 	 */
 	@RequestMapping(value = "/api/v1/medicMchat/verifyBasicInformation", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> verifyBasicInformation(MchatScore mchatScore,String enterpriseNo,String medicNo, String birthDay, String testDay,
-			HttpServletRequest request) throws IOException {
-		if (mchatScore == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)|| StringUtils.isEmpty(enterpriseNo)|| StringUtils.isEmpty(medicNo)) {
-			return new CodeMsgBean<Object>(10003, "参数异常");
+	public CodeMsgBean<Object> verifyBasicInformation(MchatScore mchatScore,
+			String birthDay, String testDay, HttpServletRequest request) throws IOException {
+		if(StringUtils.isEmpty(mchatScore.getEnterpriseNo()) || StringUtils.isEmpty(mchatScore.getMedicNo())){
+			return new CodeMsgBean<Object>(10003, "请选择施测者");
 		}
-		mchatScore = initMchatScore(mchatScore, enterpriseNo, medicNo, birthDay, testDay);
+		if (mchatScore == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
+			return new CodeMsgBean<Object>(10003, "出生日期与测试日期不能为空");
+		}
+		mchatScore = initMchatScore(mchatScore, birthDay, testDay);
 
 		try {
 			boolean bl = portalMchatMedicFacade.verifyBasicInformation(mchatScore);
@@ -142,7 +146,7 @@ public class MchatTesteeController {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
-	
+
 	private String getIp(HttpServletRequest request) {
 		String ip = request.getHeader("X-Real-IP");
 		if (!StringUtils.isEmpty(ip) && !"unknown".equalsIgnoreCase(ip)) {
@@ -161,10 +165,8 @@ public class MchatTesteeController {
 			return request.getRemoteAddr();
 		}
 	}
-	
-	private MchatScore initMchatScore(MchatScore mchatScore, String enterpriseNo, String birthDay,
-			String testDay) {
-		mchatScore.setEnterpriseNo(enterpriseNo);
+
+	private MchatScore initMchatScore(MchatScore mchatScore, String birthDay, String testDay) {
 		Map<String, Integer> mapBirthDate = initBirthMap(birthDay, "birthYear", "birthMonth", "birthToday");
 		Map<String, Integer> mapTestDate = initBirthMap(testDay, "testYear", "testMonth", "testToday");
 		mchatScore.setBirthMonth(mapBirthDate.get("birthMonth"));
@@ -175,6 +177,7 @@ public class MchatTesteeController {
 		mchatScore.setTestToday(mapTestDate.get("testToday"));
 		return mchatScore;
 	}
+
 	/**
 	 * 格式化日期
 	 * 
@@ -191,7 +194,7 @@ public class MchatTesteeController {
 		}
 		return birthMap;
 	}
-	
+
 	/**
 	 * 校验是否为数字
 	 * 
@@ -206,19 +209,6 @@ public class MchatTesteeController {
 		}
 		return true;
 	}
-	private MchatScore initMchatScore(MchatScore mchatScore, String enterpriseNo, String medicNo, String birthDay,
-			String testDay) {
-		mchatScore.setEnterpriseNo(enterpriseNo);
-		mchatScore.setMedicNo(medicNo);
-		Map<String, Integer> mapBirthDate = initBirthMap(birthDay, "birthYear", "birthMonth", "birthToday");
-		Map<String, Integer> mapTestDate = initBirthMap(testDay, "testYear", "testMonth", "testToday");
-		mchatScore.setBirthMonth(mapBirthDate.get("birthMonth"));
-		mchatScore.setBirthToday(mapBirthDate.get("birthToday"));
-		mchatScore.setBirthYear(mapBirthDate.get("birthYear"));
-		mchatScore.setTestYear(mapTestDate.get("testYear"));
-		mchatScore.setTestMonth(mapTestDate.get("testMonth"));
-		mchatScore.setTestToday(mapTestDate.get("testToday"));
-		return mchatScore;
-	}
+
 
 }
