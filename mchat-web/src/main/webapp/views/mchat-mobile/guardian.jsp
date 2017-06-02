@@ -9,6 +9,7 @@
 <title>监护人</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <script src="../../mobile/js/layer_mobile/layer.js"></script>
+<script type="text/javascript" src="../../mobile/js/mdialog.js"></script>
 <script src="../../js/jquery.min.js"></script>
 <script src="../../js/util.js"></script>
 <script src="../../mobile/js/picker/picker.min.js"></script>
@@ -17,6 +18,7 @@
 <link rel="Stylesheet" type="text/css" href="../../mobile/css/mobile.css" />
 <link rel="Stylesheet" type="text/css" href="../../mobile/css/payment.css" />
 <link rel="Stylesheet" type="text/css" href="../../mobile/css/icons/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="../../mobile/js/mdialog.css">
 <style>
 .gif{
 		width:90%;
@@ -728,8 +730,6 @@ $(function () {
         				hasBtn:true
         			})
         		}
-        		$("#reportForm").attr("action",util.requestURL+"/mobile/html/question");
-                $("#reportForm").submit();
         	}
         })
     	
