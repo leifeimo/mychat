@@ -169,7 +169,7 @@
     
     <div id="m_test_name" class="m_list_1 b_solid ${empty report.enterpriseNo ? 'divhide' : ''}">
     <p>施测者：<span id="medicName">${report.medicName}</span>
-    	<input title="hidden" name="scaleNo" value="${report.scaleNo}">
+    	<input type="hidden" name="scaleNo" value="${report.scaleNo}">
     	<input type="hidden" name="enterpriseNo" value="${report.enterpriseNo}">
     	<input type="hidden" name="medicNo" value="${report.medicNo}">
     	<input type="hidden" name="medicName" value="${report.medicName}">
@@ -193,7 +193,7 @@
         <p><span>&nbsp;</span><input type="text" value="${report.testeeName}" name="testeeName" id="testeeName" ${empty report.testeeName ? "" : "disabled"}/></p>
       </div>
       
-      
+      </div>
       <div class="m_list b_solid ${report.cardTypeShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_2.png" /></span></p>
         <p>身份信息*</p>
@@ -462,7 +462,6 @@
 			<select name="fatherCareer" id="fatherCareer" class="fs">
 			</select>
 		</p>
-      </div>
 	
 	
 	<div class="m_list_1 b_solid ${report.caregiversCultureDegreeShow ? '' : 'divhide'}">

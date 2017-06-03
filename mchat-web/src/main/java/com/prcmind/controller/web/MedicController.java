@@ -311,7 +311,7 @@ public class MedicController {
 	public CodeMsgBean<Object> listCertificateByMedicNo(HttpServletRequest request) throws IOException {
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
-			// medicNo = "937c2b21d3db406693c59a816614e26d";
+//			 medicNo = "937c2b21d3db406693c59a816614e26d";
 			 return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {

@@ -101,7 +101,7 @@
 	        
 	        
 	        <div class="m_top_20">
-	            <p class="m_q1"><a id="showPic" href="javascript:;"><img src="../../mobile/images/m_q_1.jpg" /></a></p>
+	        <!--     <p class="m_q1" ><a id="showPic" href="javascript:;" ><img src="../../mobile/images/m_q_1.jpg"  /></a></p> -->
 	            <p class="m_q2"><a id="showGif" href="javascript:;"><img src="../../mobile/images/m_q_2.jpg" /></a></p>
 	        </div>
 	        
