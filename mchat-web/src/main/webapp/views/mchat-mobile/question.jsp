@@ -53,7 +53,7 @@
 	<form method="post" id="reportForm">
 	<div id="contentDiv">
 		<input type="hidden" name="enterpriseNo" value="${report.enterpriseNo}">
-		<input title="hidden" name="scaleNo" value="${report.scaleNo}">
+		<input type="hidden" name="scaleNo" value="${report.scaleNo}">
 		<input type="hidden" name="medicNo" value="${report.medicNo}">
 		<input type="hidden" name="medicName" value="${report.medicName}"/>
 		<input type="hidden" name="testeeName" value="${report.testeeName}"/>
@@ -101,7 +101,7 @@
 	        
 	        
 	        <div class="m_top_20">
-	        <!--     <p class="m_q1" ><a id="showPic" href="javascript:;" ><img src="../../mobile/images/m_q_1.jpg"  /></a></p> -->
+	           <!--  <p class="m_q1"><a id="showPic" href="javascript:;"><img src="../../mobile/images/m_q_1.jpg" /></a></p> -->
 	            <p class="m_q2"><a id="showGif" href="javascript:;"><img src="../../mobile/images/m_q_2.jpg" /></a></p>
 	        </div>
 	        
@@ -125,7 +125,7 @@
 
 <script>
 	var enterpriseNo = $("#contentDiv input[name='enterpriseNo']").val();
-	var scaleNo = $("#scaleNo input[name='scaleNo']").val();
+	var scaleNo = $("#contentDiv input[name='scaleNo']").val();
 	var medicNo = $("#contentDiv input[name='medicNo']").val();
 	var medicName = $("#contentDiv input[name='medicName']").val();
 	var testeeName = $("#contentDiv input[name='testeeName']").val();
@@ -218,7 +218,7 @@
         birthToday : birthToday,
         testDay: testDay,
         testYear : testYear,
-        testMonth : testYear,
+        testMonth : testMonth,
         testToday : testToday,
         gestationalWeeks: gestationalWeeks,
         gestationalDays : gestationalDays,

@@ -2,190 +2,190 @@ package com.prcmind.view;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.util.StringUtils;
 
 import com.prcmind.utils.ReflectUtil;
 
-public class ReportParamView implements Serializable{
-	
+public class ReportParamView implements Serializable {
+
 	private static final long serialVersionUID = 1857581288851781834L;
-	
+
 	private String enterpriseNo;//
-	
+
 	private String scaleNo;//
-	
-	private String medicNo;//施测者
-	
-	private String medicName;//施测者姓名
-	
-	private String testeeName;//儿童姓名
-	
-	private String cardType;//身份信息卡类型
-	
-	private String cardNo;//身份证号码
-	
-	private String sex;//性别
-	
-	private String birthDay;//出生日期
-	
-	private String testDay;//完成问卷日期
-	
-	private String gestationalWeeks;//孕周
-	
-	private String gestationalDays;//孕天
-	
-	private String births;//出生时情况
-	
-	private String consignorName;//完成问卷人姓名
-	
-	private String consignorType;//与儿童关系
-	
-	private String weight;//体重
-	
-	private String address;//通讯地址
-	
-	private String zip;//邮政编码
-	
-	private String email;//电子邮箱
-	
-	private String tel;//联系电话
-	
-	private String remarks;//备注
-	
-	private String patronnInfo;//协助填写问卷人
-	
-	private String motherCultureDegree;//母亲文化程度
-	
-	private String motherCareerCategory;//母亲职业大类
-	
-	private String motherCareer;//母亲职业
-	
-	private String fatherCultureDegree;//父亲文化程度
-	
-	private String fatherCareerCategory;//父亲职业大类
-	
-	private String fatherCareer;//父亲职业
-	
-	private String caregiversCultureDegree;//主要照顾人文化程度
-	
-	private String motherBirthDay;//母亲生日
-	
-	private String fatherBirthDay;//父亲生日
-	
-	private String maritalStatus;//婚姻状况
-	
-	
-	
-	private String birthsResult;//出生情况（数字转中文）
-	
-	
+
+	private String medicNo;// 施测者
+
+	private String medicName;// 施测者姓名
+
+	private String testeeName;// 儿童姓名
+
+	private String cardType;// 身份信息卡类型
+
+	private String cardNo;// 身份证号码
+
+	private String sex;// 性别
+
+	private String birthDay;// 出生日期
+
+	private String testDay;// 完成问卷日期
+
+	private String gestationalWeeks;// 孕周
+
+	private String gestationalDays;// 孕天
+
+	private String births;// 出生时情况
+
+	private String consignorName;// 完成问卷人姓名
+
+	private String consignorType;// 与儿童关系
+
+	private String weight;// 体重
+
+	private String address;// 通讯地址
+
+	private String zip;// 邮政编码
+
+	private String email;// 电子邮箱
+
+	private String tel;// 联系电话
+
+	private String remarks;// 备注
+
+	private String patronnInfo;// 协助填写问卷人
+
+	private String motherCultureDegree;// 母亲文化程度
+
+	private String motherCareerCategory;// 母亲职业大类
+
+	private String motherCareer;// 母亲职业
+
+	private String fatherCultureDegree;// 父亲文化程度
+
+	private String fatherCareerCategory;// 父亲职业大类
+
+	private String fatherCareer;// 父亲职业
+
+	private String caregiversCultureDegree;// 主要照顾人文化程度
+
+	private String motherBirthDay;// 母亲生日
+
+	private String fatherBirthDay;// 父亲生日
+
+	private String maritalStatus;// 婚姻状况
+
+	private String birthsResult;// 出生情况（数字转中文）
+
 	private String testeeNameHide;
-	
+
 	private boolean testeeNameShow;
-	
+
 	private String cardTypeHide;
-	
+
 	private boolean cardTypeShow;
-	
+
 	private String cardNoHide;
-	
+
 	private boolean cardNoShow;
-	
+
 	private String sexHide;
-	
+
 	private boolean sexShow;
-	
+
 	private String birthDayHide;
-	
+
 	private boolean birthDayShow;
-	
+
 	private String testDayHide;
-	
+
 	private boolean testDayShow;
-	
+
 	private String gestationalWeeksDaysHide;
-	
+
 	private boolean gestationalWeeksDaysShow;
-	
+
 	private String birthsHide;
-	
+
 	private boolean birthsShow;
-	
+
 	private String consignorNameHide;
-	
+
 	private boolean consignorNameShow;
-	
+
 	private String consignorTypeHide;
-	
+
 	private boolean consignorTypeShow;
-	
+
 	private String weightHide;
-	
+
 	private boolean weightShow;
-	
+
 	private String addressHide;
-	
+
 	private boolean addressShow;
-	
+
 	private String zipHide;
-	
+
 	private boolean zipShow;
-	
+
 	private String emailHide;
-	
+
 	private boolean emailShow;
-	
+
 	private String telHide;
-	
+
 	private boolean telShow;
-	
+
 	private String patronnInfoHide;
-	
+
 	private boolean patronnInfoShow;
-	
+
 	private String motnerCultureDegreeHide;
-	
+
 	private boolean motnerCultureDegreeShow;
-	
+
 	private String motherCareerCategoryHide;
-	
+
 	private boolean motherCareerCategoryShow;
-	
+
 	private String motherCareerHide;
-	
+
 	private boolean motherCareerShow;
-	
+
 	private String fatherCultureDegreeHide;
-	
+
 	private boolean fatherCultureDegreeShow;
-	
+
 	private String fatherCareerCategoryHide;
-	
+
 	private boolean fatherCareerCategoryShow;
-	
+
 	private String fatherCareerHide;
-	
+
 	private boolean fatherCareerShow;
-	
+
 	private String caregiversCultureDegreeHide;
-	
+
 	private boolean caregiversCultureDegreeShow;
-	
+
 	private String maritalStatusHide;
-	
+
 	private boolean maritalStatusShow;
-	
+
 	private String motherBirthDayHide;
-	
+
 	private boolean motherBirthDayShow;
-	
+
 	private String fatherBirthDayHide;
-	
+
 	private boolean fatherBirthDayShow;
-	
+
 	private String remarksHide;
-	
+
 	private boolean remarksShow;
 
 	public String getMedicNo() {
@@ -435,7 +435,7 @@ public class ReportParamView implements Serializable{
 	public void setCardTypeHide(String cardTypeHide) {
 		this.cardTypeHide = cardTypeHide;
 	}
-	
+
 	public String getCardNoHide() {
 		return cardNoHide;
 	}
@@ -851,7 +851,7 @@ public class ReportParamView implements Serializable{
 	public void setRemarksShow(boolean remarksShow) {
 		this.remarksShow = remarksShow;
 	}
-	
+
 	public String getBirthsResult() {
 		return birthsResult;
 	}
@@ -886,32 +886,46 @@ public class ReportParamView implements Serializable{
 
 	/**
 	 * 验证各个字段是否显示
+	 * 
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
 	 */
-	public void checkShow(){	
+	public void checkShow() throws IllegalArgumentException, IllegalAccessException {
 		Field[] fields = ReportParamView.class.getDeclaredFields();
-		for(Field field : fields){
+		Map<String, Object> map = new HashMap<>();
+		for (Field field : fields) {
 			String fieldName = field.getName();
 			int prefixIndex = fieldName.indexOf("Hide");
-			if(prefixIndex>0){
-				try {
-					boolean isShow = true;//不传值默认显示
-					Object value = field.get(this);
-					if(value!=null){
-						String valueStr = (String) value;
-						if(valueStr.equals("1")){
+			if (prefixIndex > 0) {
+				boolean isShow = true;// 不传值默认显示
+				Object value = field.get(this);
+				if (value != null) {
+					String valueStr = (String) value;
+					if (valueStr.equals("1")) {
+						isShow = false;
+					}
+				} else {
+					String name = fieldName.replace("Hide", "").trim();
+					if (map.size() > 1) {
+						if (!map.containsKey(name)) {
 							isShow = false;
 						}
 					}
-					String showFieldName = fieldName.substring(0, prefixIndex)+"Show";
-					Field showField = ReflectUtil.getField(this, showFieldName);
-					showField.setAccessible(true);
-					showField.set(this, isShow);
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
+				}
+				String showFieldName = fieldName.substring(0, prefixIndex) + "Show";
+				Field showField = ReflectUtil.getField(this, showFieldName);
+				showField.setAccessible(true);
+				showField.set(this, isShow);
+			} else {
+				if(fieldName.indexOf("Show")< 0){
+					Object value = field.get(this);
+					if (value != null && !fieldName.equals("serialVersionUID")) {
+						map.put(fieldName, value);
+					}
 				}
 				
+				
+
 			}
 		}
 	}
@@ -926,7 +940,7 @@ public class ReportParamView implements Serializable{
 			if (births.endsWith(";")) {
 				births = births.substring(0, births.length() - 1);
 			}
-			String[] arr = births.split(";");			
+			String[] arr = births.split(";");
 			for (int i = 0; i < arr.length; i++) {
 				birthsResult += birthConvert(Integer.valueOf(arr[i])) + ";";
 			}
@@ -934,7 +948,7 @@ public class ReportParamView implements Serializable{
 		}
 		setBirthsResult(birthsResult);
 	}
-	
+
 	public static String birthConvert(int birthId) {
 		String birth = "";
 		switch (birthId) {

@@ -190,15 +190,15 @@
       <div class="m_list b_solid ${report.testeeNameShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_1.png" /></span></p>
         <p>儿童姓名*</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.testeeName}" name="testeeName" id="testeeName" ${empty report.testeeName ? "" : "disabled"}/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.testeeName}" name="testeeName" id="testeeName"}/></p>
       </div>
       
-      </div>
+      
       <div class="m_list b_solid ${report.cardTypeShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_2.png" /></span></p>
         <p>身份信息*</p>
         <p>
-			<select name="cardType" id="cardType" class="fs" ${ empty report.cardType ? "" : "disabled"}>
+			<select name="cardType" id="cardType" class="fs"}>
 				<option value="" ${empty report.cardType ? "selected = 'selected'" : ""}>请选择</option>
 			    <option value="0" ${report.cardType eq '0' ? "selected = 'selected'" : ""}>儿童身份证</option>
 				<option value="1" ${report.cardType eq '1' ? "selected = 'selected'" : ""}>父亲身份证</option>
@@ -213,7 +213,7 @@
       <div class="m_list b_solid ${report.cardNoShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_3.png" /></span></p>
         <p>身份证号码*</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.cardNo}" id="cardNo" name="cardNo" ${empty report.cardNo ? "" : "disabled"}/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.cardNo}" id="cardNo" name="cardNo"/></p>
       </div>      
 
 
@@ -221,7 +221,7 @@
         <p class="box"><span><img src="../images/m_tip_4.png" /></span></p>
         <p>性别*</p>
         <p>
-			<select name="sex" id="sex" class="fs" ${ empty report.sex ? "" : "disabled"}>
+			<select name="sex" id="sex" class="fs"}>
 				<option value="" ${empty report.sex ? "selected = 'selected'" : ""}>请选择</option>
 			    <option value="0" ${report.sex eq '0' ? "selected = 'selected'" : ""}>男</option>
 				<option value="1" ${report.sex eq '1' ? "selected = 'selected'" : ""}>女</option>
@@ -234,7 +234,7 @@
         <p class="box"><span><img src="../images/m_tip_5.png" /></span></p>
         <p>出生日期*</p>
         <p>
-        	<input type="date" name="birthDay" class="fs1" value="${report.birthDay}" ${empty report.birthDay ? "" : "disabled"}/>
+        	<input type="date" name="birthDay" class="fs1" value="${report.birthDay}"/>
         </p>
       </div>  
       
@@ -242,7 +242,7 @@
         <p class="box"><span><img src="../images/m_tip_6.png" /></span></p>
         <p>完成问卷日期*</p>
         <p>
-        	<input type="date" name="testDay" class="fs1" value="${report.testDay}" ${empty report.testDay ? "" : "disabled"}/>
+        	<input type="date" name="testDay" class="fs1" value="${report.testDay}"/>
         </p>
       </div>  
       
@@ -260,7 +260,7 @@
         <p>
         	<input type="hidden" name="gestationalWeeks" value="${report.gestationalWeeks}"/>
 		    <input type="hidden" name="gestationalDays" value="${report.gestationalDays}"/>
-		    <select id="gestationalWeeks" class="fs" ${ empty report.gestationalWeeks ? "" : "disabled"}>
+		    <select id="gestationalWeeks" class="fs">
 			    
 			    <c:choose>
 			    	<c:when test="${not empty report.gestationalWeeks && not empty report.gestationalDays}">
@@ -281,7 +281,7 @@
         <p>出生时情况(多选)</p>
         <p class="payment_situation_title">
 		   	 <input type="hidden" value="${report.births}" name="births" id="births"/>
-		   	 <input type="text" class="fs1" value="${report.birthsResult}" name="birthsResult" id="birthsResult" ${empty report.birthsResult ? "" : "disabled"}/>
+		   	 <input type="text" class="fs1" value="${report.birthsResult}" name="birthsResult" id="birthsResult"/>
 		   	 <!--
 		   	 <select name="births" id="births"  multiple="multiple" class="fs">
 			    <option value="0">足月</option>
@@ -308,14 +308,14 @@
       <div class="m_list_1 b_solid  m_top_10 ${report.consignorNameShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>完成问卷人姓名</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.consignorName}" id="consignorName" name="consignorName" ${empty report.consignorName ? "" : "disabled"}/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.consignorName}" id="consignorName" name="consignorName"/></p>
       </div>    
       
       <div class="m_list_1 b_solid ${report.consignorTypeShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_2.png" /></span></p>
         <p>与儿童的关系</p>
         <p>
-			<select name="consignorType" id="consignorType" class="fs" ${ empty report.consignorType ? "" : "disabled"}>
+			<select name="consignorType" id="consignorType" class="fs">
 			    <option value="" ${empty report.consignorType ? "selected = 'selected'" : ""}>请选择</option>
 			    <option value="1" ${report.consignorType eq '1' ? "selected = 'selected'" : ""}>父母</option>
 				<option value="2" ${report.consignorType eq '2' ? "selected = 'selected'" : ""}>祖父母</option>
@@ -330,39 +330,39 @@
       <div class="m_list_1 b_solid ${report.weightShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_7.png" /></span></p>
         <p>出生时体重(克)</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.weight}" id="weight" name="birthWeight" ${empty report.weight ? "" : "disabled"}/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.weight}" id="weight" name="weight"/></p>
       </div> 
 
       <div class="m_list_1 b_solid ${report.addressShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_6.png" /></span></p>
         <p>通信地址</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.address}" id="address" name="address" ${empty report.address ? "" : "disabled"}/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.address}" id="address" name="address"/></p>
       </div> 
       
       <div class="m_list_1 b_solid ${report.zipShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>邮政编码</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.zip}" id="zip" name="zip" ${empty report.zip ? "" : "disabled"}/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.zip}" id="zip" name="zip"/></p>
       </div> 
       
       <div class="m_list_1 b_solid ${report.emailShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>电子邮箱</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.email}" id="email" name="email" ${empty report.email ? "" : "disabled"}/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.email}" id="email" name="email"/></p>
       </div>  
  
       
       <div class="m_list_1 b_solid ${report.telShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>联系电话</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.tel}" id="tel" name="tel" ${empty report.tel ? "" : "disabled"}/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.tel}" id="tel" name="tel"/></p>
       </div>   
 
 
       <div class="m_list_1 b_solid ${report.patronnInfoShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_10.png" /></span></p>
         <p>协助填写问卷人</p>
-        <p><span>&nbsp;</span><input type="text" value="${report.patronnInfo}" id="patronnInfo" name="patronnInfo" ${empty report.patronnInfo ? "" : "disabled"}/></p>
+        <p><span>&nbsp;</span><input type="text" value="${report.patronnInfo}" id="patronnInfo" name="patronnInfo"/></p>
       </div> 
 
       
@@ -370,7 +370,7 @@
         <p class="box"><span></span></p>
         <p>母亲文化程度</p>
         <p>
-			<select name="motherCultureDegree" id="motherCultureDegree" class="fs" ${ empty report.motherCultureDegree ? "" : "disabled"}>
+			<select name="motherCultureDegree" id="motherCultureDegree" class="fs">
 			    <option value="" ${empty report.motherCultureDegree ? "selected = 'selected'" : ""}>请选择</option>
 			    <option value="1" ${report.motherCultureDegree eq '1' ? "selected = 'selected'" : ""}>小学</option>
 				<option value="8" ${report.motherCultureDegree eq '8' ? "selected = 'selected'" : ""}>完成部分初中课程</option>
@@ -389,7 +389,7 @@
         <p class="box"><span></span></p>
         <p>母亲职业大类</p>
         <p>
-			<select name="motherCareerCategory" id="motherCareerCategory" class="fs" ${ empty report.motherCareerCategory ? "" : "disabled"}>
+			<select name="motherCareerCategory" id="motherCareerCategory" class="fs">
 			    <option value="" ${empty report.motherCareerCategory ? "selected = 'selected'" : ""}>请选择</option>
 			    <option value="1" ${report.motherCareerCategory eq '1' ? "selected = 'selected'" : ""}>第一大类</option>
 				<option value="2" ${report.motherCareerCategory eq '2' ? "selected = 'selected'" : ""}>第二大类</option>
@@ -419,7 +419,7 @@
         <p class="box"><span></span></p>
         <p>父亲文化程度</p>
         <p>
-			<select name="fatherCultureDegree" id="fatherCultureDegree" class="fs" ${ empty report.fatherCultureDegree ? "" : "disabled"}>
+			<select name="fatherCultureDegree" id="fatherCultureDegree" class="fs">
 			    <option value="" ${empty report.fatherCultureDegree ? "selected = 'selected'" : ""}>请选择</option>
 			    <option value="1" ${report.fatherCultureDegree eq '1' ? "selected = 'selected'" : ""}>小学</option>
 				<option value="8" ${report.fatherCultureDegree eq '8' ? "selected = 'selected'" : ""}>完成部分初中课程</option>
@@ -438,7 +438,7 @@
         <p class="box"><span></span></p>
         <p>父亲职业大类</p>
         <p>
-			<select name="fatherCareerCategory" id="fatherCareerCategory" class="fs" ${ empty report.fatherCareerCategory ? "" : "disabled"}>
+			<select name="fatherCareerCategory" id="fatherCareerCategory" class="fs">
 			    <option value="" ${empty report.fatherCareerCategory ? "selected = 'selected'" : ""}>请选择</option>
 			    <option value="1" ${report.fatherCareerCategory eq '1' ? "selected = 'selected'" : ""}>第一大类</option>
 				<option value="2" ${report.fatherCareerCategory eq '2' ? "selected = 'selected'" : ""}>第二大类</option>
@@ -462,13 +462,14 @@
 			<select name="fatherCareer" id="fatherCareer" class="fs">
 			</select>
 		</p>
+      </div>
 	
 	
 	<div class="m_list_1 b_solid ${report.caregiversCultureDegreeShow ? '' : 'divhide'}">
 	    <p class="box"><span></span></p>
 	    <p>主要照顾者文化程度</p>
 	    <p>
-			<select name="caregiversCultureDegree" id="caregiversCultureDegree" class="fs" ${ empty report.caregiversCultureDegree ? "" : "disabled"}>
+			<select name="caregiversCultureDegree" id="caregiversCultureDegree" class="fs">
 			    <option value="" ${empty report.caregiversCultureDegree ? "selected = 'selected'" : ""}>请选择</option>
 			    <option value="1" ${report.caregiversCultureDegree eq '1' ? "selected = 'selected'" : ""}>小学</option>
 				<option value="8" ${report.caregiversCultureDegree eq '8' ? "selected = 'selected'" : ""}>完成部分初中课程</option>
@@ -486,7 +487,7 @@
         <p class="box"><span><img src="../images/m_tip_5.png" /></span></p>
         <p>母亲生日*</p>
         <p>
-			<input type="date" name="motherBirthDay" class="fs1" value="${report.motherBirthDay}" ${empty report.motherBirthDay ? "" : "disabled"}/>
+			<input type="date" name="motherBirthDay" class="fs1" value="${report.motherBirthDay}"/>
 		</p>
     </div>       
    
@@ -494,7 +495,7 @@
         <p class="box"><span><img src="../images/m_tip_5.png" /></span></p>
         <p>父亲生日*</p>
         <p>
-        	<input type="date" name="fatherBirthDay" class="fs1" value="${report.fatherBirthDay}" ${empty report.fatherBirthDay ? "" : "disabled"}/>
+        	<input type="date" name="fatherBirthDay" class="fs1" value="${report.fatherBirthDay}"/>
         </p>
    </div> 
    
@@ -502,7 +503,7 @@
 	    <p class="box"><span></span></p>
 	    <p>婚姻状况</p>
 	    <p>
-			<select name="maritalStatus" id="maritalStatus" class="fs" ${ empty report.maritalStatus ? "" : "disabled"}>
+			<select name="maritalStatus" id="maritalStatus" class="fs">
 			    <option value="" ${empty report.maritalStatus ? "selected = 'selected'" : ""}>请选择</option>
 			    <option value="1" ${report.maritalStatus eq '1' ? "selected = 'selected'" : ""}>未婚</option>
 				<option value="2" ${report.maritalStatus eq '2' ? "selected = 'selected'" : ""}>已婚</option>
@@ -714,10 +715,131 @@ $(function () {
 	
     //创建报告按钮绑定事件
     $("#createReportBtn").on('click',function(){
-        $.ajax({
+    	var enterpriseNo = $("#reportForm input[name='enterpriseNo']").val();
+    	var scaleNo = $("#reportForm input[name='scaleNo']").val();
+    	var medicNo = $("#reportForm input[name='medicNo']").val();
+    	var medicName = $("#reportForm input[name='medicName']").val();
+    	var testeeName = $("#reportForm input[name='testeeName']").val();
+    	var cardType = $("#cardType").children('option:selected').val(); 
+    	var cardNo = $("#reportForm input[name='cardNo']").val();
+    	var sex = $("#sex").children('option:selected').val();
+    	if(sex!=null&&sex!=""){
+    		sex = parseInt(sex);
+    	}else{
+    		sex = -1;
+    	}
+    	var birthDay = $("#reportForm input[name='birthDay']").val();  	
+        var birthYear = 0;
+        var birthMonth = 0;
+        var birthToday = 0;
+        if(birthDay!=null&&birthDay!=''){
+        	birthYear = parseInt(birthDay.split("-")[0]);
+        	birthMonth = parseInt(birthDay.split("-")[1]);
+        	birthToday = parseInt(birthDay.split("-")[2]);
+        }
+        var testDay = $("#reportForm input[name='testDay']").val();
+        var testYear = 0;
+        var testMonth = 0;
+        var testToday = 0;
+    	if(testDay!=null&&testDay!=''){
+    		testYear=parseInt(testDay.split("-")[0]);
+    		testMonth=parseInt(testDay.split("-")[1]);
+    		testToday=parseInt(testDay.split("-")[2]);
+    	}
+    	var gestationalWeeks = $("#reportForm input[name='gestationalWeeks']").val();
+    	if(gestationalWeeks!=null&&gestationalWeeks!=""){
+    		gestationalWeeks = parseInt(gestationalWeeks);
+    	}else{
+    		gestationalWeeks = 0;
+    	}
+    	var gestationalDays = $("#reportForm input[name='gestationalDays']").val();
+    	if(gestationalDays!=null&&gestationalDays!=""){
+    		gestationalDays = parseInt(gestationalDays);
+    	}else{
+    		gestationalDays = 0;
+    	}
+    	var births = $("#reportForm input[name='births']").val();
+    	var consignorName = $("#reportForm input[name='consignorName']").val();
+    	var consignorType = $("#consignorType").children('option:selected').val();
+    	var weight = $("#reportForm input[name='weight']").val();
+    	if(weight!=null&&weight!=""){
+    		weight = parseInt(weight);
+    	}else{
+    		weight = 0;
+    	}
+    	var address = $("#reportForm input[name='address']").val();
+    	var zip = $("#reportForm input[name='zip']").val();
+    	var email = $("#reportForm input[name='email']").val();
+    	var tel = $("#reportForm input[name='tel']").val();
+    	var remarks = $("#reportForm input[name='remarks']").val();
+    	var patronnInfo = $("#reportForm input[name='patronnInfo']").val();
+    	var motherCultureDegree = $("#motherCultureDegree").children('option:selected').val();
+    	var motherCareerCategory = $("#motherCareerCategory").children('option:selected').val();
+    	if(motherCareerCategory!=null&&motherCareerCategory!=""){
+    		motherCareerCategory = parseInt(motherCareerCategory);
+    	}else{
+    		motherCareerCategory = 0;
+    	}
+    	var motherCareer = $("#motherCareer").children('option:selected').val();
+    	var fatherCultureDegree = $("#fatherCultureDegree").children('option:selected').val();
+    	var fatherCareerCategory = $("#fatherCareerCategory").children('option:selected').val();
+    	if(fatherCareerCategory!=null&&fatherCareerCategory!=""){
+    		fatherCareerCategory = parseInt(fatherCareerCategory);
+    	}else{
+    		fatherCareerCategory = 0;
+    	}
+    	var fatherCareer = $("#fatherCareer").children('option:selected').val();
+    	var caregiversCultureDegree = $("#caregiversCultureDegree").children('option:selected').val();
+    	var motherBirthDay = $("#reportForm input[name='motherBirthDay']").val();
+    	var fatherBirthDay = $("#reportForm input[name='fatherBirthDay']").val();
+    	var maritalStatus = $("#maritalStatus").children('option:selected').val(); 
+    	
+		var obj1 = {
+			enterpriseNo : enterpriseNo,
+			scaleNo : scaleNo,
+			medicNo : medicNo,
+			medicName:medicName,	
+	        testeeName: testeeName,
+	        sex: sex,
+	        cardType: cardType,
+	        cardNo: cardNo,
+	        birthDay: birthDay,
+	        birthYear : birthYear,
+	        birthMonth : birthMonth,
+	        birthToday : birthToday,
+	        testDay: testDay,
+	        testYear : testYear,
+	        testMonth : testMonth,
+	        testToday : testToday,
+	        gestationalWeeks: gestationalWeeks,
+	        gestationalDays : gestationalDays,
+	        births: births,
+	        level: 1,
+	        consignorName: consignorName,
+	        consignorType: consignorType,
+			birthWeight: weight,
+	        address: address,
+	        zip: zip,
+	        tel: tel,
+	        email : email,
+	        remarks: remarks,
+	        patronnInfo:patronnInfo,
+	        motherCultureDegree: motherCultureDegree,
+	        motherCareerCategory: motherCareerCategory,
+	        motherCareer: motherCareer,
+	        fatherCultureDegree: fatherCultureDegree,
+	        fatherCareerCategory: fatherCareerCategory,
+	        fatherCareer: fatherCareer,
+	        caregiversCultureDegree: caregiversCultureDegree,
+	        motherBirthDay: motherBirthDay,
+	        fatherBirthDay: fatherBirthDay,      
+	        maritalStatus: maritalStatus
+    	}    	
+    	console.log(obj1);
+    	$.ajax({
         	type : "POST",
         	url : util.requestURL+"/api/v1/medicMchat/verifyBasicInformation",
-        	data : $("#reportForm").serialize(),
+        	data : obj1,
         	success : function(data){
         		if(data.code=='1'){
         			$("#reportForm").attr("action",util.requestURL+"/mobile/html/question");
@@ -746,7 +868,7 @@ $(function () {
               if(data.code == 1){
               	  var user = data.data.recordList[0];
                	  $("#medicName").html(user.realName);
-               	  $("#m_test_name input[name='enterpriseNo']").val(user.enterpriseNo);
+               	  //$("#m_test_name input[name='enterpriseNo']").val(user.enterpriseNo);
                	  $("#m_test_name input[name='medicNo']").val(user.medicNo);
                	  $("#m_test_name input[name='medicName']").val(user.realName);
                	  var html = "<option value='' enterpriseNo=''>"+'切换'+"</option>"
@@ -768,12 +890,12 @@ $(function () {
 	$("#changeTestName").on('change',function(){
 		var medicNo = $(this).children('option:selected').val(); 
 		var medicName = $(this).children('option:selected').html();
-		var enterpriseNo = $(this).children('option:selected').attr('enterpriseNo');
+		//var enterpriseNo = $(this).children('option:selected').attr('enterpriseNo');
 		if(medicNo!=''){
 			$("#medicName").html(medicName);
 	      	$("#m_test_name input[name='medicNo']").val(medicNo);
 	      	$("#m_test_name input[name='medicName']").val(medicName);
-	      	$("#m_test_name input[name='enterpriseNo']").val(enterpriseNo);
+	      	//$("#m_test_name input[name='enterpriseNo']").val(enterpriseNo);
 		}
 		
 	})
