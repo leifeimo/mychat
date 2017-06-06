@@ -334,7 +334,7 @@ public class MchatMedicController {
 			if (result != null) {
 				Map<String, String> content = initMap(null, result);
 				response.setContentType("application/pdf");
-				response.setHeader("Content-disposition", "attachment; filename=test.pdf");
+				response.setHeader("Content-disposition", "attachment; filename="+result.getReportNo()+".pdf");
 				String path = "";
 				if(result.getScore() != null){
 					if (result.getScore() <= 2) {
@@ -515,7 +515,7 @@ public class MchatMedicController {
 			if (result != null) {
 				Map<String, String> content = initMap(result, mchatScore);
 				response.setContentType("application/pdf");
-				response.setHeader("Content-disposition", "attachment; filename=test.pdf");
+				response.setHeader("Content-disposition", "attachment; filename="+result.getReportNo()+".pdf");
 				String path = "";
 				if(result.getScore() !=null){
 					if (result.getScore() < 2) {

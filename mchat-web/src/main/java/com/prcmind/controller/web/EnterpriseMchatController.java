@@ -66,7 +66,7 @@ public class EnterpriseMchatController {
 			if (result != null) {
 				Map<String, String> content = initMap(null, result);
 				response.setContentType("application/pdf");
-				response.setHeader("Content-disposition", "attachment; filename=test.pdf");
+				response.setHeader("Content-disposition", "attachment; filename="+result.getReportNo()+".pdf");
 				String path = "";
 				if(result.getScore() != null){
 					if (result.getScore() <= 2) {
