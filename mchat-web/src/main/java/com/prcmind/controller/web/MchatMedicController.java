@@ -602,7 +602,7 @@ public class MchatMedicController {
 		if (info != null) {
 			enterpriseNo = info.getEnterpriseNo();
 		} else {
-			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+//			 enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
 			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		PageParam pageParam = new PageParam(req.getPageNum(), req.getNumPerPage());
@@ -614,7 +614,7 @@ public class MchatMedicController {
 			paramMap.put("reportNo", req.getReportNo());
 			paramMap.put("testeeNo", req.getTesteeNo());
 			paramMap.put("enterpriseNo", enterpriseNo);
-			// paramMap.put("medicNo", medicNo);
+			 paramMap.put("parentNo", req.getParentNo());
 			paramMap.put("deleted", req.getDeleted());
 			PageBean result = portalMchatMedicFacade.listMchatScoreRevisedFollowListPage(pageParam, paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
@@ -740,8 +740,8 @@ public class MchatMedicController {
 			enterpriseNo = info.getEnterpriseNo();
 			medicNo = info.getMedicNo();
 		} else {
-			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-			// medicNo = "937c2b21d3db406693c59a816614e26d";
+//			 enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+//			 medicNo = "937c2b21d3db406693c59a816614e26d";
 			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		Map<String, Integer> birthMap = null;
