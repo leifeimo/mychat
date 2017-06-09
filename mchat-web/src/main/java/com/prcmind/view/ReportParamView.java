@@ -71,9 +71,9 @@ public class ReportParamView implements Serializable {
 
 	private String caregiversCultureDegree;// 主要照顾人文化程度
 
-	private String motherBirthDay;// 母亲生日
+	private String motherBirthday;// 母亲生日
 
-	private String fatherBirthDay;// 父亲生日
+	private String fatherBirthday;// 父亲生日
 
 	private String maritalStatus;// 婚姻状况
 
@@ -175,13 +175,13 @@ public class ReportParamView implements Serializable {
 
 	private boolean maritalStatusShow;
 
-	private String motherBirthDayHide;
+	private String motherBirthdayHide;
 
-	private boolean motherBirthDayShow;
+	private boolean motherBirthdayShow;
 
-	private String fatherBirthDayHide;
+	private String fatherBirthdayHide;
 
-	private boolean fatherBirthDayShow;
+	private boolean fatherBirthdayShow;
 
 	private String remarksHide;
 
@@ -395,20 +395,20 @@ public class ReportParamView implements Serializable {
 		this.caregiversCultureDegree = caregiversCultureDegree;
 	}
 
-	public String getMotherBirthDay() {
-		return motherBirthDay;
+	public String getMotherBirthday() {
+		return motherBirthday;
 	}
 
-	public void setMotherBirthDay(String motherBirthDay) {
-		this.motherBirthDay = motherBirthDay;
+	public void setMotherBirthday(String motherBirthday) {
+		this.motherBirthday = motherBirthday;
 	}
 
-	public String getFatherBirthDay() {
-		return fatherBirthDay;
+	public String getFatherBirthday() {
+		return fatherBirthday;
 	}
 
-	public void setFatherBirthDay(String fatherBirthDay) {
-		this.fatherBirthDay = fatherBirthDay;
+	public void setFatherBirthday(String fatherBirthday) {
+		this.fatherBirthday = fatherBirthday;
 	}
 
 	public String getMaritalStatus() {
@@ -603,22 +603,6 @@ public class ReportParamView implements Serializable {
 		this.maritalStatusHide = maritalStatusHide;
 	}
 
-	public String getMotherBirthDayHide() {
-		return motherBirthDayHide;
-	}
-
-	public void setMotherBirthDayHide(String motherBirthDayHide) {
-		this.motherBirthDayHide = motherBirthDayHide;
-	}
-
-	public String getFatherBirthDayHide() {
-		return fatherBirthDayHide;
-	}
-
-	public void setFatherBirthDayHide(String fatherBirthDayHide) {
-		this.fatherBirthDayHide = fatherBirthDayHide;
-	}
-
 	public String getRemarksHide() {
 		return remarksHide;
 	}
@@ -811,20 +795,36 @@ public class ReportParamView implements Serializable {
 		this.maritalStatusShow = maritalStatusShow;
 	}
 
-	public boolean isMotherBirthDayShow() {
-		return motherBirthDayShow;
+	public String getMotherBirthdayHide() {
+		return motherBirthdayHide;
 	}
 
-	public void setMotherBirthDayShow(boolean motherBirthDayShow) {
-		this.motherBirthDayShow = motherBirthDayShow;
+	public void setMotherBirthdayHide(String motherBirthdayHide) {
+		this.motherBirthdayHide = motherBirthdayHide;
 	}
 
-	public boolean isFatherBirthDayShow() {
-		return fatherBirthDayShow;
+	public boolean isMotherBirthdayShow() {
+		return motherBirthdayShow;
 	}
 
-	public void setFatherBirthDayShow(boolean fatherBirthDayShow) {
-		this.fatherBirthDayShow = fatherBirthDayShow;
+	public void setMotherBirthdayShow(boolean motherBirthdayShow) {
+		this.motherBirthdayShow = motherBirthdayShow;
+	}
+
+	public String getFatherBirthdayHide() {
+		return fatherBirthdayHide;
+	}
+
+	public void setFatherBirthdayHide(String fatherBirthdayHide) {
+		this.fatherBirthdayHide = fatherBirthdayHide;
+	}
+
+	public boolean isFatherBirthdayShow() {
+		return fatherBirthdayShow;
+	}
+
+	public void setFatherBirthdayShow(boolean fatherBirthdayShow) {
+		this.fatherBirthdayShow = fatherBirthdayShow;
 	}
 
 	public boolean isRemarksShow() {
