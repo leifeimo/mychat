@@ -85,7 +85,7 @@
 	    <input type="hidden" name="fatherBirthDay" value="${report.fatherBirthDay}">
 	    <input type="hidden" name="maritalStatus" value="${report.maritalStatus}">
 	    <div id="m_guardian">
-	    <p onclick="backToReport();">< 返回</p>
+	    <p>&nbsp;</p>
 	    <p>填写问卷</p>
 	    </div>
 	    
@@ -250,7 +250,7 @@
         $("#showGif").on('click',function(){
             layer.open({
                 title: [
-                  '视频',
+                  '动图',
                   'background-color: #00c2bc; color:#fff;'
                 ]
                 ,style: ''
