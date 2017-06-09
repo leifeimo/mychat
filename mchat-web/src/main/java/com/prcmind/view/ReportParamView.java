@@ -2,7 +2,6 @@ package com.prcmind.view;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -144,9 +143,9 @@ public class ReportParamView implements Serializable {
 
 	private boolean patronnInfoShow;
 
-	private String motnerCultureDegreeHide;
+	private String motherCultureDegreeHide;
 
-	private boolean motnerCultureDegreeShow;
+	private boolean motherCultureDegreeShow;
 
 	private String motherCareerCategoryHide;
 
@@ -548,14 +547,6 @@ public class ReportParamView implements Serializable {
 		this.patronnInfoHide = patronnInfoHide;
 	}
 
-	public String getMotnerCultureDegreeHide() {
-		return motnerCultureDegreeHide;
-	}
-
-	public void setMotnerCultureDegreeHide(String motnerCultureDegreeHide) {
-		this.motnerCultureDegreeHide = motnerCultureDegreeHide;
-	}
-
 	public String getMotherCareerCategoryHide() {
 		return motherCareerCategoryHide;
 	}
@@ -764,14 +755,6 @@ public class ReportParamView implements Serializable {
 		this.patronnInfoShow = patronnInfoShow;
 	}
 
-	public boolean isMotnerCultureDegreeShow() {
-		return motnerCultureDegreeShow;
-	}
-
-	public void setMotnerCultureDegreeShow(boolean motnerCultureDegreeShow) {
-		this.motnerCultureDegreeShow = motnerCultureDegreeShow;
-	}
-
 	public boolean isMotherCareerCategoryShow() {
 		return motherCareerCategoryShow;
 	}
@@ -882,6 +865,22 @@ public class ReportParamView implements Serializable {
 
 	public void setScaleNo(String scaleNo) {
 		this.scaleNo = scaleNo;
+	}
+	
+	public String getMotherCultureDegreeHide() {
+		return motherCultureDegreeHide;
+	}
+
+	public void setMotherCultureDegreeHide(String motherCultureDegreeHide) {
+		this.motherCultureDegreeHide = motherCultureDegreeHide;
+	}
+
+	public boolean isMotherCultureDegreeShow() {
+		return motherCultureDegreeShow;
+	}
+
+	public void setMotherCultureDegreeShow(boolean motherCultureDegreeShow) {
+		this.motherCultureDegreeShow = motherCultureDegreeShow;
 	}
 
 	/**

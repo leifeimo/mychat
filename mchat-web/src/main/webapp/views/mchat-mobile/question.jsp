@@ -85,7 +85,7 @@
 	    <input type="hidden" name="fatherBirthDay" value="${report.fatherBirthDay}">
 	    <input type="hidden" name="maritalStatus" value="${report.maritalStatus}">
 	    <div id="m_guardian">
-	    <p onclick="backToReport();">< 返回</p>
+	    <p>&nbsp;</p>
 	    <p>填写问卷</p>
 	    </div>
 	    
@@ -183,6 +183,11 @@
 	var remarks = $("#contentDiv input[name='remarks']").val();
 	var patronnInfo = $("#contentDiv input[name='patronnInfo']").val();
 	var motherCultureDegree = $("#contentDiv input[name='motherCultureDegree']").val();
+	if(motherCultureDegree!=null&&motherCultureDegree!=""){
+		motherCultureDegree = parseInt(motherCultureDegree);
+	}else{
+		motherCultureDegree = 0;
+	}
 	var motherCareerCategory = $("#contentDiv input[name='motherCareerCategory']").val();
 	if(motherCareerCategory!=null&&motherCareerCategory!=""){
 		motherCareerCategory = parseInt(motherCareerCategory);
@@ -191,6 +196,11 @@
 	}
 	var motherCareer = $("#contentDiv input[name='motherCareer']").val();
 	var fatherCultureDegree = $("#contentDiv input[name='fatherCultureDegree']").val();
+	if(fatherCultureDegree!=null&&fatherCultureDegree!=""){
+		fatherCultureDegree = parseInt(fatherCultureDegree);
+	}else{
+		fatherCultureDegree = 0;
+	}
 	var fatherCareerCategory = $("#contentDiv input[name='fatherCareerCategory']").val();
 	if(fatherCareerCategory!=null&&fatherCareerCategory!=""){
 		fatherCareerCategory = parseInt(fatherCareerCategory);
@@ -199,9 +209,19 @@
 	}
 	var fatherCareer = $("#contentDiv input[name='fatherCareer']").val();
 	var caregiversCultureDegree = $("#contentDiv input[name='caregiversCultureDegree']").val();
+	if(caregiversCultureDegree!=null&&caregiversCultureDegree!=""){
+		caregiversCultureDegree = parseInt(caregiversCultureDegree);
+	}else{
+		caregiversCultureDegree = 0;
+	}
 	var motherBirthDay = $("#contentDiv input[name='motherBirthDay']").val();
 	var fatherBirthDay = $("#contentDiv input[name='fatherBirthDay']").val();
 	var maritalStatus = $("#contentDiv input[name='maritalStatus']").val();
+	if(maritalStatus!=null&&maritalStatus!=""){
+		maritalStatus = parseInt(maritalStatus);
+	}else{
+		maritalStatus = 0;
+	}
 	
 	var obj1 = {
 		enterpriseNo : enterpriseNo,
@@ -250,7 +270,7 @@
         $("#showGif").on('click',function(){
             layer.open({
                 title: [
-                  '视频',
+                  '动图',
                   'background-color: #00c2bc; color:#fff;'
                 ]
                 ,style: ''
