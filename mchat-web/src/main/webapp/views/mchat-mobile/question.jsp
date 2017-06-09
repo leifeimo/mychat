@@ -81,8 +81,8 @@
 	    <input type="hidden" name="fatherCareerCategory" value="${report.fatherCareerCategory}">
 	    <input type="hidden" name="fatherCareer" value="${report.fatherCareer}">
 	    <input type="hidden" name="caregiversCultureDegree" value="${report.caregiversCultureDegree}">
-	    <input type="hidden" name="motherBirthDay" value="${report.motherBirthDay}">
-	    <input type="hidden" name="fatherBirthDay" value="${report.fatherBirthDay}">
+	    <input type="hidden" name="motherBirthday" value="${report.motherBirthday}">
+	    <input type="hidden" name="fatherBirthday" value="${report.fatherBirthday}">
 	    <input type="hidden" name="maritalStatus" value="${report.maritalStatus}">
 	    <div id="m_guardian">
 	    <p>&nbsp;</p>
@@ -214,8 +214,8 @@
 	}else{
 		caregiversCultureDegree = 0;
 	}
-	var motherBirthDay = $("#contentDiv input[name='motherBirthDay']").val();
-	var fatherBirthDay = $("#contentDiv input[name='fatherBirthDay']").val();
+	var motherBirthday = $("#contentDiv input[name='motherBirthday']").val();
+	var fatherBirthday = $("#contentDiv input[name='fatherBirthday']").val();
 	var maritalStatus = $("#contentDiv input[name='maritalStatus']").val();
 	if(maritalStatus!=null&&maritalStatus!=""){
 		maritalStatus = parseInt(maritalStatus);
@@ -249,6 +249,7 @@
 		birthWeight: weight,
         address: address,
         zip: zip,
+        email:email,
         tel: tel,
         remarks: remarks,
         patronnInfo:patronnInfo,
@@ -259,8 +260,8 @@
         fatherCareerCategory: fatherCareerCategory,
         fatherCareer: fatherCareer,
         caregiversCultureDegree: caregiversCultureDegree,
-        motherBirthDay: motherBirthDay,
-        fatherBirthDay: fatherBirthDay,      
+        motherBirthday: motherBirthday,
+        fatherBirthday: fatherBirthday,      
         maritalStatus: maritalStatus
     }
 	

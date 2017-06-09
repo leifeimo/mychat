@@ -483,19 +483,19 @@
 	    </p>
 	</div>
 
-    <div class="m_list_1 b_solid ${report.motherBirthDayShow ? '' : 'divhide'}">
+    <div class="m_list_1 b_solid ${report.motherBirthdayShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_5.png" /></span></p>
         <p>母亲生日*</p>
         <p>
-			<input type="date" name="motherBirthDay" class="fs1" value="${report.motherBirthDay}"/>
+			<input type="date" name="motherBirthday" class="fs1" value="${report.motherBirthday}"/>
 		</p>
     </div>       
    
-   <div class="m_list_1 b_solid ${report.fatherBirthDayShow ? '' : 'divhide'}">
+   <div class="m_list_1 b_solid ${report.fatherBirthdayShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_5.png" /></span></p>
         <p>父亲生日*</p>
         <p>
-        	<input type="date" name="fatherBirthDay" class="fs1" value="${report.fatherBirthDay}"/>
+        	<input type="date" name="fatherBirthday" class="fs1" value="${report.fatherBirthday}"/>
         </p>
    </div> 
    
@@ -805,8 +805,8 @@ $(function () {
     	}else{
     		caregiversCultureDegree = 0;
     	}
-    	var motherBirthDay = $("#reportForm input[name='motherBirthDay']").val();
-    	var fatherBirthDay = $("#reportForm input[name='fatherBirthDay']").val();
+    	var motherBirthday = $("#reportForm input[name='motherBirthday']").val();
+    	var fatherBirthday = $("#reportForm input[name='fatherBirthday']").val();
     	var maritalStatus = $("#maritalStatus").children('option:selected').val(); 
     	if(maritalStatus!=null&&maritalStatus!=""){
     		maritalStatus = parseInt(maritalStatus);
@@ -851,8 +851,8 @@ $(function () {
 	        fatherCareerCategory: fatherCareerCategory,
 	        fatherCareer: fatherCareer,
 	        caregiversCultureDegree: caregiversCultureDegree,
-	        motherBirthDay: motherBirthDay,
-	        fatherBirthDay: fatherBirthDay,      
+	        motherBirthday: motherBirthday,
+	        fatherBirthday: fatherBirthday,      
 	        maritalStatus: maritalStatus
     	}    	
     	console.log(obj1);
