@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,9 +23,8 @@ import com.prcmind.facade.portal.mchat.service.PortalMchatTesteeFacade;
 import com.prcmind.facade.scale.mchat.entity.MchatQuestionnaire;
 import com.prcmind.facade.scale.mchat.entity.MchatQuestionnaireResponse;
 import com.prcmind.facade.scale.mchat.entity.MchatScore;
-import com.prcmind.facade.user.entity.MedicInfo;
 import com.prcmind.utils.CodeMsgBean;
-import com.prcmind.utils.WebConstants;
+import com.prcmind.view.MchatScoreView;
 
 @Controller
 public class MchatTesteeController {
@@ -47,17 +45,17 @@ public class MchatTesteeController {
 	 */
 	@RequestMapping(value = "/api/v1/medicMchat/createMchatReport", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> createMchatReport(MchatScore mchatScore, String testDay, String birthDay,
+	public CodeMsgBean<Object> createMchatReport(MchatScoreView mchatScoreView, String testDay, String birthDay,
 			final MchatQuestionnaireResponse mchatQuestionnaireResponse, HttpServletRequest request)
-					throws IOException {
-		if (mchatScore == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
+			throws IOException {
+		if (mchatScoreView == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
 		String ip = getIp(request);
-		mchatScore = initMchatScore(mchatScore, birthDay, testDay);
-		final MchatScore mchat_score = mchatScore;
-		mchatScore.setIp(ip);
+		mchatScoreView = initMchatScore(mchatScoreView, birthDay, testDay);
 		try {
+			MchatScore mchat_score = MchatScoreView.toMchatScore(mchatScoreView);
+			mchat_score.setIp(ip);
 			Map<String, String> result = portalMchatTesteeFacade.createMchatScore(mchat_score,
 					mchatQuestionnaireResponse);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
@@ -129,17 +127,17 @@ public class MchatTesteeController {
 	 */
 	@RequestMapping(value = "/api/v1/medicMchat/verifyBasicInformation", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> verifyBasicInformation(MchatScore mchatScore,
-			String birthDay, String testDay, HttpServletRequest request) throws IOException {
-		if(StringUtils.isEmpty(mchatScore.getEnterpriseNo()) || StringUtils.isEmpty(mchatScore.getMedicNo())){
+	public CodeMsgBean<Object> verifyBasicInformation(MchatScoreView mchatScoreView, String birthDay, String testDay,
+			HttpServletRequest request) throws IOException {
+		if (StringUtils.isEmpty(mchatScoreView.getEnterpriseNo()) || StringUtils.isEmpty(mchatScoreView.getMedicNo())) {
 			return new CodeMsgBean<Object>(10003, "请选择施测者");
 		}
-		if (mchatScore == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
+		if (mchatScoreView == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
 			return new CodeMsgBean<Object>(10003, "出生日期与测试日期不能为空");
 		}
-		mchatScore = initMchatScore(mchatScore, birthDay, testDay);
-
+		mchatScoreView = initMchatScore(mchatScoreView, birthDay, testDay);
 		try {
+			MchatScore mchatScore = MchatScoreView.toMchatScore(mchatScoreView);
 			boolean bl = portalMchatMedicFacade.verifyBasicInformation(mchatScore);
 			return new CodeMsgBean<Object>(1, "操作成功", bl);
 		} catch (PortalBizException e) {
@@ -166,7 +164,7 @@ public class MchatTesteeController {
 		}
 	}
 
-	private MchatScore initMchatScore(MchatScore mchatScore, String birthDay, String testDay) {
+	private MchatScoreView initMchatScore(MchatScoreView mchatScore, String birthDay, String testDay) {
 		Map<String, Integer> mapBirthDate = initBirthMap(birthDay, "birthYear", "birthMonth", "birthToday");
 		Map<String, Integer> mapTestDate = initBirthMap(testDay, "testYear", "testMonth", "testToday");
 		mchatScore.setBirthMonth(mapBirthDate.get("birthMonth"));
@@ -209,6 +207,5 @@ public class MchatTesteeController {
 		}
 		return true;
 	}
-
 
 }

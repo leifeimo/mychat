@@ -34,6 +34,7 @@ import com.prcmind.utils.DateUtil;
 import com.prcmind.utils.ExportPdfUtil;
 import com.prcmind.utils.RunnerUtils;
 import com.prcmind.utils.WebConstants;
+import com.prcmind.view.MchatScoreView;
 import com.prcmind.view.req.FollowReq;
 import com.prcmind.view.req.RecordReq;
 
@@ -416,9 +417,9 @@ public class MchatMedicController {
 	 */
 	@RequestMapping(value = "/web/v1/medicMchat/verifyBasicInformation", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> verifyBasicInformation(MchatScore mchatScore, String birthDay, String testDay,
+	public CodeMsgBean<Object> verifyBasicInformation(MchatScoreView mchatScoreView, String birthDay, String testDay,
 			HttpServletRequest request) throws IOException {
-		if (mchatScore == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
+		if (mchatScoreView == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
 		HttpSession session = request.getSession();
@@ -433,9 +434,9 @@ public class MchatMedicController {
 			// medicNo = "937c2b21d3db406693c59a816614e26d";
 			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
-		mchatScore = initMchatScore(mchatScore, enterpriseNo, medicNo, birthDay, testDay);
-
+		mchatScoreView = initMchatScore(mchatScoreView, enterpriseNo, medicNo, birthDay, testDay);
 		try {
+			MchatScore mchatScore = MchatScoreView.toMchatScore(mchatScoreView);
 			boolean bl = portalMchatMedicFacade.verifyBasicInformation(mchatScore);
 			return new CodeMsgBean<Object>(1, "操作成功", bl);
 		} catch (PortalBizException e) {
@@ -443,7 +444,7 @@ public class MchatMedicController {
 		}
 	}
 
-	private MchatScore initMchatScore(MchatScore mchatScore, String enterpriseNo, String medicNo, String birthDay,
+	private MchatScoreView initMchatScore(MchatScoreView mchatScore, String enterpriseNo, String medicNo, String birthDay,
 			String testDay) {
 		mchatScore.setEnterpriseNo(enterpriseNo);
 		mchatScore.setMedicNo(medicNo);
@@ -547,10 +548,10 @@ public class MchatMedicController {
 	 */
 	@RequestMapping(value = "/web/v1/medicMchat/createMchatReport", method = RequestMethod.POST)
 	@ResponseBody
-	public CodeMsgBean<Object> createMchatReport(MchatScore mchatScore, String testDay, String birthDay,
+	public CodeMsgBean<Object> createMchatReport(MchatScoreView mchatScoreview, String testDay, String birthDay,
 			final MchatQuestionnaireResponse mchatQuestionnaireResponse, HttpServletRequest request)
 			throws IOException {
-		if (mchatScore == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
+		if (mchatScoreview == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
 		HttpSession session = request.getSession();
@@ -566,10 +567,10 @@ public class MchatMedicController {
 			// medicNo = "937c2b21d3db406693c59a816614e26d";
 			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
-		mchatScore = initMchatScore(mchatScore, enterpriseNo, medicNo, birthDay, testDay);
-		final MchatScore mchat_score = mchatScore;
-		mchatScore.setIp(ip);
+		mchatScoreview = initMchatScore(mchatScoreview, enterpriseNo, medicNo, birthDay, testDay);
 		try {
+			MchatScore mchat_score = MchatScoreView.toMchatScore(mchatScoreview);
+			mchat_score.setIp(ip);
 			Map<String, String> result = portalMchatMedicFacade.createMchatScore(mchat_score,
 					mchatQuestionnaireResponse);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
