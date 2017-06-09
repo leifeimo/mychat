@@ -366,7 +366,7 @@
       </div> 
 
       
-      <div class="m_list_1 b_solid ${report.motnerCultureDegreeShow ? '' : 'divhide'}">
+      <div class="m_list_1 b_solid ${report.motherCultureDegreeShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>母亲文化程度</p>
         <p>
@@ -774,6 +774,11 @@ $(function () {
     	var remarks = $("#reportForm input[name='remarks']").val();
     	var patronnInfo = $("#reportForm input[name='patronnInfo']").val();
     	var motherCultureDegree = $("#motherCultureDegree").children('option:selected').val();
+    	if(motherCultureDegree!=null&&motherCultureDegree!=""){
+    		motherCultureDegree = parseInt(motherCultureDegree);
+    	}else{
+    		motherCultureDegree = 0;
+    	}
     	var motherCareerCategory = $("#motherCareerCategory").children('option:selected').val();
     	if(motherCareerCategory!=null&&motherCareerCategory!=""){
     		motherCareerCategory = parseInt(motherCareerCategory);
@@ -782,6 +787,11 @@ $(function () {
     	}
     	var motherCareer = $("#motherCareer").children('option:selected').val();
     	var fatherCultureDegree = $("#fatherCultureDegree").children('option:selected').val();
+    	if(fatherCultureDegree!=null&&fatherCultureDegree!=""){
+    		fatherCultureDegree = parseInt(fatherCultureDegree);
+    	}else{
+    		fatherCultureDegree = 0;
+    	}
     	var fatherCareerCategory = $("#fatherCareerCategory").children('option:selected').val();
     	if(fatherCareerCategory!=null&&fatherCareerCategory!=""){
     		fatherCareerCategory = parseInt(fatherCareerCategory);
@@ -790,9 +800,19 @@ $(function () {
     	}
     	var fatherCareer = $("#fatherCareer").children('option:selected').val();
     	var caregiversCultureDegree = $("#caregiversCultureDegree").children('option:selected').val();
+    	if(caregiversCultureDegree!=null&&caregiversCultureDegree!=""){
+    		caregiversCultureDegree = parseInt(caregiversCultureDegree);
+    	}else{
+    		caregiversCultureDegree = 0;
+    	}
     	var motherBirthDay = $("#reportForm input[name='motherBirthDay']").val();
     	var fatherBirthDay = $("#reportForm input[name='fatherBirthDay']").val();
     	var maritalStatus = $("#maritalStatus").children('option:selected').val(); 
+    	if(maritalStatus!=null&&maritalStatus!=""){
+    		maritalStatus = parseInt(maritalStatus);
+    	}else{
+    		maritalStatus = 0;
+    	}
     	
 		var obj1 = {
 			enterpriseNo : enterpriseNo,
