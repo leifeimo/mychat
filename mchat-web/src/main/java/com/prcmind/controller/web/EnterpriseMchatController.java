@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +23,7 @@ import com.prcmind.common.page.PageParam;
 import com.prcmind.facade.portal.exception.PortalBizException;
 import com.prcmind.facade.portal.mchat.service.PortalMchatEnterpriseFacade;
 import com.prcmind.facade.scale.mchat.entity.MchatQuestionnaireResponse;
+import com.prcmind.facade.scale.mchat.entity.MchatQuestionnaireResponseRevisedFollow;
 import com.prcmind.facade.scale.mchat.entity.MchatScore;
 import com.prcmind.facade.scale.mchat.entity.MchatScoreRevisedFollow;
 import com.prcmind.facade.user.entity.EnterpriseOperator;
@@ -28,6 +31,7 @@ import com.prcmind.utils.CodeMsgBean;
 import com.prcmind.utils.DateUtil;
 import com.prcmind.utils.ExportPdfUtil;
 import com.prcmind.utils.WebConstants;
+import com.prcmind.view.req.FollowReq;
 import com.prcmind.view.req.RecordReq;
 
 /**
@@ -88,6 +92,53 @@ public class EnterpriseMchatController {
 		}
 	}
 
+	
+	/**
+	 * 下载报告结果
+	 * 
+	 * @param scoreNo
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/enterpriseMchat/downloadRevisedFollowReport", method = RequestMethod.GET)
+	@ResponseBody
+	public CodeMsgBean<Object> downloadRevisedFollowReport(String scoreNo, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		if (StringUtils.isEmpty(scoreNo)) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		String enterpriseNo = getEnterpriseNo(request);
+		if (StringUtils.isEmpty(enterpriseNo)) {
+			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		try {
+			MchatScoreRevisedFollow result = portalMchatEnterpriseFacade.downloadRevisedFollowReport(scoreNo, enterpriseNo);
+			MchatScore mchatScore = portalMchatEnterpriseFacade.downloadReport(result.getParentNo(), enterpriseNo);
+			if (result != null) {
+				Map<String, String> content = initMap(result, mchatScore);
+				response.setContentType("application/pdf");
+				response.setHeader("Content-disposition", "attachment; filename="+result.getReportNo()+".pdf");
+				String path = "";
+				if(result.getScore() !=null){
+					if (result.getScore() < 2) {
+						path = request.getSession().getServletContext().getRealPath("template\\D.pdf") ;
+					} else if (result.getScore() >= 2) {
+						path = request.getSession().getServletContext().getRealPath("template\\E.pdf") ;
+					}
+				}
+				ExportPdfUtil.exportpdf(OUT_PATH, path, content, response);
+
+			}
+			return new CodeMsgBean<Object>(1, "操作成功", result);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new CodeMsgBean<Object>(10005, "操作失败");
+		}
+	}
+	
 	/**
 	 * 获取某一问卷填写详细
 	 * 
@@ -195,7 +246,170 @@ public class EnterpriseMchatController {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
+	
+	
+	
+	/**
+	 * 施测者-查询R/F所有报告列表
+	 * 
+	 * @author leichang
+	 * @param mchatScore
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/enterpriseMchat/listMchatScoreRevisedFollow", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> listMchatScoreRevisedFollow(FollowReq req, HttpServletRequest request)
+			throws IOException {
+		if (req.getPageNum() == 0 || req.getNumPerPage() == 0) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		String enterpriseNo = getEnterpriseNo(request);
+		if (StringUtils.isEmpty(enterpriseNo)) {
+			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		PageParam pageParam = new PageParam(req.getPageNum(), req.getNumPerPage());
+		try {
+			HashMap<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("pageNum", req.getPageNum() + "");
+			paramMap.put("numPerPage", req.getNumPerPage() + "");
+			paramMap.put("testeeName", req.getTesteeName());
+			paramMap.put("reportNo", req.getReportNo());
+			paramMap.put("testeeNo", req.getTesteeNo());
+			paramMap.put("enterpriseNo", enterpriseNo);
+			 paramMap.put("parentNo", req.getParentNo());
+			paramMap.put("deleted", req.getDeleted());
+			PageBean result = portalMchatEnterpriseFacade.listMchatScoreRevisedFollowListPage(pageParam, paramMap);
+			return new CodeMsgBean<Object>(1, "操作成功", result);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
 
+	
+	/**
+	 * 获取某一条RF报告记录
+	 * 
+	 * @author leichang
+	 * @param scoreNo
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/enterpriseMchat/getMchatScoreRevisedFollowByScoreNo", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> getMchatScoreRevisedFollowByScoreNo(String scoreNo, HttpServletRequest request)
+			throws IOException {
+		String enterpriseNo = getEnterpriseNo(request);
+		if (StringUtils.isEmpty(enterpriseNo)) {
+			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		if (StringUtils.isEmpty(scoreNo)) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		try {
+			MchatScoreRevisedFollow result = portalMchatEnterpriseFacade.getMchatScoreRevisedFollowByScoreNo(scoreNo);
+			return new CodeMsgBean<Object>(1, "操作成功", result);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+
+	
+	/**
+	 * 获取某一问R/F报告卷填写详细
+	 * 
+	 * @author leichang
+	 * @param scoreNo
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/enterpriseMchat/getMchatQuestionnaireResponseRevisedFollow", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> getMchatQuestionnaireResponseRevisedFollow(String scoreNo, HttpServletRequest request)
+			throws IOException {
+		String enterpriseNo = getEnterpriseNo(request);
+		if (StringUtils.isEmpty(enterpriseNo)) {
+			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		if (StringUtils.isEmpty(scoreNo)) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		
+		try {
+			MchatQuestionnaireResponseRevisedFollow result = portalMchatEnterpriseFacade
+					.getMchatQuestionnaireResponseRevisedFollow(scoreNo, enterpriseNo);
+			return new CodeMsgBean<Object>(1, "操作成功", result);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+	
+	
+	/**
+	 * 管理员-儿童档案查询
+	 * 
+	 * @author leichang
+	 * @param req
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/enterpriseMchat/listMchatScoreUnique", method = RequestMethod.POST)
+	@ResponseBody
+	public CodeMsgBean<Object> listMchatScoreUnique(RecordReq req, HttpServletRequest request) throws IOException {
+		if (req.getPageNum() == 0 || req.getNumPerPage() == 0) {
+			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		String enterpriseNo = getEnterpriseNo(request);
+		if (StringUtils.isEmpty(enterpriseNo)) {
+			 enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+//			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		Map<String, Integer> birthMap = null;
+		Map<String, Integer> testMap = null;
+		if (!StringUtils.isEmpty(req.getBirth())) {
+			birthMap = initBirthMap(req.getBirth(), "birthYear", "birthMonth", "birthToday");
+			if (birthMap != null && birthMap.size() != 3) {
+				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
+			}
+		}
+		if (!StringUtils.isEmpty(req.getTestDate())) {
+			testMap = initBirthMap(req.getTestDate(), "testYear", "testMonth", "testToday");
+			if (testMap != null && testMap.size() != 3) {
+				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
+			}
+		}
+
+		PageParam pageParam = new PageParam(req.getPageNum(), req.getNumPerPage());
+		try {
+			HashMap<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("pageNum", req.getPageNum() + "");
+			paramMap.put("numPerPage", req.getNumPerPage() + "");
+			paramMap.put("testeeName", req.getTesteeName());
+			paramMap.put("reportNo", req.getReportNo());
+			paramMap.put("cardNo", req.getCardNo());
+			paramMap.put("enterpriseNo", enterpriseNo);
+//			paramMap.put("medicNo", medicNo);
+			paramMap.put("birthYear", birthMap != null ? birthMap.get("birthYear") : "");
+			paramMap.put("birthMonth", birthMap != null ? birthMap.get("birthMonth") : "");
+			paramMap.put("birthToday", birthMap != null ? birthMap.get("birthToday") : "");
+			paramMap.put("testYear", testMap != null ? testMap.get("testYear") : "");
+			paramMap.put("testMonth", testMap != null ? testMap.get("testMonth") : "");
+			paramMap.put("testToday", testMap != null ? testMap.get("testToday") : "");
+			PageBean PageBean = portalMchatEnterpriseFacade.listMchatScoreUniqueListPage(pageParam, paramMap);
+			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+
+	
 	/**
 	 * 获取企业编号
 	 * 
@@ -304,5 +518,38 @@ public class EnterpriseMchatController {
 			break;
 		}
 		return birth;
+	}
+	
+
+	/**
+	 * 格式化日期
+	 * 
+	 * @param birth
+	 * @return
+	 */
+	private static Map<String, Integer> initBirthMap(String birth, String year, String month, String day) {
+		Map<String, Integer> birthMap = new HashMap<String, Integer>();
+		String[] array = birth.split("-");
+		if (array.length == 3) {
+			birthMap.put(year, isNumeric(array[0]) == true ? Integer.valueOf(array[0]) : 0);
+			birthMap.put(month, isNumeric(array[1]) == true ? Integer.valueOf(array[1]) : 0);
+			birthMap.put(day, isNumeric(array[2]) == true ? Integer.valueOf(array[2]) : 0);
+		}
+		return birthMap;
+	}
+	
+	/**
+	 * 校验是否为数字
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static boolean isNumeric(String str) {
+		Pattern pattern = Pattern.compile("[0-9]*");
+		Matcher isNum = pattern.matcher(str);
+		if (!isNum.matches()) {
+			return false;
+		}
+		return true;
 	}
 }

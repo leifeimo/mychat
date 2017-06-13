@@ -440,8 +440,8 @@ public class MchatScoreView {
 			if(mchatScoreView.getMotherBirthday()!=null && mchatScoreView.getMotherBirthday().length() >1){
 				mchatScore.setMotherBirthday(DateUtil.StrToDate(mchatScoreView.getMotherBirthday(), "yyyy-MM-dd"));
 			}
-			mchatScore.setMotherCareer(mchatScoreView.getMotherCareer());
 			mchatScore.setMotherCareerCategory(mchatScoreView.getMotherCareerCategory());
+			mchatScore.setMotherCareer(mchatScoreView.getMotherCareer());
 			mchatScore.setMotherCultureDegree(mchatScoreView.getMotherCultureDegree());
 			mchatScore.setNation(mchatScoreView.getNation());
 			mchatScore.setPatronnInfo(mchatScoreView.getPatronnInfo());
