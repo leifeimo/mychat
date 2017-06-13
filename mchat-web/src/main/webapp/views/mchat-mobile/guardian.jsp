@@ -564,7 +564,6 @@
 	        } else {
 	            $(this).children("i").addClass("show-g");
 	        }
-
 	    })
 	    $(".m-select-info-c-t").on("touchend", function () {
 	        $(this).css({ background: "#0081d2" });
@@ -575,6 +574,15 @@
 	        $("body").css({ overflow: null }) 
 	        getBirthArray(); 
 	    });
+	    
+	    //根据参数默认选中
+	    var birthsResult = "${report.birthsResult}";
+	    if(birthsResult!=null&&birthsResult!=undefined&&birthsResult!=""){
+	    	var arr = birthsResult.split(";");
+	    	for(i=0;i<arr.length;i++){
+	    		$(".m-select-info-c .m-select-info-c-t i[data-value='"+arr[i]+"']").addClass("show-g");
+	    	}
+	    }
 	    // end--- 出生情况
 	}
 	
@@ -639,10 +647,10 @@
 
 $(function () {
 	
-	var births = '${report.births}';
-	if(births==''){
+	//var births = '${report.births}';
+	//if(births==''){
 		initControl();
-	}
+	//}
 	
 	var gestationalWeeks = '${report.gestationalWeeks}';
 	if(gestationalWeeks==''){
