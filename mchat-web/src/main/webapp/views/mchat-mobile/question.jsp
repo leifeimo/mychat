@@ -44,6 +44,27 @@
 			padding:0px 160px;
 		}
 	}
+	.q_ul{
+        width:248px; 
+        height:22px;
+        float:right;
+    }
+    .q_ul li{
+        float:left;
+        height:22px;
+        width:22px;
+        list-style:none;
+        font-size:14px;
+        line-height:22px;
+        text-align:center;
+        background:#fff;
+        color:#38b4bc;
+        border:1px solid #38b4bc;
+    }
+    .q_ul li.active {
+       background:#38b4bc;
+       color:#fff;     
+    }
 </style>
 
 
@@ -89,8 +110,33 @@
 	    <p>填写问卷</p>
 	    </div>
 	    
-	    <div id="m_test_name">
-	    <p>施测者：<span>${report.medicName}</span></p>  
+	    <div id="m_test_name" style="text-align:right;">
+	    	<div style="width:100%;height:22px;">
+                <ul class="q_ul">
+                    <li value="1">1</li>
+                    <li value="2">2</li>
+                    <li value="3">3</li>
+                    <li value="4">4</li>
+                    <li value="5">5</li>
+                    <li value="6">6</li>
+                    <li value="7">7</li>
+                    <li value="8">8</li>
+                    <li value="9">9</li>
+                    <li value="10">10</li>
+                    <li value="11">11</li>
+                    <li value="12">12</li>
+                    <li value="13">13</li>
+                    <li value="14">14</li>
+                    <li value="15">15</li>
+                    <li value="16">16</li>
+                    <li value="17">17</li>
+                    <li value="18">18</li>
+                    <li value="19">19</li>
+                    <li value="20">20</li>
+                </ul>
+            </div>
+            
+	    <!--  <p>施测者：<span>${report.medicName}</span></p> --> 
 	    <!-- <p>年龄组： 36&nbsp;&nbsp; </p> -->
 	    </div>
 		
@@ -103,6 +149,7 @@
 	        <div class="m_top_20">
 	           <!--  <p class="m_q1"><a id="showPic" href="javascript:;"><img src="../../mobile/images/m_q_1.jpg" /></a></p> -->
 	            <p class="m_q2"><a id="showGif" href="javascript:;"><img src="../../mobile/images/m_q_2.jpg" /></a></p>
+	        	<p style="text-align:center;font-size:1.5rem;">(点击显示动画)</p>
 	        </div>
 	        
 	
@@ -388,6 +435,10 @@
             }
         }
         function checkChoose(){
+        	for(key in answer){
+            	var answerIndex = key.substring(6);
+            	$(".q_ul li[value='"+answerIndex+"']").addClass("active");
+            }
             if(answer.hasOwnProperty('topic_'+(index+1))){
                 if(answer['topic_'+(index+1)] == 'Y'){
                     document.getElementById("m_pass_img").src="../../mobile/images/m_pass.jpg";
