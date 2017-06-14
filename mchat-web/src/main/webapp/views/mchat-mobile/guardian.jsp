@@ -281,7 +281,7 @@
         <p>出生时情况(多选)</p>
         <p class="payment_situation_title">
 		   	 <input type="hidden" value="${report.births}" name="births" id="births"/>
-		   	 <input type="text" class="fs1" value="${report.birthsResult}" name="birthsResult" id="birthsResult"/>
+		   	 <input type="text" class="fs1" value="${report.birthsResult}" name="birthsResult" id="birthsResult" disabled="disabled"/>
 		   	 <!--
 		   	 <select name="births" id="births"  multiple="multiple" class="fs">
 			    <option value="0">足月</option>
