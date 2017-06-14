@@ -380,9 +380,12 @@
                 		if(msg!=null&&msg.code==1){
                 			new TipBox({
                 				type:"success",
-                				str:msg.msg,
+                				str:"提交成功，如需修改请重新填写并提交问卷",
                 				hasBtn:true
-                			})
+                			});
+                			setTimeout(function(){
+                    			window.location.href =  util.requestURL+"/mobile/html/report";
+                    		}, 3000);
                 		}else{
                 			new TipBox({
                 				type:"error",
@@ -390,9 +393,6 @@
                 				hasBtn:true
                 			})
                 		}
-                		setTimeout(function(){
-                			window.location.href =  util.requestURL+"/mobile/html/report";
-                		}, 3000);
                 	}
                 });
             }
