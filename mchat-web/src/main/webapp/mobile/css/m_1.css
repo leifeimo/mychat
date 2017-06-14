@@ -33,17 +33,20 @@ body{
 	font-weight:600;
 }
 .m_guardian_read{
-	margin-top:10px;
+	margin-top:-30px;
 	font-size:20px;
 }
 .m_guardian_read span{
-	color:#4ebabc;
+	color:#FFF;
 	font-size:1.8rem;
-	margin:15px auto 0;
-	background-color:#d5efc2;
-    -moz-border-radius:25px;
-    border-radius: 25px;
-	padding:5px 10px;
+	/*margin:15px auto 0;*/
+	background-color:none;
+	border:1px solid #fff;
+    -moz-border-radius:5px;
+    border-radius: 5px;
+	padding:3px 7px;
+	float:right;
+	margin-right:9px;
 }
 
 

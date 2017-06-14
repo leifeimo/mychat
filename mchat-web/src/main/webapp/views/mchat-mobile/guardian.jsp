@@ -366,7 +366,7 @@
       </div> 
 
       
-      <div class="m_list_1 b_solid ${report.motherCultureDegreeShow ? '' : 'divhide'}">
+      <div class="m_list_1 b_solid ${report.motnerCultureDegreeShow ? '' : 'divhide'}">
         <p class="box"><span></span></p>
         <p>母亲文化程度</p>
         <p>
@@ -483,19 +483,19 @@
 	    </p>
 	</div>
 
-    <div class="m_list_1 b_solid ${report.motherBirthdayShow ? '' : 'divhide'}">
+    <div class="m_list_1 b_solid ${report.motherBirthDayShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_5.png" /></span></p>
         <p>母亲生日*</p>
         <p>
-			<input type="date" name="motherBirthday" class="fs1" value="${report.motherBirthday}"/>
+			<input type="date" name="motherBirthDay" class="fs1" value="${report.motherBirthDay}"/>
 		</p>
     </div>       
    
-   <div class="m_list_1 b_solid ${report.fatherBirthdayShow ? '' : 'divhide'}">
+   <div class="m_list_1 b_solid ${report.fatherBirthDayShow ? '' : 'divhide'}">
         <p class="box"><span><img src="../images/m_tip_5.png" /></span></p>
         <p>父亲生日*</p>
         <p>
-        	<input type="date" name="fatherBirthday" class="fs1" value="${report.fatherBirthday}"/>
+        	<input type="date" name="fatherBirthDay" class="fs1" value="${report.fatherBirthDay}"/>
         </p>
    </div> 
    
@@ -564,6 +564,7 @@
 	        } else {
 	            $(this).children("i").addClass("show-g");
 	        }
+
 	    })
 	    $(".m-select-info-c-t").on("touchend", function () {
 	        $(this).css({ background: "#0081d2" });
@@ -574,15 +575,6 @@
 	        $("body").css({ overflow: null }) 
 	        getBirthArray(); 
 	    });
-	    
-	    //根据参数默认选中
-	    var birthsResult = "${report.birthsResult}";
-	    if(birthsResult!=null&&birthsResult!=undefined&&birthsResult!=""){
-	    	var arr = birthsResult.split(";");
-	    	for(i=0;i<arr.length;i++){
-	    		$(".m-select-info-c .m-select-info-c-t i[data-value='"+arr[i]+"']").addClass("show-g");
-	    	}
-	    }
 	    // end--- 出生情况
 	}
 	
@@ -647,10 +639,10 @@
 
 $(function () {
 	
-	//var births = '${report.births}';
-	//if(births==''){
+	var births = '${report.births}';
+	if(births==''){
 		initControl();
-	//}
+	}
 	
 	var gestationalWeeks = '${report.gestationalWeeks}';
 	if(gestationalWeeks==''){
@@ -782,11 +774,6 @@ $(function () {
     	var remarks = $("#reportForm input[name='remarks']").val();
     	var patronnInfo = $("#reportForm input[name='patronnInfo']").val();
     	var motherCultureDegree = $("#motherCultureDegree").children('option:selected').val();
-    	if(motherCultureDegree!=null&&motherCultureDegree!=""){
-    		motherCultureDegree = parseInt(motherCultureDegree);
-    	}else{
-    		motherCultureDegree = 0;
-    	}
     	var motherCareerCategory = $("#motherCareerCategory").children('option:selected').val();
     	if(motherCareerCategory!=null&&motherCareerCategory!=""){
     		motherCareerCategory = parseInt(motherCareerCategory);
@@ -795,11 +782,6 @@ $(function () {
     	}
     	var motherCareer = $("#motherCareer").children('option:selected').val();
     	var fatherCultureDegree = $("#fatherCultureDegree").children('option:selected').val();
-    	if(fatherCultureDegree!=null&&fatherCultureDegree!=""){
-    		fatherCultureDegree = parseInt(fatherCultureDegree);
-    	}else{
-    		fatherCultureDegree = 0;
-    	}
     	var fatherCareerCategory = $("#fatherCareerCategory").children('option:selected').val();
     	if(fatherCareerCategory!=null&&fatherCareerCategory!=""){
     		fatherCareerCategory = parseInt(fatherCareerCategory);
@@ -808,19 +790,9 @@ $(function () {
     	}
     	var fatherCareer = $("#fatherCareer").children('option:selected').val();
     	var caregiversCultureDegree = $("#caregiversCultureDegree").children('option:selected').val();
-    	if(caregiversCultureDegree!=null&&caregiversCultureDegree!=""){
-    		caregiversCultureDegree = parseInt(caregiversCultureDegree);
-    	}else{
-    		caregiversCultureDegree = 0;
-    	}
-    	var motherBirthday = $("#reportForm input[name='motherBirthday']").val();
-    	var fatherBirthday = $("#reportForm input[name='fatherBirthday']").val();
+    	var motherBirthDay = $("#reportForm input[name='motherBirthDay']").val();
+    	var fatherBirthDay = $("#reportForm input[name='fatherBirthDay']").val();
     	var maritalStatus = $("#maritalStatus").children('option:selected').val(); 
-    	if(maritalStatus!=null&&maritalStatus!=""){
-    		maritalStatus = parseInt(maritalStatus);
-    	}else{
-    		maritalStatus = 0;
-    	}
     	
 		var obj1 = {
 			enterpriseNo : enterpriseNo,
@@ -859,8 +831,8 @@ $(function () {
 	        fatherCareerCategory: fatherCareerCategory,
 	        fatherCareer: fatherCareer,
 	        caregiversCultureDegree: caregiversCultureDegree,
-	        motherBirthday: motherBirthday,
-	        fatherBirthday: fatherBirthday,      
+	        motherBirthDay: motherBirthDay,
+	        fatherBirthDay: fatherBirthDay,      
 	        maritalStatus: maritalStatus
     	}    	
     	console.log(obj1);

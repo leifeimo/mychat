@@ -5,8 +5,8 @@
 	background-color:#f1f2ee;
 }
 .m_foot p{
-	height:60px; 
-	line-height:60px;
+	height:43px; 
+	line-height:43px;
 	width:50%;
 	float:left;
 	text-align:center;
@@ -23,7 +23,7 @@
 .m_foot_l{
 	text-align:center;
 	-moz-border-radius:25px;
-	border-radius: 25px;
+	border-radius: 50px;
 	display:block;
 	width:70%;
 	margin:0 auto;
