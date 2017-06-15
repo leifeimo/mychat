@@ -109,7 +109,7 @@ public class EnterpriseMchatController {
 		}
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+//			 enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
 			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
@@ -185,7 +185,7 @@ public class EnterpriseMchatController {
 		}
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+//			 enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
 			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		HashMap<String, String> map = null;
@@ -211,7 +211,7 @@ public class EnterpriseMchatController {
 			paramMap.put("testYear", "");
 			paramMap.put("cardNo", req.getCardNo());
 			paramMap.put("medicName", req.getMedicName());
-			PageBean PageBean = portalMchatEnterpriseFacade.listMchatScoreListPage(pageParam, paramMap);
+			PageBean PageBean = portalMchatEnterpriseFacade.listMchatScoreAndMchatScoreRevisedFollowListPage(pageParam, paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
 		} catch (PortalBizException e) {
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
@@ -233,7 +233,7 @@ public class EnterpriseMchatController {
 	public CodeMsgBean<Object> getMchatScoreByScoreNo(String scoreNo, HttpServletRequest request) throws IOException {
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+//			 enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
 			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		if (StringUtils.isEmpty(scoreNo)) {
@@ -250,7 +250,7 @@ public class EnterpriseMchatController {
 	
 	
 	/**
-	 * 施测者-查询R/F所有报告列表
+	 * 管理员-查询R/F所有报告列表
 	 * 
 	 * @author leichang
 	 * @param mchatScore
@@ -267,7 +267,7 @@ public class EnterpriseMchatController {
 		}
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+//			 enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
 			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		PageParam pageParam = new PageParam(req.getPageNum(), req.getNumPerPage());
@@ -304,7 +304,7 @@ public class EnterpriseMchatController {
 			throws IOException {
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+//			 enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
 			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		if (StringUtils.isEmpty(scoreNo)) {
@@ -334,7 +334,7 @@ public class EnterpriseMchatController {
 			throws IOException {
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+//			 enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
 			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		if (StringUtils.isEmpty(scoreNo)) {
@@ -351,63 +351,63 @@ public class EnterpriseMchatController {
 	}
 	
 	
-	/**
-	 * 管理员-儿童档案查询
-	 * 
-	 * @author leichang
-	 * @param req
-	 * @param request
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/web/v1/enterpriseMchat/listMchatScoreUnique", method = RequestMethod.POST)
-	@ResponseBody
-	public CodeMsgBean<Object> listMchatScoreUnique(RecordReq req, HttpServletRequest request) throws IOException {
-		if (req.getPageNum() == 0 || req.getNumPerPage() == 0) {
-			return new CodeMsgBean<Object>(10003, "参数异常");
-		}
-		String enterpriseNo = getEnterpriseNo(request);
-		if (StringUtils.isEmpty(enterpriseNo)) {
-			 enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
-//			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
-		}
-		Map<String, Integer> birthMap = null;
-		Map<String, Integer> testMap = null;
-		if (!StringUtils.isEmpty(req.getBirth())) {
-			birthMap = initBirthMap(req.getBirth(), "birthYear", "birthMonth", "birthToday");
-			if (birthMap != null && birthMap.size() != 3) {
-				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
-			}
-		}
-		if (!StringUtils.isEmpty(req.getTestDate())) {
-			testMap = initBirthMap(req.getTestDate(), "testYear", "testMonth", "testToday");
-			if (testMap != null && testMap.size() != 3) {
-				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
-			}
-		}
-
-		PageParam pageParam = new PageParam(req.getPageNum(), req.getNumPerPage());
-		try {
-			HashMap<String, Object> paramMap = new HashMap<String, Object>();
-			paramMap.put("pageNum", req.getPageNum() + "");
-			paramMap.put("numPerPage", req.getNumPerPage() + "");
-			paramMap.put("testeeName", req.getTesteeName());
-			paramMap.put("reportNo", req.getReportNo());
-			paramMap.put("cardNo", req.getCardNo());
-			paramMap.put("enterpriseNo", enterpriseNo);
-//			paramMap.put("medicNo", medicNo);
-			paramMap.put("birthYear", birthMap != null ? birthMap.get("birthYear") : "");
-			paramMap.put("birthMonth", birthMap != null ? birthMap.get("birthMonth") : "");
-			paramMap.put("birthToday", birthMap != null ? birthMap.get("birthToday") : "");
-			paramMap.put("testYear", testMap != null ? testMap.get("testYear") : "");
-			paramMap.put("testMonth", testMap != null ? testMap.get("testMonth") : "");
-			paramMap.put("testToday", testMap != null ? testMap.get("testToday") : "");
-			PageBean PageBean = portalMchatEnterpriseFacade.listMchatScoreUniqueListPage(pageParam, paramMap);
-			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
-		} catch (PortalBizException e) {
-			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
-		}
-	}
+//	/**
+//	 * 管理员-儿童档案查询
+//	 * 
+//	 * @author leichang
+//	 * @param req
+//	 * @param request
+//	 * @return
+//	 * @throws IOException
+//	 */
+//	@RequestMapping(value = "/web/v1/enterpriseMchat/listMchatScoreUnique", method = RequestMethod.POST)
+//	@ResponseBody
+//	public CodeMsgBean<Object> listMchatScoreUnique(RecordReq req, HttpServletRequest request) throws IOException {
+//		if (req.getPageNum() == 0 || req.getNumPerPage() == 0) {
+//			return new CodeMsgBean<Object>(10003, "参数异常");
+//		}
+//		String enterpriseNo = getEnterpriseNo(request);
+//		if (StringUtils.isEmpty(enterpriseNo)) {
+//			 enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+////			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+//		}
+//		Map<String, Integer> birthMap = null;
+//		Map<String, Integer> testMap = null;
+//		if (!StringUtils.isEmpty(req.getBirth())) {
+//			birthMap = initBirthMap(req.getBirth(), "birthYear", "birthMonth", "birthToday");
+//			if (birthMap != null && birthMap.size() != 3) {
+//				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
+//			}
+//		}
+//		if (!StringUtils.isEmpty(req.getTestDate())) {
+//			testMap = initBirthMap(req.getTestDate(), "testYear", "testMonth", "testToday");
+//			if (testMap != null && testMap.size() != 3) {
+//				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
+//			}
+//		}
+//
+//		PageParam pageParam = new PageParam(req.getPageNum(), req.getNumPerPage());
+//		try {
+//			HashMap<String, Object> paramMap = new HashMap<String, Object>();
+//			paramMap.put("pageNum", req.getPageNum() + "");
+//			paramMap.put("numPerPage", req.getNumPerPage() + "");
+//			paramMap.put("testeeName", req.getTesteeName());
+//			paramMap.put("reportNo", req.getReportNo());
+//			paramMap.put("cardNo", req.getCardNo());
+//			paramMap.put("enterpriseNo", enterpriseNo);
+////			paramMap.put("medicNo", medicNo);
+//			paramMap.put("birthYear", birthMap != null ? birthMap.get("birthYear") : "");
+//			paramMap.put("birthMonth", birthMap != null ? birthMap.get("birthMonth") : "");
+//			paramMap.put("birthToday", birthMap != null ? birthMap.get("birthToday") : "");
+//			paramMap.put("testYear", testMap != null ? testMap.get("testYear") : "");
+//			paramMap.put("testMonth", testMap != null ? testMap.get("testMonth") : "");
+//			paramMap.put("testToday", testMap != null ? testMap.get("testToday") : "");
+//			PageBean PageBean = portalMchatEnterpriseFacade.listMchatScoreUniqueListPage(pageParam, paramMap);
+//			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
+//		} catch (PortalBizException e) {
+//			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+//		}
+//	}
 
 	
 	/**
