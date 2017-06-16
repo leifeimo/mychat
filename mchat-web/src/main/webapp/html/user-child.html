@@ -203,12 +203,17 @@ ul{
         var m2 = $("#testMonth").val();
         var d2 = $("#testDay").val();
         var birth = '';
-        var test = ''
-        if(y && m && d){
-            birth = y + '-' + m + '-' + d;
+        var test = '';
+        if(y==''&&m==''&&d==''){
+           birth = ''
+        }else{
+          birth = (y!=""?y:'0') + '-' + (m!=""?m:'0') + '-' + (d!=""?d:'0');
         }
-        if(y2 && m2 && d2){
-            test = y2 + '-' + m2 + '-' + d2;
+
+        if(y2==''&&m2==''&&d2==''){
+          test = ''
+        }else{
+          test = (y2!=""?y2:'0') + '-' + (m2!=""?m2:'0') + '-' + (d2!=""?d2:'0');
         }
         var obj = {
           url: util.requestURL+'/web/v1/medicMchat/listMchatScoreUnique',

@@ -188,10 +188,17 @@ public class EnterpriseMchatController {
 //			 enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
 			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
-		HashMap<String, String> map = null;
+		Map<String, Integer> map = null;
 		if (!StringUtils.isEmpty(req.getBirth())) {
-			map = initBirthMap(req.getBirth());
+			map = initBirthMap(req.getBirth(),"birthYear", "birthMonth", "birthToday");
 			if (map != null && map.size() != 3) {
+				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
+			}
+		}
+		Map<String, Integer> testMap = null;
+		if (!StringUtils.isEmpty(req.getTestDate())) {
+			testMap = initBirthMap(req.getTestDate(), "testYear", "testMonth", "testToday");
+			if (testMap != null && testMap.size() != 3) {
 				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
 			}
 		}
@@ -208,7 +215,9 @@ public class EnterpriseMchatController {
 			paramMap.put("birthMonth", map != null ? map.get("birthMonth") : "");
 			paramMap.put("birthToday", map != null ? map.get("birthToday") : "");
 			paramMap.put("deleted", req.getDeleted());
-			paramMap.put("testYear", "");
+			paramMap.put("testYear", testMap != null ? testMap.get("testYear") : "");
+			paramMap.put("testMonth", testMap != null ? testMap.get("testMonth") : "");
+			paramMap.put("testToday", testMap != null ? testMap.get("testToday") : "");
 			paramMap.put("cardNo", req.getCardNo());
 			paramMap.put("medicName", req.getMedicName());
 			PageBean PageBean = portalMchatEnterpriseFacade.listMchatScoreAndMchatScoreRevisedFollowListPage(pageParam, paramMap);
@@ -270,6 +279,20 @@ public class EnterpriseMchatController {
 //			 enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
 			return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
+		Map<String, Integer> map = null;
+		if (!StringUtils.isEmpty(req.getBirth())) {
+			map = initBirthMap(req.getBirth(),"birthYear", "birthMonth", "birthToday");
+			if (map != null && map.size() != 3) {
+				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
+			}
+		}
+		Map<String, Integer> testMap = null;
+		if (!StringUtils.isEmpty(req.getTestDate())) {
+			testMap = initBirthMap(req.getTestDate(), "testYear", "testMonth", "testToday");
+			if (testMap != null && testMap.size() != 3) {
+				return new CodeMsgBean<Object>(10003, "参数异常,请检查出生日期是否正确");
+			}
+		}
 		PageParam pageParam = new PageParam(req.getPageNum(), req.getNumPerPage());
 		try {
 			HashMap<String, Object> paramMap = new HashMap<String, Object>();
@@ -280,7 +303,13 @@ public class EnterpriseMchatController {
 			paramMap.put("testeeNo", req.getTesteeNo());
 			paramMap.put("enterpriseNo", enterpriseNo);
 			 paramMap.put("parentNo", req.getParentNo());
+			paramMap.put("birthYear", map != null ? map.get("birthYear") : "");
+			paramMap.put("birthMonth", map != null ? map.get("birthMonth") : "");
+			paramMap.put("birthToday", map != null ? map.get("birthToday") : "");
 			paramMap.put("deleted", req.getDeleted());
+			paramMap.put("testYear", testMap != null ? testMap.get("testYear") : "");
+			paramMap.put("testMonth", testMap != null ? testMap.get("testMonth") : "");
+			paramMap.put("testToday", testMap != null ? testMap.get("testToday") : "");
 			PageBean result = portalMchatEnterpriseFacade.listMchatScoreRevisedFollowListPage(pageParam, paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
@@ -431,13 +460,13 @@ public class EnterpriseMchatController {
 	 * @param birth
 	 * @return
 	 */
-	private HashMap<String, String> initBirthMap(String birth) {
-		HashMap<String, String> birthMap = new HashMap<String, String>();
+	private static Map<String, Integer> initBirthMap(String birth, String year, String month, String day) {
+		Map<String, Integer> birthMap = new HashMap<String, Integer>();
 		String[] array = birth.split("-");
 		if (array.length == 3) {
-			birthMap.put("birthYear", array[0]);
-			birthMap.put("birthMonth", array[1]);
-			birthMap.put("birthToday", array[2]);
+			birthMap.put(year, isNumeric(array[0]) == true ? (Integer.valueOf(array[0]) == 0 ? null :Integer.valueOf(array[0]) ) : null);
+			birthMap.put(month, isNumeric(array[1]) == true ? (Integer.valueOf(array[1]) == 0 ? null :Integer.valueOf(array[1]) ) : null);
+			birthMap.put(day, isNumeric(array[2]) == true ? (Integer.valueOf(array[2]) == 0 ? null :Integer.valueOf(array[2]) ) : null);
 		}
 		return birthMap;
 	}
@@ -521,22 +550,6 @@ public class EnterpriseMchatController {
 	}
 	
 
-	/**
-	 * 格式化日期
-	 * 
-	 * @param birth
-	 * @return
-	 */
-	private static Map<String, Integer> initBirthMap(String birth, String year, String month, String day) {
-		Map<String, Integer> birthMap = new HashMap<String, Integer>();
-		String[] array = birth.split("-");
-		if (array.length == 3) {
-			birthMap.put(year, isNumeric(array[0]) == true ? Integer.valueOf(array[0]) : 0);
-			birthMap.put(month, isNumeric(array[1]) == true ? Integer.valueOf(array[1]) : 0);
-			birthMap.put(day, isNumeric(array[2]) == true ? Integer.valueOf(array[2]) : 0);
-		}
-		return birthMap;
-	}
 	
 	/**
 	 * 校验是否为数字

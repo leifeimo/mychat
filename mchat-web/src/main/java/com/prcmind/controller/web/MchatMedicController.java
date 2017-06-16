@@ -812,9 +812,9 @@ public class MchatMedicController {
 		Map<String, Integer> birthMap = new HashMap<String, Integer>();
 		String[] array = birth.split("-");
 		if (array.length == 3) {
-			birthMap.put(year, isNumeric(array[0]) == true ? Integer.valueOf(array[0]) : 0);
-			birthMap.put(month, isNumeric(array[1]) == true ? Integer.valueOf(array[1]) : 0);
-			birthMap.put(day, isNumeric(array[2]) == true ? Integer.valueOf(array[2]) : 0);
+			birthMap.put(year, isNumeric(array[0]) == true ? (Integer.valueOf(array[0]) == 0 ? null :Integer.valueOf(array[0]) ) : null);
+			birthMap.put(month, isNumeric(array[1]) == true ? (Integer.valueOf(array[1]) == 0 ? null :Integer.valueOf(array[1]) ) : null);
+			birthMap.put(day, isNumeric(array[2]) == true ? (Integer.valueOf(array[2]) == 0 ? null :Integer.valueOf(array[2]) ) : null);
 		}
 		return birthMap;
 	}

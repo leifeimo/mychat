@@ -348,12 +348,17 @@
         var m2 = $("#testMonth").val();
         var d2 = $("#testDay").val();
         var birth = '';
-        var test = ''
-        if(y && m && d){
-            birth = y + '-' + m + '-' + d;
+        var test = '';
+        if(y==''&&m==''&&d==''){
+           birth = ''
+        }else{
+          birth = (y!=""?y:'0') + '-' + (m!=""?m:'0') + '-' + (d!=""?d:'0');
         }
-        if(y2 && m2 && d2){
-            test = y2 + '-' + m2 + '-' + d2;
+
+        if(y2==''&&m2==''&&d2==''){
+          test = ''
+        }else{
+          test = (y2!=""?y2:'0') + '-' + (m2!=""?m2:'0') + '-' + (d2!=""?d2:'0');
         }
         var obj = {
           url: url,
@@ -447,6 +452,11 @@
             },
             success: function(data){
               var data = data.data;
+              for(key in data){
+                if(data[key] == null){
+                  data[key] = '';
+                }
+              }
               $("#testeeName").text(data.testeeName);
               $("#sex").text(['男','女'][data.sex]);
               $("#cardType").text(['儿童身份证','父亲身份证','母亲身份证','诊疗卡号','','','','','','其他'][data.cardType]);

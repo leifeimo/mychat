@@ -9,7 +9,24 @@ public class FollowReq {
 	String scoreNo;
 	String parentNo;
 	int deleted;
+	String birth;
+	public String getBirth() {
+		return birth;
+	}
 
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
+
+	public String getTestDate() {
+		return testDate;
+	}
+
+	public void setTestDate(String testDate) {
+		this.testDate = testDate;
+	}
+
+	String testDate;
 	public int getPageNum() {
 		return pageNum;
 	}
