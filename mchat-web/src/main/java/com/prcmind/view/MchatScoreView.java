@@ -78,7 +78,7 @@ public class MchatScoreView {
 	private String town;
 	private String tel;
 	private String email;
-	private String caregiversCultureDegree;
+	private Integer caregiversCultureDegree;
 	private String medicName;
 	private String medicNo;
 	private String enterpriseNo;
@@ -98,6 +98,83 @@ public class MchatScoreView {
 	 * IP对应的物理地址
 	 */
 	private String ipLocation;
+	/**
+	 * 与儿童的关系
+	 */
+	private Integer consignorType;
+	/**
+	 * 完成问卷人姓名
+	 */
+	private String consignorName;
+	private Integer motherYear;
+	private Integer motherMonth;
+	private Integer motherDay;
+	private Integer fatherYear;
+	private Integer fatherMonth;
+	private Integer fatherDay;
+	private String zip;
+	private String abnormalities;
+	
+	public String getAbnormalities() {
+		return abnormalities;
+	}
+	public void setAbnormalities(String abnormalities) {
+		this.abnormalities = abnormalities;
+	}
+	public Integer getMotherYear() {
+		return motherYear;
+	}
+	public void setMotherYear(Integer motherYear) {
+		this.motherYear = motherYear;
+	}
+	public Integer getMotherMonth() {
+		return motherMonth;
+	}
+	public void setMotherMonth(Integer motherMonth) {
+		this.motherMonth = motherMonth;
+	}
+	public Integer getMotherDay() {
+		return motherDay;
+	}
+	public void setMotherDay(Integer motherDay) {
+		this.motherDay = motherDay;
+	}
+	public Integer getFatherYear() {
+		return fatherYear;
+	}
+	public void setFatherYear(Integer fatherYear) {
+		this.fatherYear = fatherYear;
+	}
+	public Integer getFatherMonth() {
+		return fatherMonth;
+	}
+	public void setFatherMonth(Integer fatherMonth) {
+		this.fatherMonth = fatherMonth;
+	}
+	public Integer getFatherDay() {
+		return fatherDay;
+	}
+	public void setFatherDay(Integer fatherDay) {
+		this.fatherDay = fatherDay;
+	}
+	public String getZip() {
+		return zip;
+	}
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
+	public String getConsignorName() {
+		return consignorName;
+	}
+	public void setConsignorName(String consignorName) {
+		this.consignorName = consignorName;
+	}
+	public Integer getConsignorType() {
+		return consignorType;
+	}
+	public void setConsignorType(Integer consignorType) {
+		this.consignorType = consignorType;
+	}
 	public Integer getLevel() {
 		return level;
 	}
@@ -338,10 +415,11 @@ public class MchatScoreView {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getCaregiversCultureDegree() {
+
+	public Integer getCaregiversCultureDegree() {
 		return caregiversCultureDegree;
 	}
-	public void setCaregiversCultureDegree(String caregiversCultureDegree) {
+	public void setCaregiversCultureDegree(Integer caregiversCultureDegree) {
 		this.caregiversCultureDegree = caregiversCultureDegree;
 	}
 	public String getMedicName() {
@@ -423,8 +501,13 @@ public class MchatScoreView {
 			mchatScore.setTestYear(mchatScoreView.getTestYear());
 			mchatScore.setTown(mchatScoreView.getTown());
 			mchatScore.setFather(mchatScoreView.getFather());
-			if(mchatScoreView.getFatherBirthday()!=null && mchatScoreView.getFatherBirthday().length() >1){
-				mchatScore.setFatherBirthday(DateUtil.StrToDate(mchatScoreView.getFatherBirthday(), "yyyy-MM-dd"));
+			if(mchatScoreView.getMotherYear()!=null && mchatScoreView.getMotherMonth()!=null && mchatScoreView.getMotherDay()!=null){
+				String motherBirthday = mchatScoreView.getMotherYear()+"-"+mchatScoreView.getMotherMonth()+"-"+mchatScoreView.getMotherDay();
+				mchatScore.setMotherBirthday(DateUtil.StrToDate(motherBirthday, "yyyy-MM-dd"));
+			}
+			if(mchatScoreView.getFatherYear()!=null && mchatScoreView.getFatherMonth()!=null && mchatScoreView.getFatherDay()!=null){
+				String fatherBirthday = mchatScoreView.getFatherYear()+"-"+mchatScoreView.getFatherMonth()+"-"+mchatScoreView.getFatherDay();
+				mchatScore.setFatherBirthday(DateUtil.StrToDate(fatherBirthday, "yyyy-MM-dd"));
 			}
 			
 			mchatScore.setFatherCareer(mchatScoreView.getFatherCareer());
@@ -449,6 +532,11 @@ public class MchatScoreView {
 			mchatScore.setRfScoreNo(mchatScoreView.getRfScoreNo());
 			mchatScore.setScoreNo(mchatScoreView.getScoreNo());
 			mchatScore.setSex(mchatScoreView.getSex());
+			mchatScore.setConsignorType(mchatScoreView.getConsignorType());
+			mchatScore.setConsignorName(mchatScoreView.getConsignorName());
+			mchatScore.setRemark(mchatScoreView.getRemark());
+			mchatScore.setZip(mchatScoreView.getZip());
+			
 			return mchatScore;
 			
 			

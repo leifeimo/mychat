@@ -66,6 +66,7 @@ public class EnterpriseController {
 			EnterpriseOperator eo = portalEnterpriseFacade.getEnterpriseOperator(username, password);
 			HttpSession session = request.getSession();
 			session.setAttribute(WebConstants.MANAGER_USER, eo);
+			session.setMaxInactiveInterval(60*60);
 			EnterpriseInfo info = portalEnterpriseFacade.getEnterpriseInfoByEnterpriseNo(eo.getEnterpriseNo());
 			if (info != null) {
 				session.setAttribute(WebConstants.ENTERPRISE_INFO, info);

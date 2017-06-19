@@ -21,10 +21,10 @@
                        <!-- <input name="" class="chat_input Wdate " style="height:30px;width:200px" id="birth" onClick="WdatePicker()" /> -->
                    </div>
                    <div>
-                       施测日期：<input type="text" id="testYear" class="year"> 年
-                        <input type="text" id="testMonth" class="month"> 月
-                        <input type="text" id="testDay" class="day"> 日
-                       <!-- <input name="" class="chat_input Wdate " style="height:30px;width:200px" id="testDate" onClick="WdatePicker()" /> -->
+                       查询类型：<select id="type" name="" class="chat_input" style="height:30px;width:200px"  >
+                         <option value="1">MCHAT-R</option>
+                         <option value="2">MCHAT-R/F</option>
+                       </select>
                    </div>
                    
                    
@@ -33,15 +33,17 @@
                    <div>
                        报告编号：<input name="" class="chat_input" style="height:30px;width:200px" id="reportNo" />
                    </div>
-                   <div>
-                       查询类型：<select id="type" name="" class="chat_input" style="height:30px;width:200px"  >
-                         <option value="1">MCHAT-R</option>
-                         <option value="2">MCHAT-R/F</option>
-                       </select>
+                  
+                    <div>
+                       施测日期：<input type="text" id="testYear" class="year"> 年
+                        <input type="text" id="testMonth" class="month"> 月
+                        <input type="text" id="testDay" class="day"> 日
+                       <!-- <input name="" class="chat_input Wdate " style="height:30px;width:200px" id="testDate" onClick="WdatePicker()" /> -->
                    </div>
                </div>
                <div class="r_search_r">
                <input id="search" type="button" class="r_search_r_btn" value="搜索" />
+               <input type="reset" id="reset" class="r_search_r_btn2" value="清空" />
                </div>
                
                
@@ -96,18 +98,24 @@
   {{each recordList}}
   <tr>
      <td>{{$value.reportNo}}</td>
-     <!-- <span>{{$value.testeeName}}</span> -->
+
      <td>
         {{$value.downloadCount}}
     </td>
      <td>{{$imports.getTimeFromNum($value.createTime,1)}}</td>
      <td><a data-scoreNo="{{$value.scoreNo}}" data-parentNo="{{$value.parentNo}}" class="ac-check" href="javascript:;"><img class="looks" src="../../images/looks.png" /></a></td>
     <td><a data-scoreNo="{{$value.scoreNo}}"  class="ac-check-wj" href="javascript:;"><img class="looks" src="../../images/looks.png" /></a></td>
-    <td><a target="_blank" href="{{$imports.downloadURL+$value.scoreNo}}"><img class="looks" src="../../images/s_2.png" /></a></td>
+    <td>
+      {{if $value.downloadCount != 0}}
+      <a target="_blank" href="{{$imports.downloadURL+$value.scoreNo}}"><img class="looks" src="../../images/s_2.png" /></a>
+      {{else}}
+      <a target="_blank" href="javascript:;" class="ac-down" ><img src="../../images/s_2.png" /></a>
+      {{/if}}
+    </td>
    </tr>
   {{/each}}
 {{else}}
-  <tr><td colspan="5" >没有查询到相关信息，请检查搜索条件！</td></tr>
+  <tr><td colspan="6" >没有查询到相关信息，请检查搜索条件！</td></tr>
 {{/if}}
 </script>
 
@@ -145,14 +153,14 @@
         <div>出生日期:</div>
         <div>
         <!-- <input class="chat_input" id="birthDay" style="width:350px; height:37px;"/> -->
-        <span id="birthDay"></span>
+        <span id="birthDays"></span>
         </div>
     </div> 
     <div class="r_form">
         <div>完成问卷日期:</div>
         <div>
         <!-- <input class="chat_input" id="testDay" style="width:350px; height:37px;"/> -->
-        <span id="testDay"></span>
+        <span id="testDays"></span>
         </div>
     </div> 
    
@@ -225,7 +233,7 @@
         <div>母亲文化程度:</div>
         <div>
           <span id="motherCultureDegree"></span>
-          <!-- <select id="motnerCultureDegree" class="chat_input" style="width:300px">
+          <!-- <select id="motherCultureDegree" class="chat_input" style="width:300px">
               <option value="0">未选择</option>
               <option value="1">小学</option>
               <option value="8">完成部分初中课程</option>
@@ -310,7 +318,7 @@
     </div>
     <div class="r_form">
         <div>备注:</div>
-        <div id="remarks"> 
+        <div id="remark"> 
         </div>
     </div>
 
@@ -462,17 +470,17 @@
               $("#sex").text(['男','女'][data.sex]);
               $("#cardType").text(['儿童身份证','父亲身份证','母亲身份证','诊疗卡号','','','','','','其他'][data.cardType]);
               $("#cardNo2").text(data.cardNo);
-              $("#birthDay").text(data.birthYear+'-'+data.birthMonth+'-'+data.birthToday);
-              $("#testDay").text(util.getTimeFromNum(data.createTime));
+              $("#birthDays").text(data.birthYear+'-'+data.birthMonth+'-'+data.birthToday);
+              $("#testDays").text(util.getTimeFromNum(data.createTime));
               $("#gestationalWeeks").text(data.gestationalWeeks);
               $("#gestationalDays").text(data.gestationalDays);
-              $("#consignorName").text(data.patronnInfo);
-              $("#consignorType").text(['','父母','祖父母','照看人','老师','其他'][data.consignorType]);
+              $("#consignorName").text(data.consignorName);
+              $("#consignorType").text(['','父母','祖父母','照看人','老师','其他'][parseInt(data.consignorType)]);
               $("#weight").text(data.birthWeight);
               $("#address").text(data.address);
               $("#tel").text(data.tel);
               $("#zip").text(data.zip);
-              $("#motnerCultureDegree").text(edu[data.motnerCultureDegree]);
+              $("#motherCultureDegree").text(edu[data.motherCultureDegree]);
               $("#fatherCultureDegree").text(edu[data.fatherCultureDegree]);
               $("#caregiversCultureDegree").text(edu[data.caregiversCultureDegree]);
               $("#remark").text(data.remark);
@@ -483,8 +491,8 @@
                 $("#motherCareerCategory").text(jobData['Career'+data.motherCareerCategory][data.motherCareer]);
               }
 
-              $("#fatherBirthDay").text(data.fatherBirthday);
-              $("#motherBirthDay").text(data.motherBirthday);
+              $("#fatherBirthDay").text(util.getTimeFromNum(data.fatherBirthday));
+              $("#motherBirthDay").text(util.getTimeFromNum(data.motherBirthday));
               $("#maritalStatus").text(['未选择','未婚','已婚','离异'][data.maritalStatus]);
 
               if(data.births){
@@ -542,6 +550,11 @@
 
       })
     });
+
+    $("body").delegate('.ac-down','click',function(){
+      layer.msg('需要报告所属施测者先下载才能查看')
+      return
+    })
 
 
   });

@@ -375,7 +375,10 @@ public class MchatMedicController {
 			content.put("r_f_score", mchatScoreRevisedFollow.getScore() + "");
 		}
 		content.put("enterpriseName", result.getEnterpriseName());
-		content.put("medicName", result.getMedicName());
+		String medicName = result.getMedicName();
+		content.put("medicName", "1111");
+		String reportNo="报告编号:"+result.getReportNo();
+		content.put("reportNo","111");
 		if(result.getGestationalWeeks() != 0){
 			String gestationalWeeks = result.getGestationalWeeks() + "周"
 					+ (result.getGestationalDays() == null ? "0" : result.getGestationalDays() + "天");

@@ -64,6 +64,7 @@ public class MedicController {
 			if (mo != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute(WebConstants.CURRENT_USER, mo);
+				session.setMaxInactiveInterval(60*60);
 				medicOperatorMaps.put(mo.getLoginName(), mo);
 				MedicInfo info = portalMedicFacade.getMedicInfoByMedicNo(mo.getMedicNo());
 				if (info != null) {
