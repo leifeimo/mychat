@@ -342,8 +342,10 @@ public class MchatMedicController {
 						path = request.getSession().getServletContext().getRealPath("template\\A.pdf") ;
 					} else if (result.getScore() >= 3 && result.getScore() <= 7) {
 						path = request.getSession().getServletContext().getRealPath("template\\B.pdf") ;
+//						path ="E:\\downloads\\template\\B.pdf";
 					} else if (result.getScore() >= 8 && result.getScore() <= 20) {
 						path = request.getSession().getServletContext().getRealPath("template\\C.pdf") ;
+//						path ="E:\\downloads\\template\\C.pdf";
 					}
 				}
 				ExportPdfUtil.exportpdf(OUT_PATH, path, content, response);
@@ -368,17 +370,20 @@ public class MchatMedicController {
 			String createTime = DateUtil.DateToStr(result.getCreateTime(), "yyyy-MM-dd");
 			content.put("createTime", createTime);
 			content.put("score", result.getScore() + "");
+			String reportNo="报告编号"+"  "+result.getReportNo();
+			content.put("reportNo",reportNo);
 		} else {
 			String createTime = DateUtil.DateToStr(mchatScoreRevisedFollow.getCreateTime(), "yyyy-MM-dd");
 			content.put("createTime", createTime);
 			content.put("r_score", result.getScore() + "");
 			content.put("r_f_score", mchatScoreRevisedFollow.getScore() + "");
+			String reportNo="报告编号"+"  "+mchatScoreRevisedFollow.getReportNo();
+			content.put("reportNo",reportNo);
 		}
 		content.put("enterpriseName", result.getEnterpriseName());
 		String medicName = result.getMedicName();
-		content.put("medicName", "1111");
-		String reportNo="报告编号:"+result.getReportNo();
-		content.put("reportNo","111");
+		content.put("medicName", medicName);
+		
 		if(result.getGestationalWeeks() != 0){
 			String gestationalWeeks = result.getGestationalWeeks() + "周"
 					+ (result.getGestationalDays() == null ? "0" : result.getGestationalDays() + "天");
@@ -418,12 +423,31 @@ public class MchatMedicController {
 	 * @return
 	 * @throws IOException
 	 */
+	@SuppressWarnings("static-access")
 	@RequestMapping(value = "/web/v1/medicMchat/verifyBasicInformation", method = RequestMethod.POST)
 	@ResponseBody
 	public CodeMsgBean<Object> verifyBasicInformation(MchatScoreView mchatScoreView, String birthDay, String testDay,
 			HttpServletRequest request) throws IOException {
-		if (mchatScoreView == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
+		if (mchatScoreView == null ) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
+		}
+		if(mchatScoreView.getTesteeName()!=null){
+		    String regEx = "[\u4e00-\u9fa5]";
+	        Pattern p = Pattern.compile(regEx);
+	        int num = 0;//汉字长度
+	        for(int i=0;i<mchatScoreView.getTesteeName().length();i++){
+	            if(p.matches(regEx, mchatScoreView.getTesteeName().substring(i, i + 1))){
+	                num++;
+	            }
+	        }
+	        if(num>8){
+	        	return new CodeMsgBean<Object>(10003, "儿童姓名长度不得超过8个汉字的长度");
+	        }else{
+	        	if(mchatScoreView.getTesteeName().length()>24){
+					return new CodeMsgBean<Object>(10003, "儿童姓名长度不得超过8个汉字的长度");
+				}
+	        }
+			
 		}
 		HttpSession session = request.getSession();
 		MedicInfo info = (MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
@@ -451,14 +475,14 @@ public class MchatMedicController {
 			String testDay) {
 		mchatScore.setEnterpriseNo(enterpriseNo);
 		mchatScore.setMedicNo(medicNo);
-		Map<String, Integer> mapBirthDate = initBirthMap(birthDay, "birthYear", "birthMonth", "birthToday");
-		Map<String, Integer> mapTestDate = initBirthMap(testDay, "testYear", "testMonth", "testToday");
-		mchatScore.setBirthMonth(mapBirthDate.get("birthMonth"));
-		mchatScore.setBirthToday(mapBirthDate.get("birthToday"));
-		mchatScore.setBirthYear(mapBirthDate.get("birthYear"));
-		mchatScore.setTestYear(mapTestDate.get("testYear"));
-		mchatScore.setTestMonth(mapTestDate.get("testMonth"));
-		mchatScore.setTestToday(mapTestDate.get("testToday"));
+//		Map<String, Integer> mapBirthDate = initBirthMap(birthDay, "birthYear", "birthMonth", "birthToday");
+//		Map<String, Integer> mapTestDate = initBirthMap(testDay, "testYear", "testMonth", "testToday");
+//		mchatScore.setBirthMonth(mapBirthDate.get("birthMonth"));
+//		mchatScore.setBirthToday(mapBirthDate.get("birthToday"));
+//		mchatScore.setBirthYear(mapBirthDate.get("birthYear"));
+//		mchatScore.setTestYear(mapTestDate.get("testYear"));
+//		mchatScore.setTestMonth(mapTestDate.get("testMonth"));
+//		mchatScore.setTestToday(mapTestDate.get("testToday"));
 		return mchatScore;
 	}
 
@@ -524,8 +548,10 @@ public class MchatMedicController {
 				if(result.getScore() !=null){
 					if (result.getScore() < 2) {
 						path = request.getSession().getServletContext().getRealPath("template\\D.pdf") ;
+//						path ="E:\\downloads\\template\\D.pdf";
 					} else if (result.getScore() >= 2) {
 						path = request.getSession().getServletContext().getRealPath("template\\E.pdf") ;
+//						path ="E:\\downloads\\template\\E.pdf";
 					}
 				}
 				ExportPdfUtil.exportpdf(OUT_PATH, path, content, response);
@@ -554,7 +580,7 @@ public class MchatMedicController {
 	public CodeMsgBean<Object> createMchatReport(MchatScoreView mchatScoreview, String testDay, String birthDay,
 			final MchatQuestionnaireResponse mchatQuestionnaireResponse, HttpServletRequest request)
 			throws IOException {
-		if (mchatScoreview == null || StringUtils.isEmpty(testDay) || StringUtils.isEmpty(birthDay)) {
+		if (mchatScoreview == null ) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
 		HttpSession session = request.getSession();

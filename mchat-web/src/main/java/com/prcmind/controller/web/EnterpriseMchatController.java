@@ -481,11 +481,15 @@ public class EnterpriseMchatController {
 			String createTime = DateUtil.DateToStr(result.getCreateTime(), "yyyy-MM-dd");
 			content.put("createTime", createTime);
 			content.put("score", result.getScore() + "");
+			String reportNo="报告编号"+"  "+result.getReportNo();
+			content.put("reportNo",reportNo);
 		} else {
 			String createTime = DateUtil.DateToStr(mchatScoreRevisedFollow.getCreateTime(), "yyyy-MM-dd");
 			content.put("createTime", createTime);
 			content.put("r_score", result.getScore() + "");
 			content.put("r_f_score", mchatScoreRevisedFollow.getScore() + "");
+			String reportNo="报告编号"+"  "+mchatScoreRevisedFollow.getReportNo();
+			content.put("reportNo",reportNo);
 		}
 		content.put("enterpriseName", result.getEnterpriseName());
 		content.put("medicName", result.getMedicName());
