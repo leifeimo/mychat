@@ -67,9 +67,10 @@ public class ExportPdfUtil {
 			// 添加所创建的字体
 //			s.addSubstitutionFont(chineseSong);
 			// 找到pdf中输入域并替换为内容
-//			BaseFont bf =BaseFont.createFont("STSong-Light",BaseFont.IDENTITY_H,BaseFont.NOT_EMBEDDED);   
-			BaseFont font = BaseFont.createFont("C:/WINDOWS/Fonts/SIMSUN.TTC,1",BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-			s.addSubstitutionFont(font);
+//			BaseFont bf =BaseFont.createFont("STSong-Light","UniGB-UCS2-H",BaseFont.IDENTITY_H,BaseFont.NOT_EMBEDDED);  
+			BaseFont bf = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+//			BaseFont bf = BaseFont.createFont("C:/WINDOWS/Fonts/SIMSUN.TTC,1",BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+			s.addSubstitutionFont(bf);
 			Iterator<String> it = s.getFields().keySet().iterator();
 			while (it.hasNext()) {
 				String name = (String) it.next();
