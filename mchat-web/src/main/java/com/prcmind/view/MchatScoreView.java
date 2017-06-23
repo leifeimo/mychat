@@ -2,6 +2,8 @@ package com.prcmind.view;
 
 import java.util.Date;
 
+import org.springframework.util.StringUtils;
+
 import com.prcmind.facade.scale.mchat.entity.MchatScore;
 import com.prcmind.utils.DateUtil;
 
@@ -482,27 +484,44 @@ public class MchatScoreView {
 	public static MchatScore toMchatScore(MchatScoreView mchatScoreView) {
 		if(mchatScoreView !=null){
 			MchatScore mchatScore = new MchatScore();
-			mchatScore.setAddress(mchatScoreView.getAddress());
+			if(!StringUtils.isEmpty(mchatScoreView.getAddress())){
+				mchatScore.setAddress(mchatScoreView.getAddress());
+			}
 			mchatScore.setBirthMonth(Integer.valueOf(mchatScoreView.getBirthMonth()));
 			mchatScore.setBirths(mchatScoreView.getBirths());
 			mchatScore.setBirthToday(Integer.valueOf(mchatScoreView.getBirthToday()));
-			mchatScore.setBirthWeight(Integer.valueOf(mchatScoreView.getBirthWeight()));
+			if(!StringUtils.isEmpty(mchatScoreView.getBirthWeight())){
+				mchatScore.setBirthWeight(Integer.valueOf(mchatScoreView.getBirthWeight()));
+			}
+			
 			mchatScore.setBirthYear(Integer.valueOf(mchatScoreView.getBirthYear()));
 			mchatScore.setCardNo(mchatScoreView.getCardNo());
 			mchatScore.setCardType(mchatScoreView.getCardType());
 			mchatScore.setCaregiversCultureDegree(mchatScoreView.getCaregiversCultureDegree());
-			mchatScore.setCity(mchatScoreView.getCity());
+			if(!StringUtils.isEmpty(mchatScoreView.getCity())){
+				mchatScore.setCity(mchatScoreView.getCity());
+			}
+			
 			mchatScore.setCreateTime(new Date(System.currentTimeMillis()));
-			mchatScore.setEmail(mchatScoreView.getEmail());
+			if(!StringUtils.isEmpty(mchatScoreView.getEmail())){
+				mchatScore.setEmail(mchatScoreView.getEmail());
+			}
+			
 			mchatScore.setEnterpriseName(mchatScoreView.getEnterpriseName());
 			mchatScore.setEnterpriseNo(mchatScoreView.getEnterpriseNo());
-			mchatScore.setTel(mchatScoreView.getTel());
+			if(!StringUtils.isEmpty(mchatScoreView.getTel())){
+				mchatScore.setTel(mchatScoreView.getTel());
+			}
+			
 			mchatScore.setTesteeName(mchatScoreView.getTesteeName());
 			mchatScore.setTesteeNo(mchatScoreView.getTesteeNo());
 			mchatScore.setTestMonth(Integer.valueOf(mchatScoreView.getTestMonth()));
 			mchatScore.setTestToday(Integer.valueOf(mchatScoreView.getTestToday()));
 			mchatScore.setTestYear(Integer.valueOf(mchatScoreView.getTestYear()));
-			mchatScore.setTown(mchatScoreView.getTown());
+			if(!StringUtils.isEmpty(mchatScoreView.getTown())){
+				mchatScore.setTown(mchatScoreView.getTown());
+			}
+			
 			mchatScore.setFather(mchatScoreView.getFather());
 			if(mchatScoreView.getMotherYear()!=null && mchatScoreView.getMotherMonth()!=null && mchatScoreView.getMotherDay()!=null){
 				String motherBirthday = mchatScoreView.getMotherYear()+"-"+mchatScoreView.getMotherMonth()+"-"+mchatScoreView.getMotherDay();
@@ -530,19 +549,24 @@ public class MchatScoreView {
 			mchatScore.setMotherCareer(mchatScoreView.getMotherCareer());
 			mchatScore.setMotherCultureDegree(mchatScoreView.getMotherCultureDegree());
 			mchatScore.setNation(mchatScoreView.getNation());
-			mchatScore.setPatronnInfo(mchatScoreView.getPatronnInfo());
+			if(!StringUtils.isEmpty(mchatScoreView.getPatronnInfo())){
+				mchatScore.setPatronnInfo(mchatScoreView.getPatronnInfo());
+			}
 			mchatScore.setReportNo(mchatScoreView.getReportNo());
 			mchatScore.setRfScoreNo(mchatScoreView.getRfScoreNo());
 			mchatScore.setScoreNo(mchatScoreView.getScoreNo());
 			mchatScore.setSex(mchatScoreView.getSex());
 			mchatScore.setConsignorType(mchatScoreView.getConsignorType());
-			mchatScore.setConsignorName(mchatScoreView.getConsignorName());
-			mchatScore.setRemark(mchatScoreView.getRemark());
-			mchatScore.setZip(mchatScoreView.getZip());
-			
+			if(!StringUtils.isEmpty(mchatScoreView.getConsignorName())){
+				mchatScore.setConsignorName(mchatScoreView.getConsignorName());
+			}
+			if(!StringUtils.isEmpty(mchatScoreView.getRemark())){
+				mchatScore.setRemark(mchatScoreView.getRemark());
+			}
+			if(!StringUtils.isEmpty(mchatScoreView.getZip())){
+				mchatScore.setZip(mchatScoreView.getZip());
+			}
 			return mchatScore;
-			
-			
 		}
 		return null;
 	}

@@ -16,21 +16,21 @@
 
     <!--jx_head S-->
     <div id="head" class="b_blues" style="height:60px; width:100%">
-	
+  
         <div id="head_top">
-		    <div style="float:left">
-		      <div class="head_logo"><img src="../../images/logo.jpg" /></div>
-		        <div class="head_title">欢迎您使用平台管理系统！</div>
-			</div>
-			
-			<div id="login_out">
-			    <div id="login_out_btn" class="b_white">
-				<a href="javascript:;" id="logout"><img src="../../images/out.png" align="absmiddle" />&nbsp;&nbsp;退出系统</a>
-				</div>
-			</div>
-		</div>
+        <div style="float:left">
+          <div class="head_logo"><img src="../../images/logo.jpg" /></div>
+            <div class="head_title">欢迎您使用平台管理系统！</div>
+      </div>
+      
+      <div id="login_out">
+          <div id="login_out_btn" class="b_white">
+        <a href="javascript:;" id="logout"><img src="../../images/out.png" align="absmiddle" />&nbsp;&nbsp;退出系统</a>
+        </div>
+      </div>
+    </div>
 
-	</div>
+  </div>
     <!--jx_head E-->
 
         
@@ -88,7 +88,7 @@
 
 
         <div style="margin-top:30px;">
-            <div class="t_menu">
+            <div class="t_menu" style="height:52px">
                 <p class="t_m_p mtp1 m_p_cureent " s="tp1">M-CHAT系统</p>
                 <p class="t_m_p mtp2" s="tp2">NEW系统</p>
                 <p class="t_m_p mtp3" s="tp3">NEW系统</p>
@@ -175,6 +175,19 @@
 
 
 </div>
+
+   <style>
+        .t_menu{
+            height:52px;
+        }
+.t_menu p{
+    box-sizing:border-box;
+    border-top: 2px #35A7B1 solid;
+}
+.m_p_cureent{height:52px; display:block;  border-top: 2px #ebf5b8 solid !important; }
+        
+    </style>
+
 <script type="text/javascript" src="../../js/jquery.min.js" ></script>
 <script src="../../js/layer/layer.js"></script>
 <script src="../../js/util.js"></script>
@@ -184,38 +197,38 @@ $(function(){
   $("#date").html(util.getTime());
   
   $(".t_tab_p").click(function(){
-	  var s = $(this).attr("s");
-	  
-	  $(".t_tab_p").removeClass("p_current");
-	  $(this).addClass("p_current");
-	  
-	  
-	  $(".t_tab_a").removeClass("a_current");
-	  $(".a"+s).addClass("a_current");
-	  
-	  $(".t_m_p").removeClass("m_p_cureent");
-	  $(".m"+s).addClass("m_p_cureent");
+    var s = $(this).attr("s");
+    
+    $(".t_tab_p").removeClass("p_current");
+    $(this).addClass("p_current");
+    
+    
+    $(".t_tab_a").removeClass("a_current");
+    $(".a"+s).addClass("a_current");
+    
+    $(".t_m_p").removeClass("m_p_cureent");
+    $(".m"+s).addClass("m_p_cureent");
   
-	  $(".m_read").removeClass("m_r_current");
-	  $(".r"+s).addClass("m_r_current");	
+    $(".m_read").removeClass("m_r_current");
+    $(".r"+s).addClass("m_r_current");  
   
   });
   
   
   $(".t_m_p").click(function(){
-	  var s = $(this).attr("s");
-	  $(".t_m_p").removeClass("m_p_cureent");
-	  $(this).addClass("m_p_cureent");
+    var s = $(this).attr("s");
+    $(".t_m_p").removeClass("m_p_cureent");
+    $(this).addClass("m_p_cureent");
 
-	  $(".m_read").removeClass("m_r_current");
-	  $(".r"+s).addClass("m_r_current");	
+    $(".m_read").removeClass("m_r_current");
+    $(".r"+s).addClass("m_r_current");  
   
-	  $(".t_tab_a").removeClass("a_current");
-	  $(".a"+s).addClass("a_current");	
-	  
-	  
-	  $(".t_tab_p").removeClass("p_current");
-	  $(".p"+s).addClass("p_current");	  
+    $(".t_tab_a").removeClass("a_current");
+    $(".a"+s).addClass("a_current");  
+    
+    
+    $(".t_tab_p").removeClass("p_current");
+    $(".p"+s).addClass("p_current");    
   });
 
   $("#logout").on('click',function(e){

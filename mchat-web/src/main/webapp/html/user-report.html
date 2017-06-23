@@ -13,6 +13,9 @@
                         <input type="text" id="birthDay" class="day"> 日
                        <!-- <input id="birth" class="chat_input Wdate" onClick="WdatePicker()" style="height:30px;width:200px" /> -->
                    </div>
+                   <div>
+                       身份信息：<input id="cardNo" class="chat_input" style="height:30px; width:200px;" type="text" />
+                   </div>
                    
                </div>
                <div class="r_search_m">
@@ -503,6 +506,7 @@
             numPerPage: 10,
             testeeName: $("#name").val(),
             reportNo: $("#reportNo").val(),
+            cardNo: $("#cardNo").val(),
             birth: birth,
             delete: 0,
             testDate: test
@@ -530,9 +534,9 @@
         util.client(obj);
     });
 
-    var reportNo = util.getQueryString('reportNo');
-    if(reportNo){
-      $("#reportNo").val(reportNo);
+    var cardNo = util.getQueryString('cardNo');
+    if(cardNo){
+      $("#cardNo").val(cardNo);
     }
 
     $("#search").trigger('click');
