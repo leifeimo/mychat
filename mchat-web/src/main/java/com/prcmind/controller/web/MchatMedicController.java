@@ -431,6 +431,18 @@ public class MchatMedicController {
 		if (mchatScoreView == null ) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
+		if(mchatScoreView.getBirthWeight()!=null&&!isNumeric(mchatScoreView.getBirthWeight())){
+			return new CodeMsgBean<Object>(10003, "体重填写必须为数字");
+		}
+		if (!isNumeric(mchatScoreView.getBirthMonth()) || !isNumeric(mchatScoreView.getBirthYear())
+				|| !isNumeric(mchatScoreView.getBirthToday()) || !isNumeric(mchatScoreView.getTestYear())
+				|| !isNumeric(mchatScoreView.getTestMonth()) || !isNumeric(mchatScoreView.getTestToday())){
+			 return new CodeMsgBean<Object>(10003, "出生日期与完成问卷日期填写必须为数字");
+		}
+		if(!isNumeric(mchatScoreView.getGestationalWeeks()) || !isNumeric(mchatScoreView.getGestationalDays())){
+			return new CodeMsgBean<Object>(10003, "宝宝的孕周填写必须为数字");
+		}
+
 		if(mchatScoreView.getTesteeName()!=null){
 		    String regEx = "[\u4e00-\u9fa5]";
 	        Pattern p = Pattern.compile(regEx);
@@ -449,6 +461,8 @@ public class MchatMedicController {
 	        }
 			
 		}
+		
+		
 		HttpSession session = request.getSession();
 		MedicInfo info = (MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
 		String enterpriseNo = null;

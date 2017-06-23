@@ -32,27 +32,27 @@ public class MchatScoreView {
 	private Integer cardType;
 	private String testeeName;
 	private Integer sex;
-	private Integer birthYear;
-	private Integer birthMonth;
-	private Integer birthToday;
-	private Integer testYear;
-	private Integer testMonth;
-	private Integer testToday;
-	private Integer lifeMonth;
+	private String birthYear;
+	private String birthMonth;
+	private String birthToday;
+	private String testYear;
+	private String testMonth;
+	private String testToday;
+	private String lifeMonth;
 	private Integer lifeDay;
 	/**
 	 * 出生情况
 	 */
 	private String births;
-	private Integer birthWeight;
+	private String birthWeight;
 	/**
 	 * 孕周
 	 */
-	private Integer gestationalWeeks;
+	private String gestationalWeeks;
 	/**
 	 * 孕周的日：1-6
 	 */
-	private Integer gestationalDays;
+	private String gestationalDays;
 	private String father;
 	private String mother;
 	private Integer motherCareer;
@@ -106,55 +106,116 @@ public class MchatScoreView {
 	 * 完成问卷人姓名
 	 */
 	private String consignorName;
-	private Integer motherYear;
-	private Integer motherMonth;
-	private Integer motherDay;
-	private Integer fatherYear;
-	private Integer fatherMonth;
-	private Integer fatherDay;
+	private String motherYear;
+	private String motherMonth;
+	private String motherDay;
+	private String fatherYear;
+	private String fatherMonth;
+	private String fatherDay;
 	private String zip;
 	private String abnormalities;
 	
+	public String getBirthYear() {
+		return birthYear;
+	}
+	public void setBirthYear(String birthYear) {
+		this.birthYear = birthYear;
+	}
+	public String getBirthMonth() {
+		return birthMonth;
+	}
+	public void setBirthMonth(String birthMonth) {
+		this.birthMonth = birthMonth;
+	}
+	public String getBirthToday() {
+		return birthToday;
+	}
+	public void setBirthToday(String birthToday) {
+		this.birthToday = birthToday;
+	}
+	public String getTestYear() {
+		return testYear;
+	}
+	public void setTestYear(String testYear) {
+		this.testYear = testYear;
+	}
+	public String getTestMonth() {
+		return testMonth;
+	}
+	public void setTestMonth(String testMonth) {
+		this.testMonth = testMonth;
+	}
+	public String getTestToday() {
+		return testToday;
+	}
+	public void setTestToday(String testToday) {
+		this.testToday = testToday;
+	}
+	public String getLifeMonth() {
+		return lifeMonth;
+	}
+	public void setLifeMonth(String lifeMonth) {
+		this.lifeMonth = lifeMonth;
+	}
+	public String getBirthWeight() {
+		return birthWeight;
+	}
+	public void setBirthWeight(String birthWeight) {
+		this.birthWeight = birthWeight;
+	}
+	public String getGestationalWeeks() {
+		return gestationalWeeks;
+	}
+	public void setGestationalWeeks(String gestationalWeeks) {
+		this.gestationalWeeks = gestationalWeeks;
+	}
+	public String getGestationalDays() {
+		return gestationalDays;
+	}
+	public void setGestationalDays(String gestationalDays) {
+		this.gestationalDays = gestationalDays;
+	}
 	public String getAbnormalities() {
 		return abnormalities;
 	}
 	public void setAbnormalities(String abnormalities) {
 		this.abnormalities = abnormalities;
 	}
-	public Integer getMotherYear() {
+
+	public String getMotherYear() {
 		return motherYear;
 	}
-	public void setMotherYear(Integer motherYear) {
+	public void setMotherYear(String motherYear) {
 		this.motherYear = motherYear;
 	}
-	public Integer getMotherMonth() {
+	public String getMotherMonth() {
 		return motherMonth;
 	}
-	public void setMotherMonth(Integer motherMonth) {
+	public void setMotherMonth(String motherMonth) {
 		this.motherMonth = motherMonth;
 	}
-	public Integer getMotherDay() {
+	public String getMotherDay() {
 		return motherDay;
 	}
-	public void setMotherDay(Integer motherDay) {
+	public void setMotherDay(String motherDay) {
 		this.motherDay = motherDay;
 	}
-	public Integer getFatherYear() {
+	public String getFatherYear() {
 		return fatherYear;
 	}
-	public void setFatherYear(Integer fatherYear) {
+	public void setFatherYear(String fatherYear) {
 		this.fatherYear = fatherYear;
 	}
-	public Integer getFatherMonth() {
+	public String getFatherMonth() {
 		return fatherMonth;
 	}
-	public void setFatherMonth(Integer fatherMonth) {
+	public void setFatherMonth(String fatherMonth) {
 		this.fatherMonth = fatherMonth;
 	}
-	public Integer getFatherDay() {
+	public String getFatherDay() {
 		return fatherDay;
 	}
-	public void setFatherDay(Integer fatherDay) {
+	public void setFatherDay(String fatherDay) {
 		this.fatherDay = fatherDay;
 	}
 	public String getZip() {
@@ -229,48 +290,7 @@ public class MchatScoreView {
 	public void setSex(Integer sex) {
 		this.sex = sex;
 	}
-	public Integer getBirthYear() {
-		return birthYear;
-	}
-	public void setBirthYear(Integer birthYear) {
-		this.birthYear = birthYear;
-	}
-	public Integer getBirthMonth() {
-		return birthMonth;
-	}
-	public void setBirthMonth(Integer birthMonth) {
-		this.birthMonth = birthMonth;
-	}
-	public Integer getBirthToday() {
-		return birthToday;
-	}
-	public void setBirthToday(Integer birthToday) {
-		this.birthToday = birthToday;
-	}
-	public Integer getTestYear() {
-		return testYear;
-	}
-	public void setTestYear(Integer testYear) {
-		this.testYear = testYear;
-	}
-	public Integer getTestMonth() {
-		return testMonth;
-	}
-	public void setTestMonth(Integer testMonth) {
-		this.testMonth = testMonth;
-	}
-	public Integer getTestToday() {
-		return testToday;
-	}
-	public void setTestToday(Integer testToday) {
-		this.testToday = testToday;
-	}
-	public Integer getLifeMonth() {
-		return lifeMonth;
-	}
-	public void setLifeMonth(Integer lifeMonth) {
-		this.lifeMonth = lifeMonth;
-	}
+	
 	public Integer getLifeDay() {
 		return lifeDay;
 	}
@@ -283,24 +303,7 @@ public class MchatScoreView {
 	public void setBirths(String births) {
 		this.births = births;
 	}
-	public Integer getBirthWeight() {
-		return birthWeight;
-	}
-	public void setBirthWeight(Integer birthWeight) {
-		this.birthWeight = birthWeight;
-	}
-	public Integer getGestationalWeeks() {
-		return gestationalWeeks;
-	}
-	public void setGestationalWeeks(Integer gestationalWeeks) {
-		this.gestationalWeeks = gestationalWeeks;
-	}
-	public Integer getGestationalDays() {
-		return gestationalDays;
-	}
-	public void setGestationalDays(Integer gestationalDays) {
-		this.gestationalDays = gestationalDays;
-	}
+
 	public String getFather() {
 		return father;
 	}
@@ -480,11 +483,11 @@ public class MchatScoreView {
 		if(mchatScoreView !=null){
 			MchatScore mchatScore = new MchatScore();
 			mchatScore.setAddress(mchatScoreView.getAddress());
-			mchatScore.setBirthMonth(mchatScoreView.getBirthMonth());
+			mchatScore.setBirthMonth(Integer.valueOf(mchatScoreView.getBirthMonth()));
 			mchatScore.setBirths(mchatScoreView.getBirths());
-			mchatScore.setBirthToday(mchatScoreView.getBirthToday());
-			mchatScore.setBirthWeight(mchatScoreView.getBirthWeight());
-			mchatScore.setBirthYear(mchatScoreView.getBirthYear());
+			mchatScore.setBirthToday(Integer.valueOf(mchatScoreView.getBirthToday()));
+			mchatScore.setBirthWeight(Integer.valueOf(mchatScoreView.getBirthWeight()));
+			mchatScore.setBirthYear(Integer.valueOf(mchatScoreView.getBirthYear()));
 			mchatScore.setCardNo(mchatScoreView.getCardNo());
 			mchatScore.setCardType(mchatScoreView.getCardType());
 			mchatScore.setCaregiversCultureDegree(mchatScoreView.getCaregiversCultureDegree());
@@ -496,9 +499,9 @@ public class MchatScoreView {
 			mchatScore.setTel(mchatScoreView.getTel());
 			mchatScore.setTesteeName(mchatScoreView.getTesteeName());
 			mchatScore.setTesteeNo(mchatScoreView.getTesteeNo());
-			mchatScore.setTestMonth(mchatScoreView.getTestMonth());
-			mchatScore.setTestToday(mchatScoreView.getTestToday());
-			mchatScore.setTestYear(mchatScoreView.getTestYear());
+			mchatScore.setTestMonth(Integer.valueOf(mchatScoreView.getTestMonth()));
+			mchatScore.setTestToday(Integer.valueOf(mchatScoreView.getTestToday()));
+			mchatScore.setTestYear(Integer.valueOf(mchatScoreView.getTestYear()));
 			mchatScore.setTown(mchatScoreView.getTown());
 			mchatScore.setFather(mchatScoreView.getFather());
 			if(mchatScoreView.getMotherYear()!=null && mchatScoreView.getMotherMonth()!=null && mchatScoreView.getMotherDay()!=null){
@@ -513,8 +516,8 @@ public class MchatScoreView {
 			mchatScore.setFatherCareer(mchatScoreView.getFatherCareer());
 			mchatScore.setFatherCareerCategory(mchatScoreView.getFatherCareerCategory());
 			mchatScore.setFatherCultureDegree(mchatScoreView.getFatherCultureDegree());
-			mchatScore.setGestationalDays(mchatScoreView.getGestationalDays());
-			mchatScore.setGestationalWeeks(mchatScoreView.getGestationalWeeks());
+			mchatScore.setGestationalDays(Integer.valueOf(mchatScoreView.getGestationalDays()));
+			mchatScore.setGestationalWeeks(Integer.valueOf(mchatScoreView.getGestationalWeeks()));
 			mchatScore.setLevel(mchatScoreView.getLevel());
 			mchatScore.setMaritalStatus(mchatScoreView.getMaritalStatus());
 			mchatScore.setMedicName(mchatScoreView.getMedicName());

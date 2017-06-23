@@ -91,7 +91,7 @@ public class EnterpriseController {
 	public CodeMsgBean<Object> getInformation(HttpServletRequest request) throws IOException {
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
-//			//enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			//enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
 			 return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
 		}
 		try {
@@ -484,6 +484,34 @@ public class EnterpriseController {
 		return new CodeMsgBean<Object>(1, "操作成功");
 	}
 
+
+	/**
+	 * 根据企业编号获取企业用户详细信息
+	 * 
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/enterprise/getEnterpriseOperator", method = RequestMethod.GET)
+	@ResponseBody
+	public CodeMsgBean<Object> getEnterpriseOperatorByEnterpriseNo(HttpServletRequest request) throws IOException {
+		String enterpriseNo = getEnterpriseNo(request);
+		if (StringUtils.isEmpty(enterpriseNo)) {
+			enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+//			 return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		try {
+			EnterpriseOperator info = portalEnterpriseFacade.getEnterpriseOperatorByEnterpriseNo(enterpriseNo);
+			return new CodeMsgBean<Object>(1, "操作成功", info);
+		} catch (PortalBizException e) {
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
+
+	
+	
+	
+	
 	/**
 	 * 获取企业编号
 	 * 

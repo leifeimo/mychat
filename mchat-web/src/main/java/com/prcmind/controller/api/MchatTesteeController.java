@@ -167,12 +167,12 @@ public class MchatTesteeController {
 	private MchatScoreView initMchatScore(MchatScoreView mchatScore, String birthDay, String testDay) {
 		Map<String, Integer> mapBirthDate = initBirthMap(birthDay, "birthYear", "birthMonth", "birthToday");
 		Map<String, Integer> mapTestDate = initBirthMap(testDay, "testYear", "testMonth", "testToday");
-		mchatScore.setBirthMonth(mapBirthDate.get("birthMonth"));
-		mchatScore.setBirthToday(mapBirthDate.get("birthToday"));
-		mchatScore.setBirthYear(mapBirthDate.get("birthYear"));
-		mchatScore.setTestYear(mapTestDate.get("testYear"));
-		mchatScore.setTestMonth(mapTestDate.get("testMonth"));
-		mchatScore.setTestToday(mapTestDate.get("testToday"));
+		mchatScore.setBirthMonth(mapBirthDate.get("birthMonth")+"");
+		mchatScore.setBirthToday(mapBirthDate.get("birthToday")+"");
+		mchatScore.setBirthYear(mapBirthDate.get("birthYear")+"");
+		mchatScore.setTestYear(mapTestDate.get("testYear")+"");
+		mchatScore.setTestMonth(mapTestDate.get("testMonth")+"");
+		mchatScore.setTestToday(mapTestDate.get("testToday")+"");
 		return mchatScore;
 	}
 
