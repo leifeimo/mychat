@@ -65,7 +65,7 @@
 	.m-select-info{
 		background: #0081d2;
 		width: 90%;
-		margin: 30% auto;
+		margin: 20% auto;
 	}
 	.m-select-info-t{
 		text-align: center;
@@ -281,7 +281,7 @@
         <p>出生时情况(多选)</p>
         <p class="payment_situation_title">
 		   	 <input type="hidden" value="${report.births}" name="births" id="births"/>
-		   	 <input type="text" class="fs1" value="${report.birthsResult}" name="birthsResult" id="birthsResult" disabled="disabled"/>
+		   	 <input type="text" class="fs1" value="${report.birthsResult}" name="birthsResult" id="birthsResult" readonly="true"/>
 		   	 <!--
 		   	 <select name="births" id="births"  multiple="multiple" class="fs">
 			    <option value="0">足月</option>
@@ -651,7 +651,11 @@ $(function () {
 	//if(births==''){
 		initControl();
 	//}
-	
+		var mselect_fontsize = ($("body").width() / 320) * 14;
+	    $(".m-select-info-t").css("font-size", mselect_fontsize + "px");
+	    $(".m-select-info-c-t").css("font-size", mselect_fontsize + "px");
+	    $(".m-s-s").css("font-size", mselect_fontsize + "px");
+	    
 	var gestationalWeeks = '${report.gestationalWeeks}';
 	if(gestationalWeeks==''){
 		initWeekDayControl();
@@ -969,7 +973,7 @@ $(function () {
 	          }
 	        }
 	    });
-		
+	    
 	}
 
 </script>
