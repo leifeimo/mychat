@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -43,7 +45,7 @@ public class EnterpriseController {
 
 	public static Map<String, EnterpriseInfo> enterpriseInfoMaps = new HashMap<String, EnterpriseInfo>();
 	public static Map<String, EnterpriseOperator> enterpriseOperatorMaps = new HashMap<String, EnterpriseOperator>();
-
+	private static Logger LOGGER = LoggerFactory.getLogger(EnterpriseController.class);
 	/**
 	 * 根据登陆名查找企业用户 (适用于登陆系统)
 	 * 
@@ -59,6 +61,7 @@ public class EnterpriseController {
 	@ResponseBody
 	public CodeMsgBean<Object> login(String username, String password, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
+		LOGGER.info("管理员登录接口login()请求参数:username={},password={}", username,password);
 		if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -74,6 +77,7 @@ public class EnterpriseController {
 			}
 			return new CodeMsgBean<Object>(1, "操作成功", eo);
 		} catch (PortalBizException e) {
+			LOGGER.info("登录接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 
@@ -102,6 +106,7 @@ public class EnterpriseController {
 			}
 			return new CodeMsgBean<Object>(1, "操作成功", info);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalEnterpriseFacade.getEnterpriseInfoByEnterpriseNo接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -119,6 +124,7 @@ public class EnterpriseController {
 	@ResponseBody
 	public CodeMsgBean<Object> getMedicScaleDosageByMedicNo(HttpServletRequest request, String medicNo)
 			throws IOException {
+		LOGGER.info("getMedicScaleDosageByMedicNo方法请求参数:medicNo={}",medicNo);
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
 //			//enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
@@ -132,6 +138,7 @@ public class EnterpriseController {
 					.listMedicScaleDosageByEnterpriseNoAndMedicNo(enterpriseNo, medicNo);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalEnterpriseFacade.listMedicScaleDosageByEnterpriseNoAndMedicNo接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -156,6 +163,7 @@ public class EnterpriseController {
 			List<EnterpriseScaleDosage> result = portalEnterpriseFacade.listEnterpriseScaleDosage(enterpriseNo);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalEnterpriseFacade.listEnterpriseScaleDosage接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -172,6 +180,7 @@ public class EnterpriseController {
 	@RequestMapping(value = "/web/v1/enterprise/getArticle", method = RequestMethod.GET)
 	@ResponseBody
 	public CodeMsgBean<Object> getArticle(HttpServletRequest request, Integer id) throws IOException {
+		LOGGER.info("getArticle接口请求参数:id={}",id);
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
 			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
@@ -184,6 +193,7 @@ public class EnterpriseController {
 			Article result = portalEnterpriseFacade.getArticleById(id);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalEnterpriseFacade.getArticleById接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -202,6 +212,7 @@ public class EnterpriseController {
 	@ResponseBody
 	public CodeMsgBean<Object> queryListArticle(int pageNum, int numPerPage, HttpServletRequest request)
 			throws IOException {
+		LOGGER.info("queryListArticle接口请求参数:pageNum={},numPerPage={}",pageNum,numPerPage);
 		String enterpriseNo = getEnterpriseNo(request);
 		if (StringUtils.isEmpty(enterpriseNo)) {
 			// enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
@@ -216,6 +227,7 @@ public class EnterpriseController {
 			PageBean PageBean = portalEnterpriseFacade.listArticleListPage(pageParam, paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalEnterpriseFacade.listArticleListPage接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -231,6 +243,7 @@ public class EnterpriseController {
 	@RequestMapping(value = "/web/v1/enterprise/getMedicInfoByMedicNo", method = RequestMethod.POST)
 	@ResponseBody
 	public CodeMsgBean<MedicInfo> getMedicInfoByMedicNo(HttpServletRequest request, String medicNo) throws IOException {
+		LOGGER.info("getMedicInfoByMedicNo接口请求参数:medicNo={}",medicNo);
 		if (StringUtils.isEmpty(medicNo)) {
 			return new CodeMsgBean<MedicInfo>(10003, "参数异常");
 		}
@@ -243,6 +256,7 @@ public class EnterpriseController {
 			MedicInfo info = portalEnterpriseFacade.getMedicInfoByMedicNo(medicNo, enterpriseNo);
 			return new CodeMsgBean<MedicInfo>(1, "操作成功", info);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalEnterpriseFacade.getMedicInfoByMedicNo接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<MedicInfo>(e.getCode(), e.getMsg());
 		}
 
@@ -262,6 +276,7 @@ public class EnterpriseController {
 	@ResponseBody
 	public CodeMsgBean<Object> updateLoginPwd(String oldPassword, String newPassword, HttpServletRequest request)
 			throws IOException {
+		LOGGER.info("updateLoginPwd接口请求参数:oldPassword={},newPassword={}",oldPassword,newPassword);
 		if (StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -274,6 +289,7 @@ public class EnterpriseController {
 			long status = portalEnterpriseFacade.updateLoginPwd(enterpriseNo, oldPassword, newPassword);
 			return new CodeMsgBean<Object>(1, "操作成功", status);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalEnterpriseFacade.updateLoginPwd接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -292,6 +308,7 @@ public class EnterpriseController {
 	@ResponseBody
 	public CodeMsgBean<Object> dismissUser(String medicNo, String managerPwd, HttpServletRequest request)
 			throws IOException {
+		LOGGER.info("dismissUser接口请求参数:medicNo={},managerPwd={}",medicNo,managerPwd);
 		if (StringUtils.isEmpty(managerPwd) || StringUtils.isEmpty(medicNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -304,6 +321,7 @@ public class EnterpriseController {
 			long status = portalEnterpriseFacade.dismissMedic(medicNo, managerPwd, enterpriseNo);
 			return new CodeMsgBean<Object>(1, "操作成功", status);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalEnterpriseFacade.dismissMedic接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -335,6 +353,7 @@ public class EnterpriseController {
 			long status = portalEnterpriseFacade.boundMedic(realName, cardNo, managerPwd, enterpriseNo);
 			return new CodeMsgBean<Object>(1, "操作成功", status);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalEnterpriseFacade.boundMedic接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -354,6 +373,7 @@ public class EnterpriseController {
 	@ResponseBody
 	public CodeMsgBean<Object> findEnterpriseLoginPwd(String loginName, String newLoginPwd, String puk,
 			HttpServletRequest request) throws IOException {
+		LOGGER.info("findEnterpriseLoginPwd接口请求参数:loginName="+loginName+",newLoginPwd="+newLoginPwd+"puk="+puk);
 		if (StringUtils.isEmpty(loginName) || StringUtils.isEmpty(newLoginPwd) || StringUtils.isEmpty(puk)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -361,6 +381,7 @@ public class EnterpriseController {
 			long status = portalEnterpriseFacade.findLoginPwd(loginName, newLoginPwd, puk);
 			return new CodeMsgBean<Object>(1, "操作成功", status);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalEnterpriseFacade.findLoginPwd接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -394,6 +415,7 @@ public class EnterpriseController {
 			PageBean pageBean = portalEnterpriseFacade.listMedicListPage(pageParam, paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", pageBean);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalEnterpriseFacade.listMedicListPage接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 
@@ -416,6 +438,7 @@ public class EnterpriseController {
 			List<ScaleProducts> result = portalEnterpriseFacade.listAllScaleProducts();
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalEnterpriseFacade.listAllScaleProducts接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -431,6 +454,7 @@ public class EnterpriseController {
 			long status = portalEnterpriseFacade.findLoginPwd(loginName, newLoginPwd, puk);
 			return new CodeMsgBean<Object>(1, "操作成功", status);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalEnterpriseFacade.findLoginPwd接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -463,6 +487,7 @@ public class EnterpriseController {
 			long status = portalEnterpriseFacade.updateMedicLoginPwd(enterpriseNo, medicNo, newPassword, managerPwd);
 			return new CodeMsgBean<Object>(1, "操作成功", status);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalEnterpriseFacade.updateMedicLoginPwd接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}

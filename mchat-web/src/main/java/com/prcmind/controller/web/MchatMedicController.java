@@ -339,12 +339,12 @@ public class MchatMedicController {
 				String path = "";
 				if(result.getScore() != null){
 					if (result.getScore() <= 2) {
-						path = request.getSession().getServletContext().getRealPath("template\\A.pdf") ;
+						path = request.getSession().getServletContext().getRealPath("template/A.pdf") ;
 					} else if (result.getScore() >= 3 && result.getScore() <= 7) {
-						path = request.getSession().getServletContext().getRealPath("template\\B.pdf") ;
+						path = request.getSession().getServletContext().getRealPath("template/B.pdf") ;
 //						path ="E:\\downloads\\template\\B.pdf";
 					} else if (result.getScore() >= 8 && result.getScore() <= 20) {
-						path = request.getSession().getServletContext().getRealPath("template\\C.pdf") ;
+						path = request.getSession().getServletContext().getRealPath("template/C.pdf") ;
 //						path ="E:\\downloads\\template\\C.pdf";
 					}
 				}
@@ -561,10 +561,10 @@ public class MchatMedicController {
 				String path = "";
 				if(result.getScore() !=null){
 					if (result.getScore() < 2) {
-						path = request.getSession().getServletContext().getRealPath("template\\D.pdf") ;
+						path = request.getSession().getServletContext().getRealPath("template/D.pdf") ;
 //						path ="E:\\downloads\\template\\D.pdf";
 					} else if (result.getScore() >= 2) {
-						path = request.getSession().getServletContext().getRealPath("template\\E.pdf") ;
+						path = request.getSession().getServletContext().getRealPath("template/E.pdf") ;
 //						path ="E:\\downloads\\template\\E.pdf";
 					}
 				}

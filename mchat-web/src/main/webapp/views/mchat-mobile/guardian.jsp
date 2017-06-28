@@ -107,6 +107,34 @@
 	    .show-g {
 	    display: block !important;
 	}
+	
+	
+	
+	.m_top{
+		background-color:#38b4be;
+		text-align:center;
+		color:#fff;
+		font-size:16px;	
+	}
+	.m_top p{
+		padding:10px;
+	}
+	.m_top p:nth-child(2){
+		text-align:right;
+		position:absolute;
+		top:0px;
+		right:10px;
+	}
+	.m_content span{
+		line-height:150%;
+		padding:5px;
+	}
+	.m_bold{
+		color:#000; 
+		font-size:16px;
+	    font-weight:bold;
+	}
+	
 </style>
 
 
@@ -159,7 +187,7 @@
     </div>
 
 
-	<div>
+	<div class="mian_div">
 	<form action="" id="reportForm" accept-charset="UTF-8" method="post">
     <div id="m_guardian">
     <p class="m_faces"><img src="../images/faces.png" /></p>
@@ -569,7 +597,7 @@
 	        $(this).css({ background: "#0081d2" });
 	    })
 
-	    $(".m-s-s").on("touchstart", function () {
+	    $(".m-s-s").on("click", function () {
 	        $(".m-select-box").hide(); 
 	        $("body").css({ overflow: null }) 
 	        getBirthArray(); 
@@ -720,10 +748,13 @@ $(function () {
 	
     //使用说明
     $(".m_guardian_read").on('click',function(){
-    	var url = util.requestURL+"/mobile/html/instructions";
-    	window.location.href = url;
+    	$(".p_read").slideDown(500);
+		$(".mian_div").hide();
     })
-	
+	$(".close_top").click(function(){
+		$(".p_read").slideUp(500);
+		$(".mian_div").show();
+	});
 	
     //创建报告按钮绑定事件
     $("#createReportBtn").on('click',function(){
@@ -978,5 +1009,30 @@ $(function () {
 
 </script>
 
+
+
+<!--弹出层内容开始-->
+<div style=" position:absolute; display:none; top:0;z-index:999; background-color:#FFF; height:100%" class="p_read">
+    <div class="m_top">
+        <p>使用说明</p>
+        <p class="close_top">关闭</p>
+    </div>
+    
+    <div class="m_content">
+    
+    
+    <strong><span style="font-size:16px;">一、什么是MCHAT-R/F筛查量表？</span></strong><br />
+    <p>
+        <span style="color:#333333;font-size:16px;">&nbsp;&nbsp;&nbsp;&nbsp; MCHAT-R/F筛查量表始于2001年由美国研发，往后在2009年及2014年进行了多次改良，并于2017年引进到中国。MCHAT-R/F在2007年就被美国儿科学会推荐为适合在日常儿童保健中使用的量表之一。目前是在美国以及国际上最广泛用于筛查婴幼儿社会性心理行为发育的工具之一。在包括美国、英国、瑞典、日本、韩国在内的20多个国家或地区的临床和研究中被大量使用。填写测试问卷的时长为5-10分钟，主要针对16-30个月的婴幼儿进行的社会性心理行为发育的评估。良好的社会性是心理健康的标志之一，是人作为社会人所表现出来的属性，游戏技巧、分享、合作、社会交往等行为与婴幼儿社会性的发展息息相关。社会性发育落后可能表现为孤僻、不合群、言语发育迟缓、社交（沟通）障碍等。</span>
+    </p>
+    <p>
+        <br />
+    </p>
+    <strong><span style="font-size:16px;">MCHAT-R/F一共有两部分组成：</span></strong><br />
+    <span style="color:#333333;font-size:16px;">&nbsp;&nbsp;&nbsp;&nbsp;第一部分初筛问卷(MCHAT-R)，包含20个条目，每个条目只有"是"和"否"两个选 项，由主要照养人根据孩子的行为表现进行评定。</span><br />
+    <span style="color:#333333;font-size:16px;"> &nbsp;&nbsp;&nbsp;&nbsp;第二部分为后续访谈(MCHAT-R/F)，对于在初筛问卷结果为阳性的儿童，医护人员会与主要照养人进行一个结构性的访谈，目的是为了对初筛问卷中的部分条目进行确认。</span>
+    </div>
+</div>
+<!--弹出层内容结束-->
 </body>
 </html>
