@@ -1,5 +1,6 @@
 package com.prcmind.view;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.util.StringUtils;
@@ -7,7 +8,12 @@ import org.springframework.util.StringUtils;
 import com.prcmind.facade.scale.mchat.entity.MchatScore;
 import com.prcmind.utils.DateUtil;
 
-public class MchatScoreView {
+public class MchatScoreView  implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8839368155667868183L;
 
 	/**
 	 * 1：初筛，2：回访

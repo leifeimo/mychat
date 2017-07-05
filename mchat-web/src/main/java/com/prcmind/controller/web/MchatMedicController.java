@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -50,6 +52,7 @@ public class MchatMedicController {
 	PortalMchatMedicFacade portalMchatMedicFacade;
 	private static ResourceBundle resource = ResourceBundle.getBundle("mchat-config");
 	private static String OUT_PATH = resource.getString("out_path");
+	private static Logger LOGGER = LoggerFactory.getLogger(MchatMedicController.class);
 
 	/**
 	 * 施测者-全国查询
@@ -67,6 +70,7 @@ public class MchatMedicController {
 	@ResponseBody
 	public CodeMsgBean<Object> nationwideSearch(int pageNum, int numPerPage, String testeeName, String cardNo,
 			HttpServletRequest request) throws IOException {
+		LOGGER.info("nationwideSearch接口请求参数pageNum="+pageNum+",numPerPage="+numPerPage+",testeeName="+testeeName+",cardNo="+cardNo);
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
 			// medicNo = "937c2b21d3db406693c59a816614e26d";
@@ -83,6 +87,7 @@ public class MchatMedicController {
 			PageBean PageBean = portalMchatMedicFacade.listNationwideSearch(pageParam, paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
 		} catch (BizException e) {
+			LOGGER.info("portalMchatMedicFacade.listNationwideSearch接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -99,6 +104,7 @@ public class MchatMedicController {
 	@RequestMapping(value = "/web/v1/medicMchat/listMchatScoreUnique", method = RequestMethod.POST)
 	@ResponseBody
 	public CodeMsgBean<Object> listMchatScoreUnique(RecordReq req, HttpServletRequest request) throws IOException {
+		LOGGER.info("listMchatScoreUnique接口请求参数RecordReq="+req.toString());
 		if (req.getPageNum() == 0 || req.getNumPerPage() == 0) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -148,6 +154,7 @@ public class MchatMedicController {
 			PageBean PageBean = portalMchatMedicFacade.listMchatScoreUniqueListPage(pageParam, paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMchatMedicFacade.listMchatScoreUniqueListPage接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -164,6 +171,7 @@ public class MchatMedicController {
 	@RequestMapping(value = "/web/v1/medicMchat/listMchatScore", method = RequestMethod.POST)
 	@ResponseBody
 	public CodeMsgBean<Object> listMchatScore(RecordReq req, HttpServletRequest request) throws IOException {
+		LOGGER.info("listMchatScore接口请求参数RecordReq="+req.toString());
 		if (req.getPageNum() == 0 || req.getNumPerPage() == 0) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -249,6 +257,7 @@ public class MchatMedicController {
 			});
 			return new CodeMsgBean<Object>(1, "操作成功");
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMchatMedicFacade.deleteReportByMedicNoAndScoreNo接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -264,6 +273,7 @@ public class MchatMedicController {
 	@RequestMapping(value = "/web/v1/medicMchat/getMchatScoreByScoreNo", method = RequestMethod.POST)
 	@ResponseBody
 	public CodeMsgBean<Object> getMchatScoreByScoreNo(String scoreNo, HttpServletRequest request) throws IOException {
+		LOGGER.info("getMchatScoreByScoreNo接口请求参数scoreNo="+scoreNo);
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
 			// medicNo = "937c2b21d3db406693c59a816614e26d";
@@ -276,6 +286,7 @@ public class MchatMedicController {
 			MchatScore mchatScore = portalMchatMedicFacade.getMchatScoreByScoreNo(scoreNo);
 			return new CodeMsgBean<Object>(1, "操作成功", mchatScore);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMchatMedicFacade.getMchatScoreByScoreNo接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -293,6 +304,7 @@ public class MchatMedicController {
 	@ResponseBody
 	public CodeMsgBean<Object> getMchatQuestionnaireResponse(String scoreNo, HttpServletRequest request)
 			throws IOException {
+		LOGGER.info("getMchatQuestionnaireResponse接口请求参数scoreNo="+scoreNo);
 		if (StringUtils.isEmpty(scoreNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -305,6 +317,7 @@ public class MchatMedicController {
 			MchatQuestionnaireResponse result = portalMchatMedicFacade.getMchatQuestionnaireResponse(scoreNo, medicNo);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMchatMedicFacade.getMchatQuestionnaireResponse接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -322,6 +335,7 @@ public class MchatMedicController {
 	@ResponseBody
 	public CodeMsgBean<Object> downloadReport(String scoreNo, HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
+		LOGGER.info("downloadReport接口请求参数scoreNo="+scoreNo);
 		if (StringUtils.isEmpty(scoreNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -352,6 +366,7 @@ public class MchatMedicController {
 			}
 			return new CodeMsgBean<Object>(1, "操作成功",result);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMchatMedicFacade.downloadReport接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -423,7 +438,7 @@ public class MchatMedicController {
 	 * @return
 	 * @throws IOException
 	 */
-	@SuppressWarnings("static-access")
+	@SuppressWarnings({ "static-access"})
 	@RequestMapping(value = "/web/v1/medicMchat/verifyBasicInformation", method = RequestMethod.POST)
 	@ResponseBody
 	public CodeMsgBean<Object> verifyBasicInformation(MchatScoreView mchatScoreView, String birthDay, String testDay,
@@ -431,6 +446,7 @@ public class MchatMedicController {
 		if (mchatScoreView == null ) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
+		LOGGER.info("verifyBasicInformation接口请求参数MchatScoreView="+mchatScoreView.toString());
 		if(mchatScoreView.getBirthWeight()!=null&&!isNumeric(mchatScoreView.getBirthWeight())){
 			return new CodeMsgBean<Object>(10003, "体重填写必须为数字");
 		}
@@ -481,6 +497,7 @@ public class MchatMedicController {
 			boolean bl = portalMchatMedicFacade.verifyBasicInformation(mchatScore);
 			return new CodeMsgBean<Object>(1, "操作成功", bl);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMchatMedicFacade.verifyBasicInformation接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -513,6 +530,7 @@ public class MchatMedicController {
 	@ResponseBody
 	public CodeMsgBean<Object> getMchatQuestionnaireResponseRevisedFollow(String scoreNo, HttpServletRequest request)
 			throws IOException {
+		LOGGER.info("getMchatQuestionnaireResponseRevisedFollow接口请求参数scoreNo="+scoreNo);
 		if (StringUtils.isEmpty(scoreNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -526,6 +544,7 @@ public class MchatMedicController {
 					.getMchatQuestionnaireResponseRevisedFollow(scoreNo, medicNo);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMchatMedicFacade.getMchatQuestionnaireResponseRevisedFollow接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -543,6 +562,7 @@ public class MchatMedicController {
 	@ResponseBody
 	public CodeMsgBean<Object> downloadRevisedFollowReport(String scoreNo, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
+		LOGGER.info("downloadRevisedFollowReport接口请求参数scoreNo="+scoreNo);
 		if (StringUtils.isEmpty(scoreNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -573,6 +593,7 @@ public class MchatMedicController {
 			}
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMchatMedicFacade.downloadRevisedFollowReport接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -597,6 +618,7 @@ public class MchatMedicController {
 		if (mchatScoreview == null ) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
+		LOGGER.info("createMchatReport接口请求参数MchatScoreView="+mchatScoreview.toString()+",testDay="+testDay+"birthDay="+birthDay);
 		HttpSession session = request.getSession();
 		MedicInfo info = (MedicInfo) session.getAttribute(WebConstants.MEDIC_INFO);
 		String enterpriseNo = null;
@@ -618,6 +640,7 @@ public class MchatMedicController {
 					mchatQuestionnaireResponse);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMchatMedicFacade.createMchatScore接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 
@@ -636,6 +659,7 @@ public class MchatMedicController {
 	@ResponseBody
 	public CodeMsgBean<Object> listMchatScoreRevisedFollow(FollowReq req, HttpServletRequest request)
 			throws IOException {
+		LOGGER.info("listMchatScoreRevisedFollow接口请求参数FollowReq="+req.toString());
 		if (req.getPageNum() == 0 || req.getNumPerPage() == 0) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -662,6 +686,7 @@ public class MchatMedicController {
 			PageBean result = portalMchatMedicFacade.listMchatScoreRevisedFollowListPage(pageParam, paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMchatMedicFacade.listMchatScoreRevisedFollowListPage接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -680,6 +705,7 @@ public class MchatMedicController {
 	public CodeMsgBean<Object> createMchatRevisedFollowReport(String scoreNo,
 			MchatQuestionnaireResponseRevisedFollow mchatQuestionnaireResponseRevisedFollow, HttpServletRequest request)
 			throws IOException {
+		LOGGER.info("createMchatRevisedFollowReport接口请求参数scoreNo="+scoreNo);
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
 			// medicNo = "937c2b21d3db406693c59a816614e26d";
@@ -694,6 +720,7 @@ public class MchatMedicController {
 					mchatQuestionnaireResponseRevisedFollow);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMchatMedicFacade.createMchatScoreRevisedFollow接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -710,6 +737,7 @@ public class MchatMedicController {
 	@ResponseBody
 	public CodeMsgBean<Object> deleteRevisedFollowReportByScoreNo(String scoreNo, HttpServletRequest request)
 			throws IOException {
+		LOGGER.info("deleteRevisedFollowReportByScoreNo接口请求参数scoreNo="+scoreNo);
 		if (StringUtils.isEmpty(scoreNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -726,6 +754,7 @@ public class MchatMedicController {
 			long result = portalMchatMedicFacade.deleteRevisedFollowReportByMedicNoAndScoreNo(medicNo, scoreNo);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMchatMedicFacade.deleteRevisedFollowReportByMedicNoAndScoreNo接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -743,6 +772,7 @@ public class MchatMedicController {
 	@ResponseBody
 	public CodeMsgBean<Object> getMchatScoreRevisedFollowByScoreNo(String scoreNo, HttpServletRequest request)
 			throws IOException {
+		LOGGER.info("getMchatScoreRevisedFollowByScoreNo接口请求参数scoreNo="+scoreNo);
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
 			// medicNo = "937c2b21d3db406693c59a816614e26d";
@@ -755,6 +785,7 @@ public class MchatMedicController {
 			MchatScoreRevisedFollow result = portalMchatMedicFacade.getMchatScoreRevisedFollowByScoreNo(scoreNo);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMchatMedicFacade.getMchatScoreRevisedFollowByScoreNo接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}
@@ -772,6 +803,7 @@ public class MchatMedicController {
 	@ResponseBody
 	public CodeMsgBean<Object> listMchatScoreAndMchatScoreRevisedFollowListPage(RecordReq req,
 			HttpServletRequest request) throws IOException {
+		LOGGER.info("listMchatScoreAndMchatScoreRevisedFollowListPage接口请求参数RecordReq="+req.toString());
 		if (req.getPageNum() == 0 || req.getNumPerPage() == 0) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -824,6 +856,7 @@ public class MchatMedicController {
 					paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMchatMedicFacade.listMchatScoreAndMchatScoreRevisedFollowListPage接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 

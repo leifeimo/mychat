@@ -1,15 +1,15 @@
 package com.prcmind.view.req;
 
-public class RecordReq {
+import java.io.Serializable;
 
+public class RecordReq implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2585354007336563696L;
 	int pageNum;
 	int numPerPage;
-	public String getTestDate() {
-		return testDate;
-	}
-	public void setTestDate(String testDate) {
-		this.testDate = testDate;
-	}
 	String testeeName;
 	String reportNo;
 	String cardNo;
@@ -95,5 +95,19 @@ public class RecordReq {
 	public void setBirthToday(int birthToday) {
 		this.birthToday = birthToday;
 	}
+	public String getTestDate() {
+		return testDate;
+	}
+	public void setTestDate(String testDate) {
+		this.testDate = testDate;
+	}
+	@Override
+	public String toString() {
+		return "RecordReq [pageNum=" + pageNum + ", numPerPage=" + numPerPage + ", testeeName=" + testeeName
+				+ ", reportNo=" + reportNo + ", cardNo=" + cardNo + ", birthYear=" + birthYear + ", birthMonth="
+				+ birthMonth + ", birthToday=" + birthToday + ", deleted=" + deleted + ", birth=" + birth
+				+ ", parentNo=" + parentNo + ", medicName=" + medicName + ", testDate=" + testDate + "]";
+	}
+	
 	
 }

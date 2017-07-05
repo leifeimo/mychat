@@ -3,7 +3,6 @@ package com.prcmind.controller.web;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,8 +42,6 @@ public class EnterpriseController {
 	@Autowired
 	PortalEnterpriseFacade portalEnterpriseFacade;
 
-	public static Map<String, EnterpriseInfo> enterpriseInfoMaps = new HashMap<String, EnterpriseInfo>();
-	public static Map<String, EnterpriseOperator> enterpriseOperatorMaps = new HashMap<String, EnterpriseOperator>();
 	private static Logger LOGGER = LoggerFactory.getLogger(EnterpriseController.class);
 	/**
 	 * 根据登陆名查找企业用户 (适用于登陆系统)
@@ -73,7 +70,6 @@ public class EnterpriseController {
 			EnterpriseInfo info = portalEnterpriseFacade.getEnterpriseInfoByEnterpriseNo(eo.getEnterpriseNo());
 			if (info != null) {
 				session.setAttribute(WebConstants.ENTERPRISE_INFO, info);
-				enterpriseInfoMaps.put(info.getLoginName(), info);
 			}
 			return new CodeMsgBean<Object>(1, "操作成功", eo);
 		} catch (PortalBizException e) {
@@ -102,7 +98,6 @@ public class EnterpriseController {
 			EnterpriseInfo info = portalEnterpriseFacade.getEnterpriseInfoByEnterpriseNo(enterpriseNo);
 			if (info != null) {
 				request.getSession().setAttribute(WebConstants.ENTERPRISE_INFO, info);
-				enterpriseInfoMaps.put(info.getLoginName(), info);
 			}
 			return new CodeMsgBean<Object>(1, "操作成功", info);
 		} catch (PortalBizException e) {
@@ -529,6 +524,7 @@ public class EnterpriseController {
 			EnterpriseOperator info = portalEnterpriseFacade.getEnterpriseOperatorByEnterpriseNo(enterpriseNo);
 			return new CodeMsgBean<Object>(1, "操作成功", info);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalEnterpriseFacade.getEnterpriseOperatorByEnterpriseNo接口报错信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 	}

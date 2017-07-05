@@ -7,11 +7,11 @@
         http://code.alibabatech.com/schema/dubbo  
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">       
 
-	<dubbo:reference  timeout="30000" url="dubbo://192.168.3.72:20828" interface="com.prcmind.facade.portal.service.PortalEnterpriseFacade" id="portalEnterpriseFacade" />
-	<dubbo:reference  timeout="30000" url="dubbo://192.168.3.72:20828" interface="com.prcmind.facade.portal.service.PortalMedicFacade" id="portalMedicFacade" />
+	<dubbo:reference  timeout="30000" url="dubbo://14.123.236.176:20828" interface="com.prcmind.facade.portal.service.PortalEnterpriseFacade" id="portalEnterpriseFacade" />
+	<dubbo:reference  timeout="30000" url="dubbo://14.123.236.176:20828" interface="com.prcmind.facade.portal.service.PortalMedicFacade" id="portalMedicFacade" />
 	
-	<dubbo:reference  timeout="30000" url="dubbo://192.168.3.72:20828" interface="com.prcmind.facade.portal.mchat.service.PortalMchatEnterpriseFacade" id="portalMchatEnterpriseFacade" />
-	<dubbo:reference  timeout="30000" url="dubbo://192.168.3.72:20828" interface="com.prcmind.facade.portal.mchat.service.PortalMchatMedicFacade" id="portalMchatMedicFacade" />
-	<dubbo:reference  timeout="30000" url="dubbo://192.168.3.72:20828" interface="com.prcmind.facade.portal.mchat.service.PortalMchatTesteeFacade" id="portalMchatTesteeFacade" />
+	<dubbo:reference  timeout="30000" url="dubbo://14.123.236.176:20828" interface="com.prcmind.facade.portal.mchat.service.PortalMchatEnterpriseFacade" id="portalMchatEnterpriseFacade" />
+	<dubbo:reference  timeout="30000" url="dubbo://14.123.236.176:20828" interface="com.prcmind.facade.portal.mchat.service.PortalMchatMedicFacade" id="portalMchatMedicFacade" />
+	<dubbo:reference  timeout="30000" url="dubbo://14.123.236.176:20828" interface="com.prcmind.facade.portal.mchat.service.PortalMchatTesteeFacade" id="portalMchatTesteeFacade" />
 	
 </beans>  

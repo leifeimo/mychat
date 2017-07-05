@@ -1,6 +1,13 @@
 package com.prcmind.view.req;
 
-public class FollowReq {
+import java.io.Serializable;
+
+public class FollowReq implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7897148489665050954L;
 	int pageNum;
 	int numPerPage;
 	String testeeName;
@@ -10,6 +17,7 @@ public class FollowReq {
 	String parentNo;
 	int deleted;
 	String birth;
+	
 	public String getBirth() {
 		return birth;
 	}
@@ -89,6 +97,13 @@ public class FollowReq {
 
 	public void setDeleted(int deleted) {
 		this.deleted = deleted;
+	}
+
+	@Override
+	public String toString() {
+		return "FollowReq [pageNum=" + pageNum + ", numPerPage=" + numPerPage + ", testeeName=" + testeeName
+				+ ", reportNo=" + reportNo + ", testeeNo=" + testeeNo + ", scoreNo=" + scoreNo + ", parentNo="
+				+ parentNo + ", deleted=" + deleted + ", birth=" + birth + ", testDate=" + testDate + "]";
 	}
 
 }

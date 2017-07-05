@@ -3,12 +3,13 @@ package com.prcmind.controller.web;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -38,9 +39,7 @@ import com.prcmind.utils.WebConstants;
 public class MedicController {
 	@Autowired
 	PortalMedicFacade portalMedicFacade;
-	public static Map<String, MedicInfo> medicInfoMaps = new HashMap<String, MedicInfo>();
-	public static Map<String, MedicOperator> medicOperatorMaps = new HashMap<String, MedicOperator>();
-
+	private static Logger LOGGER = LoggerFactory.getLogger(MedicController.class);
 	/**
 	 * 登录获取施测者信息
 	 * 
@@ -56,6 +55,7 @@ public class MedicController {
 	@ResponseBody
 	public CodeMsgBean<MedicOperator> login(String username, String password, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
+		LOGGER.info("施测者登录接口请求参数:username="+username+",password="+password);
 		if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
 			return new CodeMsgBean<MedicOperator>(10003, "参数异常");
 		}
@@ -65,11 +65,9 @@ public class MedicController {
 				HttpSession session = request.getSession();
 				session.setAttribute(WebConstants.CURRENT_USER, mo);
 				session.setMaxInactiveInterval(60*60);
-				medicOperatorMaps.put(mo.getLoginName(), mo);
 				MedicInfo info = portalMedicFacade.getMedicInfoByMedicNo(mo.getMedicNo());
 				if (info != null) {
 					request.getSession().setAttribute(WebConstants.MEDIC_INFO, info);
-					medicInfoMaps.put(info.getLoginName(), info);
 				}
 			}
 			return new CodeMsgBean<MedicOperator>(1, "操作成功", mo);
@@ -99,10 +97,10 @@ public class MedicController {
 			MedicInfo info = portalMedicFacade.getMedicInfoByMedicNo(medicNo);
 			if (info != null) {
 				request.getSession().setAttribute(WebConstants.MEDIC_INFO, info);
-				medicInfoMaps.put(info.getLoginName(), info);
 			}
 			return new CodeMsgBean<MedicInfo>(1, "操作成功", info);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMedicFacade.getMedicInfoByMedicNo接口错误信息:"+e.getMsg());
 			return new CodeMsgBean<MedicInfo>(e.getCode(), e.getMsg());
 		}
 	}
@@ -122,6 +120,7 @@ public class MedicController {
 	@ResponseBody
 	public CodeMsgBean<Object> updateLoginPwd(String oldPassword, String newPassword, HttpServletRequest request)
 			throws IOException {
+		LOGGER.info("updateLoginPwd接口请求参数:oldPassword="+oldPassword+",newPassword="+newPassword);
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
 			// medicNo = "937c2b21d3db406693c59a816614e26d";
@@ -131,6 +130,7 @@ public class MedicController {
 			long status = portalMedicFacade.updateLoginPwd(medicNo, oldPassword, newPassword);
 			return new CodeMsgBean<Object>(1, "操作成功", status);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMedicFacade.updateLoginPwd接口错误信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 
@@ -151,7 +151,7 @@ public class MedicController {
 	@ResponseBody
 	public CodeMsgBean<Object> findMedicLoginPwd(String loginName, String realName, String cardNo,
 			HttpServletRequest request) throws IOException {
-		
+		LOGGER.info("findMedicLoginPwd接口请求参数:loginName="+loginName+",realName="+realName+",cardNo="+cardNo);
 		if (StringUtils.isEmpty(loginName) || StringUtils.isEmpty(realName) || StringUtils.isEmpty(cardNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -159,6 +159,7 @@ public class MedicController {
 			portalMedicFacade.findLoginPwd(loginName, realName, cardNo);
 			return new CodeMsgBean<Object>(1, "操作成功");
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMedicFacade.findLoginPwd接口错误信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 
@@ -194,6 +195,7 @@ public class MedicController {
 					medicNo);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMedicFacade.listMedicScaleDosageByEnterpriseNoAndMedicNo接口错误信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 
@@ -214,6 +216,7 @@ public class MedicController {
 	@ResponseBody
 	public CodeMsgBean<Object> getMedicScaleDosageByScaleNo(HttpServletRequest request, String scaleNo)
 			throws IOException {
+		LOGGER.info("getMedicScaleDosageByScaleNo接口请求参数:scaleNo="+scaleNo);
 		if (StringUtils.isEmpty(scaleNo)) {
 			return new CodeMsgBean<Object>(10003, "参数异常");
 		}
@@ -234,6 +237,7 @@ public class MedicController {
 					medicNo, scaleNo);
 			return new CodeMsgBean<Object>(1, "操作成功", medicScaleDosage);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMedicFacade.getMedicScaleDosageByMedicNoAndScaleNo接口错误信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 
@@ -251,6 +255,7 @@ public class MedicController {
 	@RequestMapping(value = "/web/v1/medic/listArticle", method = RequestMethod.POST)
 	@ResponseBody
 	public CodeMsgBean<Object> listArticle(HttpServletRequest request, int pageNum, int numPerPage) throws IOException {
+		LOGGER.info("listArticle接口请求参数:pageNum="+pageNum+",numPerPage="+numPerPage);
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
 			// medicNo = "937c2b21d3db406693c59a816614e26d";
@@ -265,6 +270,7 @@ public class MedicController {
 			PageBean PageBean = portalMedicFacade.listArticleListPage(pageParam, paramMap);
 			return new CodeMsgBean<Object>(1, "操作成功", PageBean);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMedicFacade.listArticleListPage接口错误信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 
@@ -282,6 +288,7 @@ public class MedicController {
 	@RequestMapping(value = "/web/v1/medic/getArticle", method = RequestMethod.GET)
 	@ResponseBody
 	public CodeMsgBean<Object> getArticle(HttpServletRequest request, Integer id) throws IOException {
+		LOGGER.info("getArticle接口请求参数:id="+id);
 		String medicNo = getMedicNo(request);
 		if (StringUtils.isEmpty(medicNo)) {
 			// medicNo = "937c2b21d3db406693c59a816614e26d";
@@ -294,6 +301,7 @@ public class MedicController {
 			Article article = portalMedicFacade.getArticleById(id);
 			return new CodeMsgBean<Object>(1, "操作成功", article);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMedicFacade.getArticle接口错误信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 
@@ -319,6 +327,7 @@ public class MedicController {
 			List<Certificate> result = portalMedicFacade.listCertificateByMedicNo(medicNo);
 			return new CodeMsgBean<Object>(1, "操作成功", result);
 		} catch (PortalBizException e) {
+			LOGGER.info("portalMedicFacade.listCertificateByMedicNo接口错误信息:"+e.getMsg());
 			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
 		}
 
