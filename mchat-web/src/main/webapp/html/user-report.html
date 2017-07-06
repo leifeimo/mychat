@@ -613,9 +613,9 @@
               if(data.motherCareerCategory && data.motherCareer){
                 $("#motherCareerCategory").text(jobData['Career'+data.motherCareerCategory][data.motherCareer]);
               }
-
               $("#fatherBirthDay").text(util.getTimeFromNum(data.fatherBirthday));
               $("#motherBirthDay").text(util.getTimeFromNum(data.motherBirthday));
+              
               $("#maritalStatus").text(['未选择','未婚','已婚','离异'][data.maritalStatus]);
 
               if(data.births){

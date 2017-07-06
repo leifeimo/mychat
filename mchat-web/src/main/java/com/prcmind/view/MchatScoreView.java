@@ -529,11 +529,11 @@ public class MchatScoreView  implements Serializable{
 			}
 			
 			mchatScore.setFather(mchatScoreView.getFather());
-			if(mchatScoreView.getMotherYear()!=null && mchatScoreView.getMotherMonth()!=null && mchatScoreView.getMotherDay()!=null){
+			if(!StringUtils.isEmpty(mchatScoreView.getMotherYear()) && !StringUtils.isEmpty(mchatScoreView.getMotherMonth()) && !StringUtils.isEmpty(mchatScoreView.getMotherDay())){
 				String motherBirthday = mchatScoreView.getMotherYear()+"-"+mchatScoreView.getMotherMonth()+"-"+mchatScoreView.getMotherDay();
 				mchatScore.setMotherBirthday(DateUtil.StrToDate(motherBirthday, "yyyy-MM-dd"));
 			}
-			if(mchatScoreView.getFatherYear()!=null && mchatScoreView.getFatherMonth()!=null && mchatScoreView.getFatherDay()!=null){
+			if(!StringUtils.isEmpty(mchatScoreView.getFatherYear()) && !StringUtils.isEmpty(mchatScoreView.getFatherMonth()) && !StringUtils.isEmpty(mchatScoreView.getFatherDay())){
 				String fatherBirthday = mchatScoreView.getFatherYear()+"-"+mchatScoreView.getFatherMonth()+"-"+mchatScoreView.getFatherDay();
 				mchatScore.setFatherBirthday(DateUtil.StrToDate(fatherBirthday, "yyyy-MM-dd"));
 			}
@@ -548,7 +548,7 @@ public class MchatScoreView  implements Serializable{
 			mchatScore.setMedicName(mchatScoreView.getMedicName());
 			mchatScore.setMother(mchatScoreView.getMother());
 			mchatScore.setMedicNo(mchatScoreView.getMedicNo());
-			if(mchatScoreView.getMotherBirthday()!=null && mchatScoreView.getMotherBirthday().length() >1){
+			if(!StringUtils.isEmpty(mchatScoreView.getMotherBirthday()) && mchatScoreView.getMotherBirthday().length() >1){
 				mchatScore.setMotherBirthday(DateUtil.StrToDate(mchatScoreView.getMotherBirthday(), "yyyy-MM-dd"));
 			}
 			mchatScore.setMotherCareerCategory(mchatScoreView.getMotherCareerCategory());
@@ -575,6 +575,28 @@ public class MchatScoreView  implements Serializable{
 			return mchatScore;
 		}
 		return null;
+	}
+	@Override
+	public String toString() {
+		return "MchatScoreView [level=" + level + ", scoreNo=" + scoreNo + ", rfScoreNo=" + rfScoreNo + ", testeeNo="
+				+ testeeNo + ", reportNo=" + reportNo + ", cardNo=" + cardNo + ", cardType=" + cardType
+				+ ", testeeName=" + testeeName + ", sex=" + sex + ", birthYear=" + birthYear + ", birthMonth="
+				+ birthMonth + ", birthToday=" + birthToday + ", testYear=" + testYear + ", testMonth=" + testMonth
+				+ ", testToday=" + testToday + ", lifeMonth=" + lifeMonth + ", lifeDay=" + lifeDay + ", births="
+				+ births + ", birthWeight=" + birthWeight + ", gestationalWeeks=" + gestationalWeeks
+				+ ", gestationalDays=" + gestationalDays + ", father=" + father + ", mother=" + mother
+				+ ", motherCareer=" + motherCareer + ", fatherCareer=" + fatherCareer + ", motherCareerCategory="
+				+ motherCareerCategory + ", fatherCareerCategory=" + fatherCareerCategory + ", fatherBirthday="
+				+ fatherBirthday + ", motherBirthday=" + motherBirthday + ", motherCultureDegree=" + motherCultureDegree
+				+ ", fatherCultureDegree=" + fatherCultureDegree + ", patronnInfo=" + patronnInfo + ", maritalStatus="
+				+ maritalStatus + ", nation=" + nation + ", address=" + address + ", province=" + province + ", city="
+				+ city + ", town=" + town + ", tel=" + tel + ", email=" + email + ", caregiversCultureDegree="
+				+ caregiversCultureDegree + ", medicName=" + medicName + ", medicNo=" + medicNo + ", enterpriseNo="
+				+ enterpriseNo + ", enterpriseName=" + enterpriseName + ", remark=" + remark + ", score=" + score
+				+ ", reportPath=" + reportPath + ", ip=" + ip + ", ipLocation=" + ipLocation + ", consignorType="
+				+ consignorType + ", consignorName=" + consignorName + ", motherYear=" + motherYear + ", motherMonth="
+				+ motherMonth + ", motherDay=" + motherDay + ", fatherYear=" + fatherYear + ", fatherMonth="
+				+ fatherMonth + ", fatherDay=" + fatherDay + ", zip=" + zip + ", abnormalities=" + abnormalities + "]";
 	}
 	
 	
