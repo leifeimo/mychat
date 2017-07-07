@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes" /> 
 <title>问卷调查</title>
 <script type="text/javascript" src="../../mobile/js/zepto.min.js"></script>
 <script type="text/javascript" src="../../mobile/js/mdialog.js"></script>
@@ -142,7 +142,7 @@
 		
 	    <div class="m_mid">
 	        <div class="m_question">
-	            <p id="question">1、如果你指向房间内的某样物体，你的孩子会看它吗？（例如，你指着一个玩具或动物，你的孩子会看这个玩具或动物吗？）</p>
+	            <p id="question">1、如果您指向房间内的某样物体，您的孩子会看它吗？（例如，您指着一个玩具或动物，你的孩子会看这个玩具或动物吗？）</p>
 	        </div>
 	        
 	        
