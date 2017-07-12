@@ -1,7 +1,12 @@
 
 <style>
          .r_form select::-ms-expand { display: none; }          
- select::-ms-expand { display: none; }    
+ select::-ms-expand { display: none; }   
+ #yes,#no{
+    width:20px;
+    height:20px;
+    vertical-align: -5px;
+  } 
 </style>
 
         <div class="r_content">
@@ -760,7 +765,6 @@
     });
 
     
-    
     function showQuestion(){
       var height = parseInt(window.innerHeight);
       height = height > 835 ? 'auto' : height+'px';
@@ -833,9 +837,9 @@
                 $con.eq(index).fadeIn().siblings('div').fadeOut();
                 $tab.find('li').eq(index).addClass('active').siblings('li').removeClass('active');
                 $choose.find('input').prop('checked',false);
-                if(answer.hasOwnProperty(index+1)){
-                    answer[index+1] == 1 ? $yes.prop('checked','checked') :  $no.prop('checked','checked') ;
-                }
+                if(answer.hasOwnProperty('topic_'+(index+1))){
+                        answer['topic_'+(index+1)] == 'Y' ? $yes.prop('checked','checked') :  $no.prop('checked','checked') ;
+                    }
                 if(index == 19){
                   $next.text("完成");
                 }else{

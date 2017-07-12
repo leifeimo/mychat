@@ -530,7 +530,31 @@ public class EnterpriseController {
 	}
 
 	
-	
+	/**
+	 * 获取Mchat量表使用量和剩余量
+	 * 
+	 * @author leichang
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/web/v1/enterprise/getEnterpriseScaleDosage", method = RequestMethod.GET)
+	@ResponseBody
+	public CodeMsgBean<Object> getEnterpriseScaleDosage(HttpServletRequest request) throws IOException {
+		String enterpriseNo = getEnterpriseNo(request);
+		if (StringUtils.isEmpty(enterpriseNo)) {
+//			//enterpriseNo = "20252a32e38c44f9ac02ca623f4ee503";
+			 return new CodeMsgBean<Object>(10002,"登录失效，请重新登录");
+		}
+		try {
+			//只取MCHAT用表数量,1期先写死
+			EnterpriseScaleDosage result = portalEnterpriseFacade.getEnterpriseScaleDosage(enterpriseNo, "SCALENO001");
+			return new CodeMsgBean<Object>(1, "操作成功", result);
+		} catch (PortalBizException e) {
+			LOGGER.info("portalEnterpriseFacade.getEnterpriseScaleDosage接口报错信息:"+e.getMsg());
+			return new CodeMsgBean<Object>(e.getCode(), e.getMsg());
+		}
+	}
 	
 	
 	/**

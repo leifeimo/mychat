@@ -386,6 +386,7 @@ public class MchatMedicController {
 			content.put("createTime", createTime);
 			content.put("score", result.getScore() + "");
 			String reportNo="报告编号"+"  "+result.getReportNo();
+//			String reportNo="报告编号"+"  MCHAT0021701ITOSS";
 			content.put("reportNo",reportNo);
 		} else {
 			String createTime = DateUtil.DateToStr(mchatScoreRevisedFollow.getCreateTime(), "yyyy-MM-dd");

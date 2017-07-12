@@ -85,7 +85,7 @@
     <td>{{$value.reportNo}}</td>
     <td>{{$value.testeeName}}</td>
     <td>
-        {{$value.downloadCount}}
+        {{$value.downloadCount == '0' ? '请先下载' : $value.score}}
     </td>
     <td>
       {{if $value.mchatScoreRevisedFollow.length != 0}}
@@ -922,8 +922,8 @@ function createReport(n,scoreNo){
                     $con.eq(index).fadeIn().siblings('div').fadeOut();
                     $tab.find('li').eq(index).addClass('active').siblings('li').removeClass('active');
                     $choose.find('input').prop('checked',false);
-                    if(answer.hasOwnProperty(index+1)){
-                        answer[index+1] == 1 ? $yes.prop('checked','checked') :  $no.prop('checked','checked') ;
+                    if(answer.hasOwnProperty('topic_'+(index+1))){
+                        answer['topic_'+(index+1)] == 'Y' ? $yes.prop('checked','checked') :  $no.prop('checked','checked') ;
                     }
                     if(index == 19){
                       $next.text("完成");
