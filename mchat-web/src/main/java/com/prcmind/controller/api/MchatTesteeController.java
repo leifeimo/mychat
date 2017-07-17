@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -20,9 +22,11 @@ import com.prcmind.common.page.PageBean;
 import com.prcmind.facade.portal.exception.PortalBizException;
 import com.prcmind.facade.portal.mchat.service.PortalMchatMedicFacade;
 import com.prcmind.facade.portal.mchat.service.PortalMchatTesteeFacade;
+import com.prcmind.facade.portal.service.PortalMedicFacade;
 import com.prcmind.facade.scale.mchat.entity.MchatQuestionnaire;
 import com.prcmind.facade.scale.mchat.entity.MchatQuestionnaireResponse;
 import com.prcmind.facade.scale.mchat.entity.MchatScore;
+import com.prcmind.facade.user.entity.MedicInfo;
 import com.prcmind.utils.CodeMsgBean;
 import com.prcmind.view.MchatScoreView;
 
@@ -33,7 +37,9 @@ public class MchatTesteeController {
 	PortalMchatTesteeFacade portalMchatTesteeFacade;
 	@Autowired
 	PortalMchatMedicFacade portalMchatMedicFacade;
-
+	@Autowired
+	PortalMedicFacade portalMedicFacade;
+	private static Logger LOGGER = LoggerFactory.getLogger(MchatTesteeController.class);
 	/**
 	 * 创建R报告
 	 * 
@@ -193,6 +199,31 @@ public class MchatTesteeController {
 		return birthMap;
 	}
 
+	
+	/**
+	 * 根据用户编号获取施测者详细信息
+	 * 
+	 * @author leichang
+	 * @param request
+	 * @param medicNo
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/api/v1/medic/getMedicInfo", method = RequestMethod.GET)
+	@ResponseBody
+	public CodeMsgBean<MedicInfo> getMedicInfo(String medicNo) throws IOException {
+		if (StringUtils.isEmpty(medicNo)) {
+			 return new CodeMsgBean<MedicInfo>(10002,"参数异常");
+		}
+		try {
+			MedicInfo info = portalMedicFacade.getMedicInfoByMedicNo(medicNo);
+			return new CodeMsgBean<MedicInfo>(1, "操作成功", info);
+		} catch (PortalBizException e) {
+			LOGGER.info("portalMedicFacade.getMedicInfoByMedicNo接口错误信息:"+e.getMsg());
+			return new CodeMsgBean<MedicInfo>(e.getCode(), e.getMsg());
+		}
+	}
+	
 	/**
 	 * 校验是否为数字
 	 * 
