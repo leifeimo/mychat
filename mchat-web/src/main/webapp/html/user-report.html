@@ -91,7 +91,7 @@
       {{if $value.mchatScoreRevisedFollow.length != 0}}
         <a data-index="{{$index}}" data-parentNo="{{$value.scoreNo}}" class="table-btn blue ac-cz" href="javascript:;">操作</a>
       {{else}}
-        <a data-index="{{$index}}" data-scoreNo="{{$value.scoreNo}}" class="table-btn ac-create" href="javascript:;">创建</a>
+        <a data-index="{{$index}}" data-scoreNo="{{$value.scoreNo}}" data-down="{{$value.downloadCount}}" class="table-btn ac-create" href="javascript:;">创建</a>
       {{/if}}
     </td>
     <td>{{$imports.getTimeFromNum($value.createTime,1)}}</td>
@@ -708,8 +708,14 @@
 
     $("body").delegate('.ac-create','click',function(){
       var n = $(this).attr('data-index');
+      var d = $(this).attr('data-down');
       var scoreNo = $(this).attr("data-scoreNo");
-      createReport(n,scoreNo);
+      if(d == 0){
+        layer.msg("未下载报告,不能创建MCHAT-R/F报告");
+      }else{
+        createReport(n,scoreNo);
+      }
+      
       
     });
 

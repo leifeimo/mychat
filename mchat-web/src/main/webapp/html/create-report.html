@@ -174,7 +174,7 @@
                     <div>&nbsp;</div>
                     <div>
                         <input type="button" id="sure" style="float:left;" class="r_form_s r_form_submit" value="确认" />
-                        <input type="button" style="float:left;" class="r_form_s r_form_reset" value="取消" /> 
+                        <input type="button" id="clean-btn" style="float:left;" class="r_form_s r_form_reset" value="清空" /> 
                     </div>
                 </div>
  
@@ -865,6 +865,14 @@
         $("#yc-box").hide();
       }
     })
+
+    $("body").delegate('#clean-btn', 'click', function(event) {
+      //alert()
+      $("input[type=text]").val('');
+      $("#birthsInput").text("");
+      obj1 = {};
+      obj2 = {};
+    });
 
   });
 </script>
