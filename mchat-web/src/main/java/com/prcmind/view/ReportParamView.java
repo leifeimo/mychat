@@ -903,7 +903,8 @@ public class ReportParamView implements Serializable {
 					if (valueStr.equals("1")) {
 						isShow = false;
 					}
-				} else {
+				} 
+				else {
 					String name = fieldName.replace("Hide", "").trim();
 					if (map.size() > 1) {
 						if (!map.containsKey(name)) {

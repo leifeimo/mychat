@@ -1,8 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ include file="/public/include.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+":"+"//"+request.getServerName()+":"+request.getServerPort()+path;
+if(request.getServerPort()==80){
+	basePath = request.getScheme()+":"+"//"+request.getServerName()+path;
+}
+%>
+
+<c:set var="ctx" value="<%=basePath %>" />
+
+<script type="text/javascript">
+	var ctx = "${ctx}";
+</script>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
@@ -195,7 +208,7 @@
     <p class="m_guardian_read"><span>使用说明</span></p>
     </div>
     
-    <div id="m_test_name" class="m_list_1 b_solid ${empty report.enterpriseNo ? 'divhide' : ''}">
+    <div id="m_test_name" class="m_list_1 b_solid">
     <p>施测者：<span id="medicName">${report.medicName}</span>
     	<input type="hidden" name="scaleNo" value="${report.scaleNo}">
     	<input type="hidden" name="enterpriseNo" value="${report.enterpriseNo}">
@@ -901,11 +914,11 @@ $(function () {
     	console.log(obj1);
     	$.ajax({
         	type : "POST",
-        	url : util.requestURL+"/api/v1/medicMchat/verifyBasicInformation",
+        	url : ctx+"/api/v1/medicMchat/verifyBasicInformation",
         	data : obj1,
         	success : function(data){
         		if(data.code=='1'){
-        			$("#reportForm").attr("action",util.requestURL+"/mobile/html/question");
+        			$("#reportForm").attr("action",ctx+"/mobile/html/question");
                     $("#reportForm").submit();
         		}else{
         			new TipBox({
@@ -920,11 +933,13 @@ $(function () {
     	
     })
     
+    //有传enterNo和scaleNo，去接口拿医生列表
+    
+    
     //施测者列表初始化,没传值，才去接口获取
-    var medicName = '${report.medicName}';
-    if(medicName==''){
+    if(enterNo!=''&&scaleNo!=''){
     	$.ajax({
-        	url: util.requestURL+'/api/v1/medicMchat/listMedic',
+        	url: ctx+'/api/v1/medicMchat/listMedic',
         	data:{"enterpriseNo":enterNo,"scaleNo":scaleNo},
             type: 'POST',
             success: function(data){
@@ -947,21 +962,38 @@ $(function () {
               }
             }
         });
+    	
+    	$("#changeTestName").on('change',function(){
+    		var medicNo = $(this).children('option:selected').val(); 
+    		var medicName = $(this).children('option:selected').html();
+    		//var enterpriseNo = $(this).children('option:selected').attr('enterpriseNo');
+    		if(medicNo!=''){
+    			$("#medicName").html(medicName);
+    	      	$("#m_test_name input[name='medicNo']").val(medicNo);
+    	      	$("#m_test_name input[name='medicName']").val(medicName);
+    	      	//$("#m_test_name input[name='enterpriseNo']").val(enterpriseNo);
+    		}
+    		
+    	})
     }
     
+  	//只有medicNo  直接查医生名称显示
+  	var medicNo = '${report.medicNo}';
+    if(medicNo!=''){
+    	$.ajax({
+    		url: ctx+'/api/v1/medic/getMedicInfo',
+    		data:{"medicNo":medicNo},
+            type: 'GET',
+            success : function(data){
+            	$("#m_test_name input[name='medicNo']").val(data.data.medicNo);
+    	      	$("#m_test_name input[name='medicName']").val(data.data.realName);
+    	      	$("#m_test_name input[name='enterpriseNo']").val(data.data.enterpriseNo);
+    	      	$("#medicName").html(data.data.realName);
+    	      	$("#changeTestName").hide();
+            }
+    	})
+    }
 	
-	$("#changeTestName").on('change',function(){
-		var medicNo = $(this).children('option:selected').val(); 
-		var medicName = $(this).children('option:selected').html();
-		//var enterpriseNo = $(this).children('option:selected').attr('enterpriseNo');
-		if(medicNo!=''){
-			$("#medicName").html(medicName);
-	      	$("#m_test_name input[name='medicNo']").val(medicNo);
-	      	$("#m_test_name input[name='medicName']").val(medicName);
-	      	//$("#m_test_name input[name='enterpriseNo']").val(enterpriseNo);
-		}
-		
-	})
     
 });
 	
@@ -973,7 +1005,7 @@ $(function () {
 	function getTestName(){
 		
 		$.ajax({
-	    	url: util.requestURL+'/api/v1/medicMchat/listMedic',
+	    	url: ctx+'/api/v1/medicMchat/listMedic',
 	    	data:{"enterpriseNo":enterNo,"scaleNo":scaleNo},
 	        type: 'POST',
 	        success: function(data){

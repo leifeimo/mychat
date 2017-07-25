@@ -1,7 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ include file="/public/include.jsp"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+":"+"//"+request.getServerName()+":"+request.getServerPort()+path;
+if(request.getServerPort()==80){
+	basePath = request.getScheme()+":"+"//"+request.getServerName()+path;
+}
+%>
+
+<c:set var="ctx" value="<%=basePath %>" />
+
+<script type="text/javascript">
+	var ctx = "${ctx}";
+</script>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -373,19 +385,12 @@
                 }
                 console.log(obj1);
                 $.ajax({
-                	url : util.requestURL+'/api/v1/medicMchat/createMchatReport',
+                	url : ctx+'/api/v1/medicMchat/createMchatReport',
                 	data : obj1,
                 	type : 'POST',
                 	success : function(msg){
                 		if(msg!=null&&msg.code==1){
-                			new TipBox({
-                				type:"success",
-                				str:"提交成功，如需修改请重新填写并提交问卷",
-                				hasBtn:true
-                			});
-                			setTimeout(function(){
-                    			window.location.href =  util.requestURL+"/mobile/html/report";
-                    		}, 3000);
+                			window.location.href =  ctx+"/mobile/html/success.html";
                 		}else{
                 			new TipBox({
                 				type:"error",
@@ -454,7 +459,7 @@
 	
 	//返回信息页面
 	function backToReport(){
-		$("#reportForm").attr("action",util.requestURL+'/mobile/html/report');
+		$("#reportForm").attr("action",ctx+'/mobile/html/report');
 		$("#reportForm").submit();
 	}
 </script>
